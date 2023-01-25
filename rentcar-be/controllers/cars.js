@@ -1,8 +1,7 @@
 const Car = require("../models/Car");
 
 exports.add_post = (req, res) =>{
-  let car = new Car(req.body);
-  car.save()
+  Car(req.body).save()
     .then((car) => {
       res.json({car})
       })
