@@ -1,0 +1,52 @@
+const Ingredient = require("../models/Ingredient");
+
+exports.create_post = (req, res) => {
+  let ingredient = new Ingredient(req.body);
+  ingredient.save()
+    .then((ingredient) => {
+      res.json({ingredient})
+      })
+    .catch((err) => {
+      res.json({err});
+    });
+};
+
+exports.update_put = function (req, res) {
+  Ingredient.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
+    .then((ingredient) => {
+        res.json({ingredient})
+    })
+    .catch((err) => {
+      res.json({err});
+    });
+};
+
+exports.index_get = (req, res) => {
+  Ingredient.find()
+    .then((ingredients) => {
+      res.json({ingredients:ingredients});
+    })
+    .catch((err) => {
+      res.json({err});
+    });
+};
+
+exports.edit_get = function (req, res) {
+    Ingredient.findById(req.query.id).populate('recipe')
+    .then((ingredient) => {
+      res.json({ingredient});
+    })
+    .catch((err) => {
+      res.json({err});
+    });
+};
+
+exports.delete_delete = (req, res)=>{
+    Ingredient.findOneAndDelete(req.query.id)
+    .then((ingredient)=>{
+      res.json({ingredient})  
+    }
+    ).catch((err)=>{
+      res.json({err});
+    })
+}
