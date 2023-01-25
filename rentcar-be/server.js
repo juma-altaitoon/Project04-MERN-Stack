@@ -15,12 +15,12 @@ const port = process.env.PORT ;
 const app = express();
 
 // Import Routes
-// const recipeRoute = require('./routes/recipes');
+const userRoute = require('./routes/users');
 // const ingredientRoute = require('./routes/ingredients');
 // const authRoute = require('./routes/auth');
 
 // Mount Routes
-// app.use('/', recipeRoute);
+app.use('/', userRoute);
 // app.use('/', ingredientRoute);
 // app.use('/', authRoute);
 
