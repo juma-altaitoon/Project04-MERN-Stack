@@ -15,14 +15,15 @@ const port = process.env.PORT ;
 const app = express();
 
 // Import Routes
+
 const userRoute = require('./routes/users');
-// const ingredientRoute = require('./routes/ingredients');
-// const authRoute = require('./routes/auth');
+const carRoute = require('./routes/cars');
+const orderRoute = require('./routes/orders');
 
 // Mount Routes
 app.use('/', userRoute);
-// app.use('/', ingredientRoute);
-// app.use('/', authRoute);
+app.use('/', carRoute);
+app.use('/', orderRoute);
 
 mongoose.set('strictQuery', false); // To remove deprecation warning
 
