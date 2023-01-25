@@ -1,0 +1,16 @@
+const express = require('express');
+const router =  express.Router();
+
+router.use(express.json());
+
+//const isLoggedIn = require("../helper/isLoggedIn");
+
+const ingredientsController = require('../controllers/ingredients');
+
+router.post('/ingredient/add', ingredientsController.add_post);
+router.get('/ingredient/index', ingredientsController.index_get); //read list
+router.get('/ingredient/edit', ingredientsController.edit_get); //read item to edit it
+router.put('/ingredient/update', ingredientsController.update_put);
+router.delete('/ingredient/delete', ingredientsController.delete_delete); 
+
+module.exports = router;
