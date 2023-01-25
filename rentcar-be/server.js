@@ -16,11 +16,12 @@ const app = express();
 
 // Import Routes
 
+const userRoute = require('./routes/users');
 const carRoute = require('./routes/cars');
 const orderRoute = require('./routes/orders');
 
 // Mount Routes
-
+app.use('/', userRoute);
 app.use('/', carRoute);
 app.use('/', orderRoute);
 
