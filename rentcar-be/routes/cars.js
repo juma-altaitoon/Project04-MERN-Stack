@@ -5,7 +5,7 @@ router.use(express.json());
 
 //const isLoggedIn = require("../helper/isLoggedIn");
 
-const carController = require('../controllers/cars');
+const carsController = require('../controllers/cars');
 
 router.post('/car/add', carsController.add_post);
 router.get('/car/index', carsController.index_get); //read list

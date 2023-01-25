@@ -1,7 +1,9 @@
-const car = require("../models/car");
+const Car = require("../models/Car");
+const car = require("../models/Car");
 
-exports.add_post = (req, res) => {
-  let car = new car(req.body);
+
+exports.add_post = (req, res) =>{
+  let car = new Car(req.body);
   car.save()
     .then((car) => {
       res.json({car})
