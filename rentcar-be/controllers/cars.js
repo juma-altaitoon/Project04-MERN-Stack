@@ -1,6 +1,4 @@
 const Car = require("../models/Car");
-const car = require("../models/Car");
-
 
 exports.add_post = (req, res) =>{
   let car = new Car(req.body);
@@ -14,7 +12,7 @@ exports.add_post = (req, res) =>{
 };
 
 exports.update_put = function (req, res) {
-  car.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
+  Car.findByIdAndUpdate(req.body._id, req.body, {new : true}) // new:true after edit API response
     .then((car) => {
         res.json({car})
     })
@@ -24,7 +22,7 @@ exports.update_put = function (req, res) {
 };
 
 exports.index_get = (req, res) => {
-  car.find()
+  Car.find()
     .then((cars) => {
       res.json({cars:cars});
     })
@@ -34,7 +32,7 @@ exports.index_get = (req, res) => {
 };
 
 exports.edit_get = function (req, res) {
-    car.findById(req.query.id)
+  Car.findById(req.query.id)
     .then((car) => {
       res.json({car});
     })
@@ -44,7 +42,7 @@ exports.edit_get = function (req, res) {
 };
 
 exports.delete_delete = (req, res)=>{
-    car.findOneAndDelete(req.query.id)
+    Car.findOneAndDelete(req.query.id)
     .then((car)=>{
       res.json({car})  
     }
