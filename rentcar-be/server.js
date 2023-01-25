@@ -17,13 +17,13 @@ const app = express();
 // Import Routes
 
 const userRoute = require('./routes/users');
-const carRoute = require('./routes/cars');
-const orderRoute = require('./routes/orders');
+// const carRoute = require('./routes/cars');
+// const orderRoute = require('./routes/orders');
 
 // Mount Routes
 app.use('/', userRoute);
-app.use('/', carRoute);
-app.use('/', orderRoute);
+// app.use('/', carRoute);
+// app.use('/', orderRoute);
 
 mongoose.set('strictQuery', false); // To remove deprecation warning
 
