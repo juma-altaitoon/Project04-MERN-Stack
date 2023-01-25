@@ -1,7 +1,7 @@
 const Order = require("../models/Order");
 
 exports.add_post = (req, res) => {
-  let order = new order(req.body);
+  let order = new Order(req.body);
   order.save()
     .then((order) => {
       res.json({order})
@@ -12,7 +12,7 @@ exports.add_post = (req, res) => {
 };
 
 exports.update_put = function (req, res) {
-  order.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
+  Order.findByIdAndUpdate(req.body._id, req.body, {new : true}) // new:true after edit API response
     .then((order) => {
         res.json({order})
     })
@@ -22,7 +22,7 @@ exports.update_put = function (req, res) {
 };
 
 exports.index_get = (req, res) => {
-  order.find()
+  Order.find()
     .then((orders) => {
       res.json({orders:orders});
     })
@@ -32,7 +32,7 @@ exports.index_get = (req, res) => {
 };
 
 exports.edit_get = function (req, res) {
-    order.findById(req.query.id)//.populate('car', '').populate('user')
+    Order.findById(req.query.id)//.populate('car', '').populate('user')
     .then((order) => {
       res.json({order});
     })
@@ -42,7 +42,7 @@ exports.edit_get = function (req, res) {
 };
 
 exports.delete_delete = (req, res)=>{
-    order.findOneAndDelete(req.query.id)
+    Order.findOneAndDelete(req.query.id)
     .then((order)=>{
       res.json({order})  
     }
