@@ -16,12 +16,12 @@ const app = express();
 
 // Import Routes
 // const recipeRoute = require('./routes/recipes');
-// const ingredientRoute = require('./routes/ingredients');
+const carRoute = require('./routes/cars');
 // const authRoute = require('./routes/auth');
 
 // Mount Routes
 // app.use('/', recipeRoute);
-// app.use('/', ingredientRoute);
+app.use('/', carRoute);
 // app.use('/', authRoute);
 
 mongoose.set('strictQuery', false); // To remove deprecation warning
