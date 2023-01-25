@@ -23,5 +23,5 @@ const carSchema = mongoose.Schema({
     comment: String  
 },{timestamps: true}) 
 
-const Car = mongoose.model("Car", carSchema);
+const Car = mongoose.model("Car", carSchema , "Car");
 module.exports = Car;
