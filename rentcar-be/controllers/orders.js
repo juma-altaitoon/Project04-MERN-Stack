@@ -1,8 +1,7 @@
 const Order = require("../models/Order");
 
 exports.add_post = (req, res) => {
-  let order = new Order(req.body);
-  order.save()
+  Order(req.body).save()
     .then((order) => {
       res.json({order})
       })
