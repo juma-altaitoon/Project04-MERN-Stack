@@ -56,19 +56,15 @@ exports.update_put = function (req, res) {
   }
 
 //JWT Api 
-  exports.auth_signin_post = async (req, res) => {
-    let { emailAddress, password } = req.body;
-    console.log(emailAddress);
+  exports.login_post = async (req, res) => {
+    let { email_address, password } = req.body;
     try {
-      let user = await User.findOne({ emailAddress });
-      console.log(user);
+      let user = await User.findOne({ email_address });
       if (!user) {
         return res.json({ message: "User Not Found" });
       }
       // Compare Password
       const isMatch = await bcrypt.compareSync(password, user.password);
-      console.log(password);
-      console.log(user.password);
       if (!isMatch) {
         return res.json({ message: "Password doesnot matched" });
       }
@@ -76,7 +72,7 @@ exports.update_put = function (req, res) {
       const payload = {
         user: {
           id: user._id,
-          name:user.firstName
+          name:user.first_name
         },
       };
       jwt.sign(
@@ -89,20 +85,6 @@ exports.update_put = function (req, res) {
         }
       );
     } catch (error) {
-      console.log(error);
       res.json({ message: "Your are not loggedIn !!!" }).status(400);
     }
   };
-  
-
-  // HTTP GET - Logout Route - To logout the user
-exports.auth_logout_get = (req, res) => {
-
-    // Invalidate the session
-    req.logout(function(err){
-        if(err){
-            return next(err);
-        }
-        res.redirect("/auth/signin")
-    });
-}
