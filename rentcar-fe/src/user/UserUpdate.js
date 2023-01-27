@@ -86,7 +86,7 @@ export default function UserUpdate() {
         window.location.href = '/user';
     })
     .catch(err => {
-        console.log("Error Editing Recipe");
+        console.log("Error Editing Record");
         console.log(err);
     })
   } 

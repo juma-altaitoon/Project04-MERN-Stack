@@ -53,13 +53,13 @@ export default function User() {
         setUsers(res.data.users);
        })
       .catch(err => {
-        console.log("Error Retreiving Recipes!!");
+        console.log("Error Retreiving Records");
         console.log(err);
       })
 }
 
   const UserUpdate = id => {
-    window.location = window.location.href+'/update?id='+id // pass token
+    window.location = window.location.href+'/update?id='+id
   }
 
   const UserDelete = id => {
@@ -73,7 +73,7 @@ export default function User() {
       window.location.href = '/user';
     })
     .catch(err => {
-      console.log("Error Deleting Author");
+      console.log("Error Deleting Record");
       console.log(err);
     })
   }

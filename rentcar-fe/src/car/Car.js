@@ -11,9 +11,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from "react-router-dom";
+import Axios from 'axios'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,50 +36,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Car(props) {
+export default function Car() {
   const classes = useStyles();
 
-  const [cars, setCars] = useState([]);
+  const [cars, setUsers] = useState([]);
   useEffect(() => {
-    CarsGet()
+     CarsGet()
   }, [])
   
   const CarsGet = () => {
-    fetch("car/index")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setCars(result)
-        }
-      )
-  }
+    Axios.get("user/index", {
+      headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+     })
+      .then((res) => {
+        setUsers(res.data.cars);
+       })
+      .catch(err => {
+        console.log("Error Retreiving Records");
+        console.log(err);
+      })
+}
 
-  const CarEdit = id => {
-    window.location = 'car/update/'+id
+  const CarUpdate = id => {
+    window.location = window.location.href+'/update?id='+id
   }
 
   const CarDelete = id => {
-    var data = {
-      'id': id
+    Axios.delete(`user/delete?id=${id}`, {
+    headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
     }
-    fetch('car/delete', {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/form-data',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
     })
-    .then(res => res.json())
-    .then(
-      (result) => {
-        alert(result['message'])
-        if (result['status'] === 'ok') {
-          CarsGet();
-        }
-      }
-    )
+    .then(res => {
+      console.log("Record Deleted Successfully");
+      window.location.href = '/car';
+    })
+    .catch(err => {
+      console.log("Error Deleting Record");
+      console.log(err);
+    })
   }
+
 
   return (
     <div className={classes.root}>
@@ -102,7 +103,6 @@ export default function Car(props) {
             <TableHead>
               <TableRow>
                 <TableCell align="right">Plate ID</TableCell>
-                {/* <TableCell align="center">Avatar</TableCell> */}
                 <TableCell align="left">Brand</TableCell>
                 <TableCell align="left">Color</TableCell>
                 <TableCell align="left">Manufacture Year</TableCell>
@@ -110,25 +110,20 @@ export default function Car(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {cars.map((car) => (
-                <TableRow key={car.ID}>
-                  <TableCell align="right">{car.plate_id}</TableCell>
-                  {/* <TableCell align="center">
-                    <Box display="flex" justifyContent="center">
-                      <Avatar src={car.avatar} />
-                    </Box>
-                  </TableCell> */}
+            { cars.map((car, id) => {
+               return ( 
+                <TableRow key={id}>
                   <TableCell align="left">{car.brand}</TableCell>
                   <TableCell align="left">{car.color}</TableCell>
                   <TableCell align="left">{car.manufacture_year}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button onClick={() => CarEdit(car._id)}>Edit</Button>
-                      <Button onClick={() => CarDelete(car.id)}>Del</Button>
+                    <Button onClick={() => CarUpdate(car._id)}>Edit</Button>
+                      <Button onClick={() => CarDelete(car._id)}>Del</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
-              ))}
+              )})}
             </TableBody>
           </Table>
         </TableContainer>
