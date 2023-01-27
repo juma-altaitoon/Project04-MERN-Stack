@@ -18,6 +18,8 @@ import Axios from 'axios'
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+// import Fab from '@mui/material/Fab';
+// import AddIcon from '@mui/icons-material/Add';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -90,8 +92,11 @@ export default function User() {
             <Box flexGrow={1}>
               <Typography component="h2" variant="h6" color="primary" gutterBottom>
                 USERS
-              </Typography>
-            </Box>
+                </Typography>
+             </Box>
+              {/* <Fab color="primary" aria-label="add">
+                 <AddIcon />
+               </Fab> */}
             <Box>
               <Link to="/user/create">
                 <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="primary">

@@ -5,17 +5,15 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import InputLabel from '@material-ui/core/InputLabel';
+//import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Axios from 'axios'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-//import dayjs from 'dayjs';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -95,8 +93,15 @@ export default function UserCreate() {
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
 
+//   const [newUser, setNewUser] = useState({});
+//   const handleChange = (event) => {
+//     const attributeToChange = event.target.name
+//     const newValue = event.target.value
+//     const user = {...newUser}
+//     user[attributeToChange] = newValue
+//     setNewUser(user)
+// }
   return (
-    <LocalizationProvider dateAdapter={AdapterMoment}>
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
@@ -135,16 +140,19 @@ export default function UserCreate() {
                 fullWidth
                 id="birthdate"
                 label="BirthDate"
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setBirthdate(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
+               // required
                 fullWidth
                 id="gender"
                 label="Gender"
+                // type="boolean"
                 onChange={(e) => setGender(e.target.value)}
               />
             </Grid>
@@ -185,6 +193,7 @@ export default function UserCreate() {
                 fullWidth
                 id="email_address"
                 label="Email"
+                type="email"
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
@@ -216,6 +225,8 @@ export default function UserCreate() {
                 fullWidth
                 id="license_issued"
                 label="license_issued"
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setLicense_issued(e.target.value)}
               />
             </Grid>
@@ -226,6 +237,8 @@ export default function UserCreate() {
                 fullWidth
                 id="license_expiry"
                 label="license_expiry"
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
@@ -268,13 +281,16 @@ export default function UserCreate() {
                   }
                 //label="Password"
                 />
-                        <MobileDatePicker
-                          label="Date mobile"
-                          inputFormat="MM/DD/YYYY"
-                          value={license_expiry}
-                          onChange={(e) => setLicense_expiry(e.target.value)}
-                          renderInput={(params) => <TextField {...params} />}
-                />
+              <ToggleButtonGroup
+                      color="primary"
+                      value={gender}
+                      exclusive
+                      onChange={(e) => setGender(e.target.value)}
+                      aria-label="Platform"
+                    >
+                      <ToggleButton value="true">Male</ToggleButton>
+                      <ToggleButton value="false">Female</ToggleButton>
+                    </ToggleButtonGroup>                        
           </Grid>
           <Button
             type="submit"
@@ -288,6 +304,5 @@ export default function UserCreate() {
         </form>
       </div>
     </Container>
-    </LocalizationProvider>
   );
 }
