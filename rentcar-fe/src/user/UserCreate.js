@@ -5,7 +5,17 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import IconButton from '@material-ui/core/IconButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Axios from 'axios'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+//import dayjs from 'dayjs';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserCreate() {
   const classes = useStyles();
+
+  //Password click to see
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
  
   const handleSubmit = event => {
     event.preventDefault();
@@ -79,6 +96,7 @@ export default function UserCreate() {
   const [comment, setComment] = useState('');
 
   return (
+    <LocalizationProvider dateAdapter={AdapterMoment}>
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
@@ -176,6 +194,7 @@ export default function UserCreate() {
                 required
                 fullWidth
                 id="password"
+                type="password"
                 label="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -225,11 +244,37 @@ export default function UserCreate() {
                 variant="outlined"
                 required
                 fullWidth
+                multiline
                 id="comment"
                 label="comment"
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
+            {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                //label="Password"
+                />
+                        <MobileDatePicker
+                          label="Date mobile"
+                          inputFormat="MM/DD/YYYY"
+                          value={license_expiry}
+                          onChange={(e) => setLicense_expiry(e.target.value)}
+                          renderInput={(params) => <TextField {...params} />}
+                />
           </Grid>
           <Button
             type="submit"
@@ -238,10 +283,11 @@ export default function UserCreate() {
             color="primary"
             className={classes.submit}
           >
-            Update
+            Create User
           </Button>
         </form>
       </div>
     </Container>
+    </LocalizationProvider>
   );
 }

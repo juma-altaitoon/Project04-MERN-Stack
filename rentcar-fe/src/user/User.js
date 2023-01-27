@@ -15,6 +15,10 @@ import TableRow from '@material-ui/core/TableRow';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from "react-router-dom";
 import Axios from 'axios'
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +94,7 @@ export default function User() {
             </Box>
             <Box>
               <Link to="/user/create">
-                <Button variant="contained" color="primary">
+                <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="primary">
                   CREATE
                 </Button>
               </Link>
@@ -117,8 +121,8 @@ export default function User() {
                   <TableCell align="left">{user.phone_number}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button onClick={() => UserUpdate(user._id)}>Edit</Button>
-                      <Button onClick={() => UserDelete(user._id)}>Del</Button>
+                      <Button startIcon={<ModeEditIcon />} onClick={() => UserUpdate(user._id)}>Update</Button>
+                      <Button startIcon={<DeleteIcon />} onClick={() => UserDelete(user._id)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>

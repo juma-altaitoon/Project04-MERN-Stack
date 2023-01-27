@@ -281,7 +281,7 @@ export default function UserUpdate() {
             color="primary"
             className={classes.submit}
           >
-            Update
+            Update User
           </Button>
         </form>
       </div>
