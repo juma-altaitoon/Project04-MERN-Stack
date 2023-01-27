@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from '@mui/core/styles';
-import Typography from '@mui/core/Typography';
-import Button from '@mui/core/Button';
-import Container from '@mui/core/Container';
-import Paper from '@mui/core/Paper';
-import Box from '@mui/core/Box';
-import Table from '@mui/core/Table';
-import TableBody from '@mui/core/TableBody';
-import TableCell from '@mui/core/TableCell';
-import TableContainer from '@mui/core/TableContainer';
-import TableHead from '@mui/core/TableHead';
-import TableRow from '@mui/core/TableRow';
-//import Avatar from '@mui/core/Avatar';
-import ButtonGroup from '@mui/core/ButtonGroup';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+// import Avatar from '@material-ui/core/Avatar';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from "react-router-dom";
+import Axios from 'axios'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,49 +36,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UserList() {
+export default function User() {
   const classes = useStyles();
 
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    UsersGet()
+     UsersGet()
   }, [])
   
   const UsersGet = () => {
-    fetch("user/index")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setUsers(result)
-        }
-      )
-  }
+    Axios.get("user/index", {
+      headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+     })
+      .then((res) => {
+        setUsers(res.data.users);
+       })
+      .catch(err => {
+        console.log("Error Retreiving Recipes!!");
+        console.log(err);
+      })
+}
 
-  const UpdateUser = id => {
-    window.location = '/update/'+id
+  const UserEdit = id => {
+    Axios.get(`user/edit?id=${id}`, {
+      headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+  })
+  .then(res => {
+      console.log(id)
+      console.log("Edit Loaded Successfully");
+      // setIsEdit(true);
+      // setCurrentRecipe(res.data.recipe);
+  })
+  .catch(err => {
+      console.log("Error Loading Recipe Information");
+      console.log(err);
+  })
   }
 
   const UserDelete = id => {
-    var data = {
-      'id': id
+  Axios.delete(`user/delete?id=${id}`, {
+    headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
     }
-    fetch('user/delete', {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/form-data',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(res => res.json())
-    .then(
-      (result) => {
-        alert(result['message'])
-        if (result['status'] === 'ok') {
-          UsersGet();
-        }
-      }
-    )
+  })
+  .then(res => {
+    console.log("Record Deleted Successfully");
+   // loadRecipesList();
+  })
+  .catch(err => {
+    console.log("Error Deleting Author");
+    console.log(err);
+  })
   }
 
   return (
@@ -90,7 +104,7 @@ export default function UserList() {
               </Typography>
             </Box>
             <Box>
-              <Link to="/create">
+              <Link to="/user/create">
                 <Button variant="contained" color="primary">
                   CREATE
                 </Button>
@@ -109,26 +123,22 @@ export default function UserList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.ID}>
-                  <TableCell align="right">{user.id}</TableCell>
-                  {/* <TableCell align="center">
-                    <Box display="flex" justifyContent="center">
-                      <Avatar src={user.avatar} />
-                    </Box>
-                  </TableCell> */}
+               { users.map((user, id) => {
+               return ( 
+                <TableRow key={id}>
                   <TableCell align="left">{user.first_name}</TableCell>
                   <TableCell align="left">{user.last_name}</TableCell>
                   <TableCell align="left">{user.email_address}</TableCell>
                   <TableCell align="left">{user.phone_number}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button onClick={() => UpdateUser(user.id)}>Edit</Button>
+                      <Button onClick={() => UserEdit(user._id)}>Edit</Button>
                       <Button onClick={() => UserDelete(user.id)}>Del</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
-              ))}
+              )
+            })}
             </TableBody>
           </Table>
         </TableContainer>

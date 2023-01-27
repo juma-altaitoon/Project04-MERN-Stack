@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from '@mui/core/styles';
-import Button from '@mui/core/Button';
-import TextField from '@mui/core/TextField';
-import Grid from '@mui/core/Grid';
-import Typography from '@mui/core/Typography';
-import Container from '@mui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import { useParams } from 'react-router-dom';
+import Axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,7 +59,7 @@ export default function UserUpdate() {
         'first_name': first_name,
         'last_name': last_name,
         'email_address': email_address,
-        'phone_name': phone_name,
+        'phone_number': phone_number,
         'birthdate':birthdate,
         'gender': gender,
         'nationality':nationality,
@@ -70,28 +71,46 @@ export default function UserUpdate() {
         'user_type':user_type,
         'comment':comment
     }
-    fetch('user/update', {
-      method: 'PUT',
+
+    Axios.put("user/update", data, {
       headers: {
-        Accept: 'application/form-data',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(res => res.json())
-    .then(
-      (result) => {
-        alert(result['message'])
-        if (result['status'] === 'ok') {
-          window.location.href = '/';
-        }
+          "Authorization": "Bearer " + localStorage.getItem("token")
       }
-    )
-  }
+    })
+    .then(res => {
+        console.log(res.data)
+        console.log("Record Updated Successfully");
+       // loadRecipesList();
+    })
+    .catch(err => {
+        console.log("Error Editing Recipe");
+        console.log(err);
+    })
+    } 
+
+  //   fetch('user/update', {
+  //     method: 'PUT',
+  //     headers: {
+  //       Accept: 'application/form-data',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(data),
+  //   })
+  //   .then(res => res.json())
+  //   .then(
+  //     (result) => {
+  //       alert(result['message'])
+  //       if (result['status'] === 'ok') {
+  //         window.location.href = '/';
+  //       }
+  //     }
+  //   )
+  // }
 
   const [first_name, setFirst_name] = useState('');
   const [last_name, setLast_name] = useState('');
   const [email_address, setEmail_address] = useState('');
+  const [phone_number, setPhone_number] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [gender, setGender] = useState('');
   const [nationality, setNationality] = useState('');

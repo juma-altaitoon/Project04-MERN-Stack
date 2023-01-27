@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-// import Avatar from '@mui/core/Avatar';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Avatar from '@material-ui/core/Avatar';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,7 @@ export default function Car(props) {
       )
   }
 
-  const UpdateCar = id => {
+  const CarEdit = id => {
     window.location = 'car/update/'+id
   }
 
@@ -110,7 +111,7 @@ export default function Car(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((car) => (
+              {cars.map((car) => (
                 <TableRow key={car.ID}>
                   <TableCell align="right">{car.plate_id}</TableCell>
                   {/* <TableCell align="center">
@@ -123,8 +124,8 @@ export default function Car(props) {
                   <TableCell align="left">{car.manufacture_year}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button onClick={() => UpdateUser(car.id)}>Edit</Button>
-                      <Button onClick={() => UserDelete(car.id)}>Del</Button>
+                      <Button onClick={() => CarEdit(car._id)}>Edit</Button>
+                      <Button onClick={() => CarDelete(car.id)}>Del</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
