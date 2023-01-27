@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
@@ -31,31 +31,36 @@ const useStyles = makeStyles((theme) => ({
 export default function UserUpdate() {
   const classes = useStyles();
 
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id")
   useEffect(() => {
-    fetch("user/"+id)
-      .then(res => res.json())
+    Axios.get(`edit?id=${id}`, {
+      headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+      })
       .then(
         (result) => {
-          setFirst_name(result.user.first_name)
-          setLast_name(result.user.last_name)
-          setEmail_address(result.user.email_address)
-          setGender(result.user.gender)
-          setNationality(result.user.nationality)
-          setNational_id(result.user.national_id)
-          setPassword(result.user.password)
-          setDocuments(result.user.documents)
-          setLicense_issued(result.user.license_issued)
-          setLicense_expiry(result.user.license_expiry)
-          setUser_type(result.user.user_type)
-          setComment(result.user.comment)
+          setFirst_name(result.data.user.first_name)
+          setLast_name(result.data.user.last_name)
+          setEmail_address(result.data.user.email_address)
+          setGender(result.data.user.gender)
+          setNationality(result.data.user.nationality)
+          setNational_id(result.data.user.national_id)
+          setPassword(result.data.user.password)
+          setDocuments(result.data.user.documents)
+          setLicense_issued(result.data.user.license_issued)
+          setLicense_expiry(result.data.user.license_expiry)
+          setUser_type(result.data.user.user_type)
+          setComment(result.data.user.comment)
         }
       )
-  }, [id])
+      }, [id])
 
   const handleSubmit = event => {
     event.preventDefault();
     var data = {
+        'id': id,
         'first_name': first_name,
         'last_name': last_name,
         'email_address': email_address,
@@ -71,41 +76,20 @@ export default function UserUpdate() {
         'user_type':user_type,
         'comment':comment
     }
-
-    Axios.put("user/update", data, {
+    Axios.put(`update?id=${id}`, data,{
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
       }
-    })
+      })
     .then(res => {
-        console.log(res.data)
         console.log("Record Updated Successfully");
-       // loadRecipesList();
+        window.location.href = '/user';
     })
     .catch(err => {
         console.log("Error Editing Recipe");
         console.log(err);
     })
-    } 
-
-  //   fetch('user/update', {
-  //     method: 'PUT',
-  //     headers: {
-  //       Accept: 'application/form-data',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  //   .then(res => res.json())
-  //   .then(
-  //     (result) => {
-  //       alert(result['message'])
-  //       if (result['status'] === 'ok') {
-  //         window.location.href = '/';
-  //       }
-  //     }
-  //   )
-  // }
+  } 
 
   const [first_name, setFirst_name] = useState('');
   const [last_name, setLast_name] = useState('');
@@ -126,7 +110,7 @@ export default function UserUpdate() {
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          User
+          Update User
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -164,7 +148,6 @@ export default function UserUpdate() {
                 id="birthdate"
                 label="BirthDate"
                 value={birthdate}
-
                 onChange={(e) => setBirthdate(e.target.value)}
               />
             </Grid>

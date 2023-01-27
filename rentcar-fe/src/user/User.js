@@ -16,7 +16,6 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from "react-router-dom";
 import Axios from 'axios'
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -59,38 +58,24 @@ export default function User() {
       })
 }
 
-  const UserEdit = id => {
-    Axios.get(`user/edit?id=${id}`, {
-      headers: {
-          "Authorization": "Bearer " + localStorage.getItem("token")
-      }
-  })
-  .then(res => {
-      console.log(id)
-      console.log("Edit Loaded Successfully");
-      // setIsEdit(true);
-      // setCurrentRecipe(res.data.recipe);
-  })
-  .catch(err => {
-      console.log("Error Loading Recipe Information");
-      console.log(err);
-  })
+  const UserUpdate = id => {
+    window.location = window.location.href+'/update?id='+id // pass token
   }
 
   const UserDelete = id => {
-  Axios.delete(`user/delete?id=${id}`, {
+    Axios.delete(`user/delete?id=${id}`, {
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
-  })
-  .then(res => {
-    console.log("Record Deleted Successfully");
-   // loadRecipesList();
-  })
-  .catch(err => {
-    console.log("Error Deleting Author");
-    console.log(err);
-  })
+    })
+    .then(res => {
+      console.log("Record Deleted Successfully");
+      window.location.href = '/user';
+    })
+    .catch(err => {
+      console.log("Error Deleting Author");
+      console.log(err);
+    })
   }
 
   return (
@@ -132,8 +117,8 @@ export default function User() {
                   <TableCell align="left">{user.phone_number}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button onClick={() => UserEdit(user._id)}>Edit</Button>
-                      <Button onClick={() => UserDelete(user.id)}>Del</Button>
+                      <Button onClick={() => UserUpdate(user._id)}>Edit</Button>
+                      <Button onClick={() => UserDelete(user._id)}>Del</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>

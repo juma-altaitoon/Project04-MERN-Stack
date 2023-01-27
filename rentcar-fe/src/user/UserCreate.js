@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserCreate() {
   const classes = useStyles();
-  
+ 
   const handleSubmit = event => {
     event.preventDefault();
     var data = {
@@ -48,38 +48,20 @@ export default function UserCreate() {
       'user_type':user_type,
       'comment':comment
     }
-    Axios.post("user/add", data, {
+    Axios.post("add", data, {
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
       }
   })
   .then((res) => {
       console.log("Record Added Successfully");
-      // loadRecipesList()
+      window.location.href = '/user';
   })
   .catch((err) => {
       console.log("Error Adding Record");
       console.log(err);
   })
 }
-  //   fetch('user/create', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/form-data',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  //   .then(res => res.json())
-  //   .then(
-  //     (result) => {
-  //       alert(result['message'])
-  //       if (result['status'] === 'ok') {
-  //         window.location.href = '/';
-  //       }
-  //     }
-  //   )
-  // }
 
   const [first_name, setFirst_name] = useState('');
   const [last_name, setLast_name] = useState('');
@@ -100,7 +82,7 @@ export default function UserCreate() {
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          User
+          Create User
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -256,7 +238,7 @@ export default function UserCreate() {
             color="primary"
             className={classes.submit}
           >
-            Create
+            Update
           </Button>
         </form>
       </div>

@@ -16,7 +16,7 @@ exports.add_post = (req, res) => {
     });
 };
 exports.update_put = function (req, res) {
-    User.findByIdAndUpdate(req.body._id, req.body, {new : true}) // new:true after edit API response
+    User.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
       .then((user) => {
           res.json({user})
       })
@@ -46,7 +46,7 @@ exports.update_put = function (req, res) {
   };
   
   exports.delete_delete = (req, res)=>{
-      User.findOneAndDelete(req.query.id)
+    User.findByIdAndDelete(req.query.id)
       .then((user)=>{
         res.json({user})  
       }
