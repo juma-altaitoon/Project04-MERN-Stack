@@ -11,7 +11,7 @@ exports.add_post = (req, res) => {
 };
 
 exports.update_put = function (req, res) {
-  Order.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
+  Order.findByIdAndUpdate(req.body._id, req.body, {new : true}) // new:true after edit API response
     .then((order) => {
         res.json({order})
     })
@@ -41,7 +41,7 @@ exports.edit_get = function (req, res) {
 };
 
 exports.delete_delete = (req, res)=>{
-    Order.findByIdAndDelete(req.query.id)
+    Order.findOneAndDelete(req.query.id)
     .then((order)=>{
       res.json({order})  
     }

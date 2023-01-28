@@ -11,7 +11,7 @@ exports.add_post = (req, res) =>{
 };
 
 exports.update_put = function (req, res) {
-  Car.findByIdAndUpdate(req.body.id, req.body, {new : true}) //new:true API response with update info
+  Car.findByIdAndUpdate(req.body._id, req.body, {new : true}) // new:true after edit API response
     .then((car) => {
         res.json({car})
     })
@@ -41,7 +41,7 @@ exports.edit_get = function (req, res) {
 };
 
 exports.delete_delete = (req, res)=>{
-    Car.findByIdAndDelete(req.query.id)
+    Car.findOneAndDelete(req.query.id)
     .then((car)=>{
       res.json({car})  
     }
