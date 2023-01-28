@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import ToysIcon from '@mui/icons-material/Toys';
 import { Link } from "react-router-dom";
 import CardActions from '@mui/material/CardActions';
-//import Weather from './publicapi/Weather';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,6 +64,18 @@ export default function App() {
           <Link className={classes.navlink} to="/publicapi">
             <Button variant="contained" className={classes.title} color="secondary">
               Utilities &nbsp;
+            </Button>
+          </Link>
+          <div>&nbsp;</div>
+          <Link className={classes.navlink} to="/login">
+            <Button variant="contained" className={classes.title} color="secondary">
+              Login &nbsp;
+            </Button>
+          </Link>
+          <div>&nbsp;</div>
+          <Link className={classes.navlink} to="/logout">
+            <Button variant="contained" className={classes.title} color="secondary">
+               Logout &nbsp;
             </Button>
           </Link>
           </CardActions>

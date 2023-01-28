@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,6 +20,8 @@ import TableRow from '@material-ui/core/TableRow';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import TextField from '@material-ui/core/TextField';
+import Axios from 'axios';
+
 
 
 
@@ -48,6 +50,29 @@ export default function CurrencyConverter() {
   const [amount, setAmount] = useState('');
   const [fromcurrency, setFromcurrency] = useState('');
   const [tocurrency, setTocurrency] = useState('');
+  const [converted, setConverted] = useState('');
+
+  useEffect(() => {
+    Convert()
+  }, [])
+
+  const Convert = () => {
+    Axios.get(`https://currency-converter-by-api-ninjas.p.rapidapi.com/v1/convertcurrency?have=${fromcurrency}&want=${tocurrency}&amount=${amount}`, {
+      headers: {
+        'X-RapidAPI-Key': '0c9633d523msh83a5dd5874dfea3p1139c7jsnaea56fbe543b',
+        'X-RapidAPI-Host': 'currency-converter-by-api-ninjas.p.rapidapi.com'
+        }
+     })
+      .then((res) => {
+        console.log(res.data);
+        setConverted(res.data.new_amount);
+       })
+      .catch(err => {
+        console.log("Error Retreiving API");
+        console.log(err);
+      })
+  }
+
 
   return (
     <div className={classes.root}>
@@ -60,11 +85,9 @@ export default function CurrencyConverter() {
               </Typography>
            </Box>
           <Box>
-            <Link to="/user/create">
-            <Fab color="secondary" aria-label="add" variant='extended'>
+            <Fab color="secondary" aria-label="add" variant='extended' onClick={() => Convert()}>
                 <Typography>Convert </Typography>
             </Fab>
-            </Link>
           </Box>
         </Box>
         <TableContainer component={Paper}>
@@ -74,7 +97,7 @@ export default function CurrencyConverter() {
               <TableCell align="left">Amount</TableCell>
               <TableCell align="left">Source Currency</TableCell>
               <TableCell align="left">Destenation Currency</TableCell>
-              <TableCell align="left">Converted Amount</TableCell>
+              <TableCell align="left">Converted</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -84,6 +107,7 @@ export default function CurrencyConverter() {
                 variant="outlined"
                 required
                 fullWidth
+                type="number"
                 id="amount"
                 label="Amount"
                 onChange={(e) => setAmount(e.target.value)}
@@ -109,7 +133,7 @@ export default function CurrencyConverter() {
                 onChange={(e) => setTocurrency(e.target.value)}
                 />
                 </TableCell>
-                <TableCell align="left">Table cell 4</TableCell>
+                <TableCell align="left">{converted}</TableCell>
                 <TableCell align="center">
                 </TableCell>
               </TableRow>

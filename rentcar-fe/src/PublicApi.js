@@ -70,7 +70,7 @@ export default function Api() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell align="left">Country List</TableCell>
+                <TableCell align="left">Fuel Price</TableCell>
                 <TableCell align="left">
                 <Box>
                     <Link to="/user/create">

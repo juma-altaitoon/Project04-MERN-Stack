@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-
 import Navbar from './Navbar'
 import Home from './Home'
 import User from './user/User'
@@ -14,6 +13,7 @@ import OrderCreate from './order/OrderCreate'
 import OrderUpdate from './order/OrderUpdate'
 import PublicApi from './PublicApi'
 import CurrencyConverter from './publicapi/CurrencyConverter'
+import {LoginComponent} from './Login2'
 
 export default function App() {
   return (
@@ -32,6 +32,7 @@ export default function App() {
           <Route path="/order/update" element={<OrderUpdate />} />
           <Route path="/publicapi" element={<PublicApi />} />
           <Route path="/publicapi/currencyconverter" element={<CurrencyConverter />} />
+          <Route path="/login2" element={<LoginComponent />} />
         </Routes>
       </Router>
     );
