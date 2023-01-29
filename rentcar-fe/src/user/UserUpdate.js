@@ -7,6 +7,16 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useSearchParams } from 'react-router-dom';
 import Axios from 'axios'
+import moment from 'moment'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import IconButton from '@material-ui/core/IconButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+  // //Password click to see
+  // const [showPassword, setShowPassword] = React.useState(false);
+  // const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
 export default function UserUpdate() {
   const classes = useStyles();
 
@@ -142,27 +158,30 @@ export default function UserUpdate() {
               />
             </Grid>
         
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="birthdate"
                 label="BirthDate"
-                value={birthdate}
+                value={moment(birthdate).format('YYYY-MM-DD')}
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setBirthdate(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="gender"
-                label="Gender"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              />
+            <ToggleButtonGroup
+                      color="primary"
+                      value={gender}
+                      exclusive
+                      onChange={(e) => setGender(e.target.value)}
+                      aria-label="Platform"
+                    >
+                      <ToggleButton value="true"> Male</ToggleButton>
+                      <ToggleButton value="false"> Female</ToggleButton>
+                    </ToggleButtonGroup>   
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -186,7 +205,7 @@ export default function UserUpdate() {
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -197,7 +216,7 @@ export default function UserUpdate() {
                 onChange={(e) => setPhone_number(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -215,10 +234,32 @@ export default function UserUpdate() {
                 fullWidth
                 id="password"
                 label="password"
-                value={password}
+                type="password"
+                // value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
+            {/* <Grid item xs={12} sm={6} >
+            <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                //label="Password"
+                />
+                </Grid> */}
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -228,7 +269,12 @@ export default function UserUpdate() {
                 label="documents"
                 value={documents}
                 onChange={(e) => setDocuments(e.target.value)}
+                
               />
+               <Button variant="contained" component="label">
+                  Upload
+               <input hidden accept="image/*" multiple type="file" />
+              </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -237,7 +283,8 @@ export default function UserUpdate() {
                 fullWidth
                 id="license_issued"
                 label="license_issued"
-                value={license_issued}
+                value={moment(license_issued).format('YYYY-MM-DD')}
+                type="date"
                 onChange={(e) => setLicense_issued(e.target.value)}
               />
             </Grid>
@@ -248,7 +295,8 @@ export default function UserUpdate() {
                 fullWidth
                 id="license_expiry"
                 label="license_expiry"
-                value={license_expiry}
+                value={moment(license_expiry).format('YYYY-MM-DD')}
+                type="date"
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
@@ -263,7 +311,7 @@ export default function UserUpdate() {
                 onChange={(e) => setUser_type(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
