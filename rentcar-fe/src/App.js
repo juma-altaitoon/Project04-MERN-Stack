@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Navbar from './Navbar'
 import Home from './Home'
@@ -13,99 +13,91 @@ import OrderCreate from './order/OrderCreate'
 import OrderUpdate from './order/OrderUpdate'
 import PublicApi from './PublicApi'
 import CurrencyConverter from './publicapi/CurrencyConverter'
-import {LoginComponent} from './Login2'
-import { useState, useEffect } from 'react';
+import Login from './auth/Login'
 import Axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { Alert } from '@mui/material'
 
-export default function App() {
-//   const [isAuth, setIsAuth] = useState(false);
-    const [mode, setMode] = useState('login');
-    const [user, setUser] = useState({});
+export default function App(props) {
+  const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState({});
+  const [message, setMessage] = useState(null);
 
-    const setUserData = (user) =>{
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if(token != null){
+      let user = jwt_decode(token);
+      if(user) {
+        setIsAuth(true);
         setUser(user);
-        console.log("I got set");
+      }
+      else if(!user){
+        localStorage.removeItem("token");
+        setIsAuth(false);
+      }
     }
-    const readUserData = () =>{
-        console.log(user);
-        console.log("test")
-    }
+  }, [])
 
-    const setModeType = (mode) =>{
-        setMode(mode);
-        console.log("I got set");
-    }
-    const readMode = () =>{
-      console.log(mode);
-    }
-//  // const [message, setMessage] = useState(null);
-
-//   useEffect(() => {
-//     let token = localStorage.getItem("token");
-//     if(token != null){
-//       let user = jwt_decode(token);
-
-//       if(user) {
-//         setIsAuth(true);
-//         setUser(user);
-//       }
-//       else if(!user){
-//         localStorage.removeItem("token");
-//         setIsAuth(false);
-//       }
-//     }
-//   }, [])
+  // Login
+  const loginHandler = (cred) => {
+   // console.log(cred);
+    Axios.post("user/login", cred)
+    .then(res => {
+      console.log(res.data);
+      let token = res.data.token;
+      if(token != null)
+      {
+        localStorage.setItem("token", token);
+        let user = jwt_decode(token);
+        setIsAuth(true);
+        setUser(user);
+        setMessage("User logged In successfully!")
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
   
+  //Logout
+  const logoutHandler = (e) =>{
+    e.preventDefault();
+    localStorage.removeItem("token");
+    setIsAuth(false);
+    setUser(null);
+    // setMessage("User logged out successfully")
+    window.location.href = '/login'
+  }
 
-  // const registerHandler = (user) => {
-  //   Axios.post("auth/signup", user)
-  //   .then(res => {
-  //     console.log(res);
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //   })
-  // }
+  // message - Check for modal message better
+  const msg = message ? (
+    <Alert variant="success">{message}</Alert>
+  ) : null;
 
-  // const loginHandler = (cred) => {
-  //   Axios.post("user/login", cred)
-  //   .then(res => {
-  //     console.log(res.data.token);
-  //     let token = res.data.token;
-  //     if(token != null)
-  //     {
-  //       localStorage.setItem("token", token);
-  //       let user = jwt_decode(token);
-  //       setIsAuth(true);
-  //       setUser(user);
-  //    //   setMessage("User logged In successfully!")
-  //     }
+  //register user (Like Add put partail and another screen - WIP)
+  const registerHandler = (cred) => {
+    Axios.post("auth/signup", cred)
+      .then(res => {
+        if(res.data.token){
+          localStorage.setItem("token", res.data.token);
+          let user = jwt_decode(res.data.token);
+          setIsAuth(true);
+          setUser(user);
+          setMessage("User registered successfully!")
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   })
-  // }
-
-  // const onLogoutHandler = (e) =>{
-  //   e.preventDefault();
-  //   localStorage.removeItem("token");
-  //   setIsAuth(false);
-  //   setUser(null);
-  //  setMessage("User logged out successfully")
-  //}
-
-  // const msg = message ? (
-  //   <Alert variant="success">{message}</Alert>
-  // ) : null;
-
-  const userdata = ''
-
+  const hussain = "hussain"
+  //console.log(user)
   return (
-      <Router> 
-        <Navbar />
+    <Router> 
+          <Navbar user={user} hussain={hussain} logoutHandler={logoutHandler}/>
+          {msg}
+   
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user" element={<User />} />
@@ -119,8 +111,9 @@ export default function App() {
           <Route path="/order/update" element={<OrderUpdate />} />
           <Route path="/publicapi" element={<PublicApi />} />
           <Route path="/publicapi/currencyconverter" element={<CurrencyConverter />} />
-          {/* <Route path="/login2" element={<LoginComponent />} /> */}
-          <Route path="/login2" element={<LoginComponent setUserData={setUserData} mode={mode} readUserData={readUserData} setModeType={setModeType} readMode={readMode}
+          <Route path="/login" element={<Login login={loginHandler} register={registerHandler}/>} />
+          {/* <Route path="/logout" /> */}
+          {/* <Route path="/login" element={<LoginComponent setUserData={setUserData} mode={mode} readUserData={readUserData} setModeType={setModeType} readMode={readMode}
           onSubmit={
                 function() {
                     if(mode == 'login'){
@@ -133,7 +126,7 @@ export default function App() {
                 }
             }
         />
-        } />
+        } /> */}
         </Routes>
       </Router>
     );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import ToysIcon from '@mui/icons-material/Toys';
 import { Link } from "react-router-dom";
 import CardActions from '@mui/material/CardActions';
+import User from "./user/User";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,9 +26,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function App() {
+export default function App(props) {
   const classes = useStyles();
+ 
+//  const [loggedin, setLoggedin] = useState(props.user);
 
+  // const LogoutHandler = () => {
+  //   console.log("Logout clicked");
+  // }
+  console.log(props)
+  console.log(props.user.user)
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -39,8 +47,9 @@ export default function App() {
           </Link>
           <Link className={classes.navlink} to="/">
           <Typography variant="h6" className={classes.title}>
-            Rent Car Application &nbsp;
+            Rent Car Application &nbsp; 
           </Typography>
+          {/* <p>{props.user.user.name[0]}</p> */}
           </Link>
           <CardActions display='flex' justifycontent='center'>
           <Link className={classes.navlink} to="/user">
@@ -73,11 +82,11 @@ export default function App() {
             </Button>
           </Link>
           <div>&nbsp;</div>
-          <Link className={classes.navlink} to="/logout">
-            <Button variant="contained" className={classes.title} color="secondary">
+          {/* <Link className={classes.navlink} to="/logout"> */}
+            <Button variant="contained" className={classes.title} color="secondary" onClick={props.logoutHandler}>
                Logout &nbsp;
             </Button>
-          </Link>
+          {/* </Link> */}
           </CardActions>
         </Toolbar>
       </AppBar>
