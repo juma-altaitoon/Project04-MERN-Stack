@@ -5,6 +5,12 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+//import InputLabel from '@material-ui/core/InputLabel';
+import Axios from 'axios'
+import { Form } from "react-router-dom";
+import { FormLabel } from "@material-ui/core";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,23 +60,20 @@ export default function CarCreate() {
       'documents': documents,
       'comment': comment,
     }
-    fetch('car/add', {
-      method: 'POST',
+    Axios.post("add", data, {
       headers: {
-        Accept: 'application/form-data',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(res => res.json())
-    .then(
-      (result) => {
-        alert(result['message'])
-        if (result['status'] === 'ok') {
-          window.location.href = '/';
-        }
+          "Authorization": "Bearer " + localStorage.getItem("token")
       }
-    )
+    })
+    .then((res) => {
+        console.log(res)
+        console.log("Record Added Successfully");
+        window.location.href = '/car';
+    })
+    .catch((err) => {
+        console.log("Error Adding Record");
+        console.log(err);
+    })
   }
 
   const [plate_id, setPlate_id] = useState('');
@@ -93,23 +96,24 @@ export default function CarCreate() {
   const [car_images, setCar_images] = useState('');
   const [documents, setDocuments] = useState('');
   const [comment, setComment] = useState('');
+
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Car
+          Create Car
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 autoComplete="plate_id"
-                name="plate_id"
                 variant="outlined"
                 required
                 fullWidth
                 id="plate_id"
                 label="Plate ID"
+                type="string"
                 onChange={(e) => setPlate_id(e.target.value)}
                 autoFocus
               />
@@ -121,16 +125,18 @@ export default function CarCreate() {
                 fullWidth
                 id="brand"
                 label="Brand"
+                type="string"
                 onChange={(e) => setBrand(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="color"
                 label="Color"
+                type="string"
                 onChange={(e) => setColor(e.target.value)}
               />
             </Grid>
@@ -141,156 +147,186 @@ export default function CarCreate() {
                 fullWidth
                 id="manufacture_year"
                 label="Manufacture Year"
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setManufacture_year(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="catagory"
                 label="Catagory"
+                type="string"
                 onChange={(e) => setCatagory(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="car_size"
                 label="Car Size"
+                type="string"
                 onChange={(e) => setCar_size(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="seats"
                 label="Seats"
+                type="number"
                 onChange={(e) => setSeats(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="engine"
                 label="Engine"
+                type="string"
                 onChange={(e) => setEngine(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="fuel_type"
                 label="Fuel Type"
+                type="string"
                 onChange={(e) => setFuel_type(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="transmission"
-                label="Transmission"
-                onChange={(e) => setTransmission(e.target.value)}
-              />
+            <Grid item xs={12} sm={6}>
+              <ToggleButtonGroup
+                  color="primary"
+                  variant="outlined"
+                  value={transmission}
+                  exclusive
+                  fullWidth
+                  required
+                  onChange={(e) => setTransmission(e.target.value)}
+                  aria-label="Platform"
+              >
+                  <ToggleButton value="true"> Automatic</ToggleButton>
+                  <ToggleButton value="false"> Manual</ToggleButton>
+                </ToggleButtonGroup>  
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="rate"
                 label="Rate"
+                type="number"
                 onChange={(e) => setRate(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="milage_limit"
                 label="Milage Limit"
+                type="number"
                 onChange={(e) => setMilage_limit(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="insurance_id"
                 label="Insurance ID"
+                type="string"
                 onChange={(e) => setInsurance_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="insurance_company"
                 label="Insurance Company"
+                type="string"
                 onChange={(e) => setInsurance_company(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="insurance_date"
                 label="Insurance Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setInsurance_date(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="registration_date"
                 label="Registration Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setRegistration_date(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="expiry_date"
                 label="Expiry Date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
                 onChange={(e) => setExpiry_date(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
+              <FormLabel variant="contained" component="label">
+                Car Images
+                <input hidden accept="image/*" multiple type="file" />
+              </FormLabel>
               <TextField
                 variant="outlined"
-                required
+                // required
                 fullWidth
                 id="car_images"
-                label="Car Images"
+                type="file"
                 onChange={(e) => setCar_images(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
+              <FormLabel variant="contained" component="label">
+                Documents
+                <input hidden accept="image/*" multiple type="file" />
+              </FormLabel>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="documents"
-                label="Documents"
+                type="file"
                 onChange={(e) => setDocuments(e.target.value)}
               />
             </Grid>
@@ -301,9 +337,11 @@ export default function CarCreate() {
                 fullWidth
                 id="comment"
                 label="Comment"
+                type="string"
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
+            
           </Grid>
           <Button
             type="submit"
@@ -312,7 +350,7 @@ export default function CarCreate() {
             color="primary"
             className={classes.submit}
           >
-            Create
+            Create Car
           </Button>
         </form>
       </div>
