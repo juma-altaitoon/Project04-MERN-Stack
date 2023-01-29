@@ -1,20 +1,27 @@
 import React from "react";
-//import ReactDOM from 'react-dom'
-//import { createRoot } from 'react-dom/client';
 import './Login2.css'
 
-const mode = 'login';
 
 export class LoginComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: this.props.mode
+            mode: this.props.mode,
+            userData: {}
         }
+        this.printWord = this.printWord.bind(this);
     }
     toggleMode() {
         var newMode = this.state.mode === 'login' ? 'signup' : 'login';
         this.setState({ mode: newMode});
+        this.props.setModeType(newMode)
+    }
+    onChangeHandler = e =>{
+        console.log(e);
+        console.log('test')
+    }
+    printWord(){
+        console.log('word');
     }
     render() {
         return (
@@ -29,6 +36,9 @@ export class LoginComponent extends React.Component {
                             <label htmlFor="form-toggler"></label>
                         </div>
                     </header>
+                    <button onClick={() => this.setState({userData: {user: "tester", password: "12345"}})}>Set state data</button>
+                    <button onClick={() => this.props.setUserData(this.state.userData)}>set Data</button>
+                    <button onClick={() => this.props.readMode()}>read Data</button>
                     <LoginForm mode={this.state.mode} onSubmit={this.props.onSubmit} />
                 </section>
             </div>
@@ -45,9 +55,12 @@ export class LoginForm extends React.Component {
         <form onSubmit={this.props.onSubmit}>
             <div className="form-block__input-wrapper">
                 <div className="form-group form-group--login">
-                    <Input type="text" id="username" label="user name" disabled={this.props.mode === 'signup'}/>
+                    <Input type="text" id="username" 
+                    label="user name" onChange={(e) => this.onChangeHandler.bind(e)} disabled={this.props.mode === 'signup'} />
+                    <input type="text" onChange={() => this.printWord()} />
                     <Input type="password" id="password" label="password" disabled={this.props.mode === 'signup'}/>
                 </div>
+                
                 <div className="form-group form-group--signup">
                     <Input type="text" id="fullname" label="full name" disabled={this.props.mode === 'login'} />
                     <Input type="email" id="email" label="email" disabled={this.props.mode === 'login'} />
@@ -55,7 +68,10 @@ export class LoginForm extends React.Component {
                     <Input type="password" id="repeatpassword" label="repeat password" disabled={this.props.mode === 'login'} />
                 </div>
             </div>
-            <button className="button button--primary full-width" type="submit">{this.props.mode === 'login' ? 'Log In' : 'Sign Up'}</button>
+            <button className="button button--primary full-width" type="submit">
+            {this.props.mode === 'login' ? 
+            'Log In': 'Sign Up'
+            }</button>
         </form>
         )
     }
@@ -64,22 +80,3 @@ export class LoginForm extends React.Component {
 const Input = ({ id, type, label, disabled }) => (
     <input className="form-group__input" type={type} id={id} placeholder={label} disabled={disabled}/>
 );
-
-const App = () => (
-    <div className={`app app--is-${mode}`}>
-        <LoginComponent
-            mode={mode}
-            onSubmit={
-                function() {
-                    console.log('submit');
-                    alert("submit")
-                }
-            }
-        />
-    </div>
-);
-
-
-
-//ReactDOM.render( <App/>, document.getElementById("root"));
-// createRoot(document.getElementById("root")).render(<App/>);

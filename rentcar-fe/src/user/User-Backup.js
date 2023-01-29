@@ -20,7 +20,6 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import Fab from '@mui/material/Fab';
 // import AddIcon from '@mui/icons-material/Add';
-import moment from 'moment'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,42 +41,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Car() {
+export default function User() {
   const classes = useStyles();
 
-  const [cars, setCars] = useState([]);
+  const [users, setUsers] = useState([]);
   useEffect(() => {
-     CarsGet()
+     UsersGet()
   }, [])
   
-  const CarsGet = () => {
-    Axios.get("car/index", {
+  const UsersGet = () => {
+    Axios.get("user/index", {
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
       }
      })
       .then((res) => {
-        setCars(res.data.cars);
+        setUsers(res.data.users);
        })
       .catch(err => {
         console.log("Error Retreiving Records");
         console.log(err);
       })
-}
+  }
 
-  const CarUpdate = id => {
+  const UserUpdate = id => {
     window.location = window.location.href+'/update?id='+id
   }
 
-  const CarDelete = id => {
-    Axios.delete(`car/delete?id=${id}`, {
+  const UserDelete = id => {
+    Axios.delete(`user/delete?id=${id}`, {
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
     })
     .then(res => {
       console.log("Record Deleted Successfully");
-      window.location.href = '/car';
+      window.location.href = '/user';
     })
     .catch(err => {
       console.log("Error Deleting Record");
@@ -92,15 +91,15 @@ export default function Car() {
           <Box display="flex">
             <Box flexGrow={1}>
               <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                CARS
-              </Typography>
-            </Box>
+                USERS
+                </Typography>
+             </Box>
               {/* <Fab color="primary" aria-label="add">
                  <AddIcon />
-              </Fab> */}
+               </Fab> */}
             <Box>
-              <Link to="create">
-              <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="primary">
+              <Link to="/user/create">
+                <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="primary">
                   CREATE
                 </Button>
               </Link>
@@ -110,25 +109,25 @@ export default function Car() {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="left">Plate ID</TableCell>
-                <TableCell align="left">Brand</TableCell>
-                <TableCell align="left">Color</TableCell>
-                <TableCell align="left">Manufacture Year</TableCell>
+                <TableCell align="left">First Name</TableCell>
+                <TableCell align="left">Last Name</TableCell>
+                <TableCell align="left">Email Address</TableCell>
+                <TableCell align="left">Phone_number</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-            { cars.map((car, id) => {
-              return ( 
+               { users.map((user, id) => {
+               return ( 
                 <TableRow key={id}>
-                  <TableCell align="left">{car.plate_id}</TableCell>
-                  <TableCell align="left">{car.brand}</TableCell>
-                  <TableCell align="left">{car.color}</TableCell>
-                  <TableCell align="left">{moment(car.manufacture_year).format('YYYY')}</TableCell>
+                  <TableCell align="left">{user.first_name}</TableCell>
+                  <TableCell align="left">{user.last_name}</TableCell>
+                  <TableCell align="left">{user.email_address}</TableCell>
+                  <TableCell align="left">{user.phone_number}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button startIcon={<ModeEditIcon />} onClick={() => CarUpdate(car._id)}>Edit</Button>
-                      <Button startIcon={<DeleteIcon />} onClick={() => CarDelete(car._id)}>Delete</Button>
+                      <Button startIcon={<ModeEditIcon />} onClick={() => UserUpdate(user._id)}>Update</Button>
+                      <Button startIcon={<DeleteIcon />} onClick={() => UserDelete(user._id)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
