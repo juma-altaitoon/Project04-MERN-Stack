@@ -15,6 +15,12 @@ import TableRow from '@material-ui/core/TableRow';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Link } from "react-router-dom";
 import Axios from 'axios'
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+// import Fab from '@mui/material/Fab';
+// import AddIcon from '@mui/icons-material/Add';
+import moment from 'moment'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,19 +45,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Car() {
   const classes = useStyles();
 
-  const [cars, setUsers] = useState([]);
+  const [cars, setCars] = useState([]);
   useEffect(() => {
      CarsGet()
   }, [])
   
   const CarsGet = () => {
-    Axios.get("user/index", {
+    Axios.get("car/index", {
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
       }
      })
       .then((res) => {
-        setUsers(res.data.cars);
+        setCars(res.data.cars);
        })
       .catch(err => {
         console.log("Error Retreiving Records");
@@ -64,7 +70,7 @@ export default function Car() {
   }
 
   const CarDelete = id => {
-    Axios.delete(`user/delete?id=${id}`, {
+    Axios.delete(`car/delete?id=${id}`, {
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
@@ -79,7 +85,6 @@ export default function Car() {
     })
   }
 
-
   return (
     <div className={classes.root}>
       <Container className={classes.container} maxWidth="lg">    
@@ -90,9 +95,12 @@ export default function Car() {
                 CARS
               </Typography>
             </Box>
+              {/* <Fab color="primary" aria-label="add">
+                 <AddIcon />
+              </Fab> */}
             <Box>
-              <Link to="car/add">
-                <Button variant="contained" color="primary">
+              <Link to="create">
+              <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="primary">
                   CREATE
                 </Button>
               </Link>
@@ -102,7 +110,7 @@ export default function Car() {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="right">Plate ID</TableCell>
+                <TableCell align="left">Plate ID</TableCell>
                 <TableCell align="left">Brand</TableCell>
                 <TableCell align="left">Color</TableCell>
                 <TableCell align="left">Manufacture Year</TableCell>
@@ -111,19 +119,21 @@ export default function Car() {
             </TableHead>
             <TableBody>
             { cars.map((car, id) => {
-               return ( 
+              return ( 
                 <TableRow key={id}>
+                  <TableCell align="left">{car.plate_id}</TableCell>
                   <TableCell align="left">{car.brand}</TableCell>
                   <TableCell align="left">{car.color}</TableCell>
-                  <TableCell align="left">{car.manufacture_year}</TableCell>
+                  <TableCell align="left">{moment(car.manufacture_year).format('YYYY')}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                    <Button onClick={() => CarUpdate(car._id)}>Edit</Button>
-                      <Button onClick={() => CarDelete(car._id)}>Del</Button>
+                      <Button startIcon={<ModeEditIcon />} onClick={() => CarUpdate(car._id)}>Edit</Button>
+                      <Button startIcon={<DeleteIcon />} onClick={() => CarDelete(car._id)}>Delete</Button>
                     </ButtonGroup>
                   </TableCell>
                 </TableRow>
-              )})}
+              )
+            })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -132,4 +142,5 @@ export default function Car() {
     </div>
     
   );
+  
 }
