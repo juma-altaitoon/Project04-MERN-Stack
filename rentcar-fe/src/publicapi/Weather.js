@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Axios from 'axios';
 import Typography from '@material-ui/core/Typography'
+import Container from '@material-ui/core/Container';
+import Grid from '@mui/material/Grid';
 
 export default function Weather() {
   const [weather, setWeather] = useState([]);
@@ -28,26 +30,31 @@ export default function Weather() {
 
   return (
     <div>
-      <Typography>Weather Information:</Typography>
-      <Typography>Country: {weather.location && weather.location.country}</Typography>
-      <Typography>Current Temperature: &nbsp; {weather.current && weather.current.temp_c}°C </Typography>
-      <Typography>Current Weather: {weather.current && weather.current.condition.text} </Typography>
-      <img src={`http:${weather.current && weather.current.condition.icon}`} alt="Weather"  />
+    <Container maxWidth="xs">
+    <Grid alignContent='flex-center' alignItems='flex-center' justify='flex-center'> 
+    <img src={`http:${weather.current && weather.current.condition.icon}`} alt="Weather"  />
+      <Typography align="center">Country: {weather.location && weather.location.country}</Typography>
+      <Typography align="center">Current Temperature: &nbsp; {weather.current && weather.current.temp_c}°C </Typography>
+      <Typography align="center">Current Weather: {weather.current && weather.current.condition.text} </Typography>
+      <Typography align="center">----------------------------</Typography>
       <Typography />
-      <Typography> Weather Forcast 3 Days:
-      </Typography>
-      <Typography>
+      <Typography align="center"> Weather Forcast 3 Days:
+      </Typography >
+      <Typography align="center">
         {weather.forecast && weather.forecast.forecastday[0].day.condition.text},&nbsp;
         {weather.forecast && weather.forecast.forecastday[1].day.condition.text},&nbsp;
         {weather.forecast && weather.forecast.forecastday[2].day.condition.text}
+      </Typography >
+      <Typography align="center">----------------------------</Typography>
+      <Typography align="center"> Temperature Forcast 3 Days:
       </Typography>
-      <Typography> Temperature Forcast 3 Days:
-      </Typography>
-      <Typography>
+      <Typography align="center">
         {weather.forecast && weather.forecast.forecastday[0].day.avgtemp_c}°C,&nbsp;
         {weather.forecast && weather.forecast.forecastday[1].day.avgtemp_c}°C,&nbsp;
         {weather.forecast && weather.forecast.forecastday[2].day.avgtemp_c}°C
       </Typography>
+    </Grid>
+      </Container>
     </div>
   );
 }

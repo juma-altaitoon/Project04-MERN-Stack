@@ -95,10 +95,9 @@ export default function App(props) {
   //console.log(user)
   return (
     <Router> 
-          <Navbar user={user} hussain={hussain} logoutHandler={logoutHandler}/>
+          <Navbar user={user} hussain={hussain} logoutHandler={logoutHandler}/>    
           {msg}
-   
-        <Routes>
+       <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/user/create" element={<UserCreate />} />
@@ -112,21 +111,6 @@ export default function App(props) {
           <Route path="/publicapi" element={<PublicApi />} />
           <Route path="/publicapi/currencyconverter" element={<CurrencyConverter />} />
           <Route path="/login" element={<Login login={loginHandler} register={registerHandler}/>} />
-          {/* <Route path="/logout" /> */}
-          {/* <Route path="/login" element={<LoginComponent setUserData={setUserData} mode={mode} readUserData={readUserData} setModeType={setModeType} readMode={readMode}
-          onSubmit={
-                function() {
-                    if(mode == 'login'){
-                      //Login Axios here
-                      window.alert('I am in Login from APP')
-                    }else if(mode == 'signup'){
-                      //Signup Axios here
-                      window.alert('I am in signup from APP')
-                    }
-                }
-            }
-        />
-        } /> */}
         </Routes>
       </Router>
     );

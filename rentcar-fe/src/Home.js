@@ -5,9 +5,9 @@ import Typography from '@material-ui/core/Typography'
 export default function Home() {
   return (
     <div>
-      <Typography>------------------------------------------------------------------------</Typography>
-      <Typography>Welcome to Rent Car Application Home Page</Typography>
-      <Typography>------------------------------------------------------------------------</Typography>
+      <Typography align="center" >------------------------------------------------------------------------</Typography>
+      <Typography align="center">Welcome to Rent Car Application Home Page</Typography>
+      <Typography align="center" >------------------------------------------------------------------------</Typography >
       <Weather />
     </div>
   )
