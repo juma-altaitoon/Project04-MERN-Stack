@@ -1,3 +1,4 @@
+export const currencyData = [
 {
 	"USD": {
 		"symbol": "$",
@@ -1071,3 +1072,4 @@
 		"name_plural": "Zimbabwean Dollar"
 	}
 }
+]
