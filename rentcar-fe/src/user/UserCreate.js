@@ -15,6 +15,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -124,7 +125,7 @@ export default function UserCreate() {
               />
             </Grid>
            
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -137,23 +138,24 @@ export default function UserCreate() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-               // required
-                fullWidth
-                id="gender"
-                label="Gender"
-                // type="boolean"
-                onChange={(e) => setGender(e.target.value)}
-              />
-            </Grid>
+            <ToggleButtonGroup
+                      color="primary"
+                      value={gender}
+                      exclusive
+                      onChange={(e) => setGender(e.target.value)}
+                      aria-label="Platform"
+                    >
+                      <ToggleButton value="true"> Male</ToggleButton>
+                      <ToggleButton value="false"> Female</ToggleButton>
+                    </ToggleButtonGroup>   
+                    </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="nationality"
-                label="nationality"
+                label="Nationality"
                 onChange={(e) => setNationality(e.target.value)}
               />
             </Grid>
@@ -163,11 +165,11 @@ export default function UserCreate() {
                 required
                 fullWidth
                 id="national_id"
-                label="national_id"
+                label="National ID"
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -177,7 +179,7 @@ export default function UserCreate() {
                 onChange={(e) => setPhone_number(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -188,7 +190,7 @@ export default function UserCreate() {
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -198,12 +200,29 @@ export default function UserCreate() {
                 label="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </Grid>
+            </Grid> */}
+            <Grid item xs={12} sm={6} >
+            <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        onChange={(e) => setPassword(e.target.value)}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                //label="Password"
+                />
+                </Grid>
             <Grid item xs={12} sm={6}>
-            <Button variant="contained" component="label">
-                  Upload
-               <input hidden accept="image/*" multiple type="file" />
-              </Button>
+            
               <TextField
                 variant="outlined"
                 required
@@ -211,7 +230,12 @@ export default function UserCreate() {
                 id="documents"
                 label="documents"
                 onChange={(e) => setDocuments(e.target.value)}
-              />
+                
+              /> <br />
+              <Button variant="contained" component="label">
+                  Upload
+               <input hidden accept="image/*" multiple type="file" />
+              </Button><br/>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -220,6 +244,7 @@ export default function UserCreate() {
                 fullWidth
                 id="license_issued"
                 label="license_issued"
+
                 type="date"
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) => setLicense_issued(e.target.value)}
@@ -237,17 +262,17 @@ export default function UserCreate() {
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} >
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="user_type"
-                label="user_type"
+                label="User Type"
                 onChange={(e) => setUser_type(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -259,7 +284,7 @@ export default function UserCreate() {
               />
             </Grid>
             {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
-                <OutlinedInput
+                {/* <OutlinedInput
                   id="outlined-adornment-password"
                   type={showPassword ? 'text' : 'password'}
                   endAdornment={
@@ -275,8 +300,8 @@ export default function UserCreate() {
                     </InputAdornment>
                   }
                 //label="Password"
-                />
-              <ToggleButtonGroup
+                /> */}
+              {/* <ToggleButtonGroup
                       color="primary"
                       value={gender}
                       exclusive
@@ -285,7 +310,7 @@ export default function UserCreate() {
                     >
                       <ToggleButton value="true"> Male</ToggleButton>
                       <ToggleButton value="false"> Female</ToggleButton>
-                    </ToggleButtonGroup>                        
+                    </ToggleButtonGroup>                         */}
           </Grid>
           <Button
             type="submit"
