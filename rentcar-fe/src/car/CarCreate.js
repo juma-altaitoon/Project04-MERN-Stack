@@ -5,12 +5,14 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-//import InputLabel from '@material-ui/core/InputLabel';
 import Axios from 'axios'
-import { Form } from "react-router-dom";
 import { FormLabel } from "@material-ui/core";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -113,32 +115,48 @@ export default function CarCreate() {
                 fullWidth
                 id="plate_id"
                 label="Plate ID"
-                type="string"
                 onChange={(e) => setPlate_id(e.target.value)}
                 autoFocus
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="brand"
-                label="Brand"
-                type="string"
-                onChange={(e) => setBrand(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Brand</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="brand"
+                  label="Brand"
+                  onChange={(e) => setBrand(e.target.value)}
+                >
+                  <MenuItem value={"Toyota Camry"}>Toyota Camry</MenuItem>
+                  <MenuItem value={"Toyota RAV4"}>Toyota RAV4</MenuItem>
+                  <MenuItem value={"Ford Mustang"}>Ford Mustang</MenuItem>
+                  <MenuItem value={"Ford Expedition"}>Ford Expedition</MenuItem>
+                  <MenuItem value={"Honda Civic"}>Honda Civic</MenuItem>
+                  <MenuItem value={"Nissan Sunny"}>Nissan Sunny</MenuItem>
+                  <MenuItem value={"GMC Yukon"}>GMC Yukon</MenuItem>
+                  <MenuItem value={"Chevrolet Traverse"}>Chevrolet Traverse</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="color"
-                label="Color"
-                type="string"
-                onChange={(e) => setColor(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Color</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="color"
+                  label="Color"
+                  onChange={(e) => setColor(e.target.value)}
+                >
+                  <MenuItem value={"White"}>White</MenuItem>
+                  <MenuItem value={"Black"}>Black</MenuItem>
+                  <MenuItem value={"Red"}>Red</MenuItem>
+                  <MenuItem value={"Blue"}>Blue</MenuItem>
+                  <MenuItem value={"Silver"}>Silver</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -153,74 +171,109 @@ export default function CarCreate() {
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="catagory"
-                label="Catagory"
-                type="string"
-                onChange={(e) => setCatagory(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Catagory</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="catagory"
+                  label="Catagory"
+                  onChange={(e) => setCatagory(e.target.value)}
+                >
+                  <MenuItem value={"Sport"}>Sport</MenuItem>
+                  <MenuItem value={"Salon"}>Salon</MenuItem>
+                  <MenuItem value={"Van"}>Van</MenuItem>
+                  <MenuItem value={"SUV"}>SUV</MenuItem>
+                  <MenuItem value={"Pickup"}>Pickup</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="car_size"
-                label="Car Size"
-                type="string"
-                onChange={(e) => setCar_size(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Car Size</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="car_size"
+                  label="Car Size"
+                  onChange={(e) => setCar_size(e.target.value)}
+                >
+                  <MenuItem value={"Small Size"}>Small Size</MenuItem>
+                  <MenuItem value={"Large Size"}>Mid Size</MenuItem>
+                  <MenuItem value={"Large Size"}>Large Size</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="seats"
-                label="Seats"
-                type="number"
-                onChange={(e) => setSeats(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Seats</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="seats"
+                  label="Seats"
+                  onChange={(e) => setSeats(e.target.value)}
+                >
+                  <MenuItem value={"4"}>4</MenuItem>
+                  <MenuItem value={"5"}>5</MenuItem>
+                  <MenuItem value={"6"}>6</MenuItem>
+                  <MenuItem value={"7"}>7</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="engine"
-                label="Engine"
-                type="string"
-                onChange={(e) => setEngine(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Engine</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="engine"
+                  label="Engine"
+                  onChange={(e) => setEngine(e.target.value)}
+                >
+                  <MenuItem value={"1.4 Litre"}>1.4 Litre</MenuItem>
+                  <MenuItem value={"1.8 Litre"}>1.8 Litre</MenuItem>
+                  <MenuItem value={"2.0 Litre"}>2.0 Litre</MenuItem>
+                  <MenuItem value={"2.5 Litre"}>2.5 Litre</MenuItem>
+                  <MenuItem value={"3.0 Litre"}>3.0 Litre</MenuItem>
+                  {/* <MenuItem value={"Fuel"}>Fuel</MenuItem>
+                  <MenuItem value={"Hybrid"}>Hybrid</MenuItem>
+                  <MenuItem value={"Electric"}>Electric</MenuItem> */}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="fuel_type"
-                label="Fuel Type"
-                type="string"
-                onChange={(e) => setFuel_type(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Fuel Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="fuel_type"
+                  label="Fuel Type"
+                  onChange={(e) => setFuel_type(e.target.value)}
+                >
+                  <MenuItem value={"Mumtaz"}>Mumtaz</MenuItem>
+                  <MenuItem value={"Jayyid"}>Jayyid</MenuItem>
+                  <MenuItem value={"Super"}>Super</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <ToggleButtonGroup
-                  color="primary"
-                  variant="outlined"
-                  value={transmission}
-                  exclusive
-                  fullWidth
-                  required
-                  onChange={(e) => setTransmission(e.target.value)}
-                  aria-label="Platform"
+                color="primary"
+                variant="outlined"
+                value={transmission}
+                id="transmission"
+                label="Transmission"
+                exclusive
+                fullWidth
+                required
+                onChange={(e) => setTransmission(e.target.value)}
+                aria-label="Platform"
               >
-                  <ToggleButton value="true"> Automatic</ToggleButton>
-                  <ToggleButton value="false"> Manual</ToggleButton>
-                </ToggleButtonGroup>  
+                <ToggleButton value="true"> Automatic</ToggleButton>
+                <ToggleButton value="false"> Manual</ToggleButton>
+              </ToggleButtonGroup>  
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -228,7 +281,7 @@ export default function CarCreate() {
                 required
                 fullWidth
                 id="rate"
-                label="Rate"
+                label="Rate Per Day (BHD)"
                 type="number"
                 onChange={(e) => setRate(e.target.value)}
               />
@@ -251,20 +304,25 @@ export default function CarCreate() {
                 fullWidth
                 id="insurance_id"
                 label="Insurance ID"
-                type="string"
                 onChange={(e) => setInsurance_id(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="insurance_company"
-                label="Insurance Company"
-                type="string"
-                onChange={(e) => setInsurance_company(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Insurance Company</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="insurance_company"
+                  label="Insurance Company"
+                  onChange={(e) => setInsurance_company(e.target.value)}
+                >
+                  <MenuItem value={"Takaful"}>Takaful</MenuItem>
+                  <MenuItem value={"AXA"}>AXA</MenuItem>
+                  <MenuItem value={"BNI"}>BNI</MenuItem>
+                  <MenuItem value={"Gulf Union"}>Gulf Union</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -302,21 +360,21 @@ export default function CarCreate() {
                 onChange={(e) => setExpiry_date(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <FormLabel variant="contained" component="label">
                 Car Images
                 <input hidden accept="image/*" multiple type="file" />
               </FormLabel>
               <TextField
                 variant="outlined"
-                // required
+                required
                 fullWidth
                 id="car_images"
                 type="file"
                 onChange={(e) => setCar_images(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <FormLabel variant="contained" component="label">
                 Documents
                 <input hidden accept="image/*" multiple type="file" />
@@ -335,9 +393,9 @@ export default function CarCreate() {
                 variant="outlined"
                 required
                 fullWidth
+                multiline
                 id="comment"
                 label="Comment"
-                type="string"
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>

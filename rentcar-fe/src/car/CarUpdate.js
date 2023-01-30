@@ -11,6 +11,10 @@ import moment from 'moment'
 import { FormLabel } from "@material-ui/core";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -155,28 +159,45 @@ export default function CarUpdate() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="brand"
-                label="Brand"
-                value={brand}
-                type="string"
-                onChange={(e) => setBrand(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Brand</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="brand"
+                  label="Brand"
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                >
+                  <MenuItem value={"Toyota Camry"}>Toyota Camry</MenuItem>
+                  <MenuItem value={"Toyota RAV4"}>Toyota RAV4</MenuItem>
+                  <MenuItem value={"Ford Mustang"}>Ford Mustang</MenuItem>
+                  <MenuItem value={"Ford Expedition"}>Ford Expedition</MenuItem>
+                  <MenuItem value={"Honda Civic"}>Honda Civic</MenuItem>
+                  <MenuItem value={"Nissan Sunny"}>Nissan Sunny</MenuItem>
+                  <MenuItem value={"GMC Yukon"}>GMC Yukon</MenuItem>
+                  <MenuItem value={"Chevrolet Traverse"}>Chevrolet Traverse</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="color"
-                label="Color"
-                value={color}
-                type="string"
-                onChange={(e) => setColor(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Color</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="color"
+                  label="Color"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                >
+                  <MenuItem value={"White"}>White</MenuItem>
+                  <MenuItem value={"Black"}>Black</MenuItem>
+                  <MenuItem value={"Red"}>Red</MenuItem>
+                  <MenuItem value={"Blue"}>Blue</MenuItem>
+                  <MenuItem value={"Silver"}>Silver</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -192,70 +213,108 @@ export default function CarUpdate() {
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="catagory"
-                label="Catagory"
-                value={catagory}
-                type="string"
-                onChange={(e) => setCatagory(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Catagory</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="catagory"
+                  label="Catagory"
+                  value={catagory}
+                  onChange={(e) => setCatagory(e.target.value)}
+                >
+                  <MenuItem value={"Sport"}>Sport</MenuItem>
+                  <MenuItem value={"Salon"}>Salon</MenuItem>
+                  <MenuItem value={"Van"}>Van</MenuItem>
+                  <MenuItem value={"SUV"}>SUV</MenuItem>
+                  <MenuItem value={"Pickup"}>Pickup</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="car_size"
-                label="Car Size"
-                value={car_size}
-                type="string"
-                onChange={(e) => setCar_size(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Car Size</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="car_size"
+                  label="Car Size"
+                  value={car_size}
+                  onChange={(e) => setCar_size(e.target.value)}
+                >
+                  <MenuItem value={"Small Size"}>Small Size</MenuItem>
+                  <MenuItem value={"Large Size"}>Mid Size</MenuItem>
+                  <MenuItem value={"Large Size"}>Large Size</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="seats"
-                label="Seats"
-                value={seats}
-                type="number"
-                onChange={(e) => setSeats(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Seats</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="seats"
+                  label="Seats"
+                  value={seats}
+                  onChange={(e) => setSeats(e.target.value)}
+                >
+                  <MenuItem value={"4"}>4</MenuItem>
+                  <MenuItem value={"5"}>5</MenuItem>
+                  <MenuItem value={"6"}>6</MenuItem>
+                  <MenuItem value={"7"}>7</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="engine"
-                label="Engine"
-                value={engine}
-                type="string"
-                onChange={(e) => setEngine(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Engine</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="engine"
+                  label="Engine"
+                  value={engine}
+                  onChange={(e) => setEngine(e.target.value)}
+                >
+                  <MenuItem value={"1.4 Litre"}>1.4 Litre</MenuItem>
+                  <MenuItem value={"1.8 Litre"}>1.8 Litre</MenuItem>
+                  <MenuItem value={"2.0 Litre"}>2.0 Litre</MenuItem>
+                  <MenuItem value={"2.5 Litre"}>2.5 Litre</MenuItem>
+                  <MenuItem value={"3.0 Litre"}>3.0 Litre</MenuItem>
+                  {/* <MenuItem value={"Fuel"}>Fuel</MenuItem>
+                  <MenuItem value={"Hybrid"}>Hybrid</MenuItem>
+                  <MenuItem value={"Electric"}>Electric</MenuItem> */}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="fuel_type"
-                label="Fuel Type"
-                value={fuel_type}
-                type="string"
-                onChange={(e) => setFuel_type(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Fuel Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="fuel_type"
+                  label="Fuel Type"
+                  value={fuel_type}
+                  onChange={(e) => setFuel_type(e.target.value)}
+                >
+                  <MenuItem value={"Mumtaz"}>Mumtaz</MenuItem>
+                  <MenuItem value={"Jayyid"}>Jayyid</MenuItem>
+                  <MenuItem value={"Super"}>Super</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
+              <FormLabel variant="contained" component="label">
+                Transmission
+              </FormLabel>
               <ToggleButtonGroup
                 color="primary"
                 variant="outlined"
                 value={transmission}
+                id="transmission"
+                label="Transmission"
                 exclusive
                 fullWidth
                 required
@@ -303,16 +362,22 @@ export default function CarUpdate() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="insurance_company"
-                label="Insurance Company"
-                value={insurance_company}
-                type="string"
-                onChange={(e) => setInsurance_company(e.target.value)}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Insurance Company</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="insurance_company"
+                  label="Insurance Company"
+                  value={insurance_company}
+                  onChange={(e) => setColor(e.target.value)}
+                >
+                  <MenuItem value={"Takaful"}>Takaful</MenuItem>
+                  <MenuItem value={"AXA"}>AXA</MenuItem>
+                  <MenuItem value={"BNI"}>BNI</MenuItem>
+                  <MenuItem value={"Gulf Union"}>Gulf Union</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -388,10 +453,10 @@ export default function CarUpdate() {
                 variant="outlined"
                 required
                 fullWidth
+                multiline
                 id="comment"
                 label="Comment"
                 value={comment}
-                type="string"
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
