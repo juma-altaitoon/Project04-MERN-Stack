@@ -14,7 +14,7 @@ import OrderUpdate from './order/OrderUpdate'
 import PublicApi from './PublicApi'
 import CurrencyConverter from './publicapi/CurrencyConverter'
 import Login from './auth/Login'
-import Axios from 'axios';
+// import Axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { Alert } from '@mui/material'
 
@@ -37,27 +37,6 @@ export default function App(props) {
       }
     }
   }, [])
-
-  // Login
-  const loginHandler = (cred) => {
-   // console.log(cred);
-    Axios.post("user/login", cred)
-    .then(res => {
-      console.log(res.data);
-      let token = res.data.token;
-      if(token != null)
-      {
-        localStorage.setItem("token", token);
-        let user = jwt_decode(token);
-        setIsAuth(true);
-        setUser(user);
-        setMessage("User logged In successfully!")
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
   
   //Logout
   const logoutHandler = (e) =>{
@@ -74,22 +53,6 @@ export default function App(props) {
     <Alert variant="success">{message}</Alert>
   ) : null;
 
-  //register user (Like Add put partail and another screen - WIP)
-  const registerHandler = (cred) => {
-    Axios.post("auth/signup", cred)
-      .then(res => {
-        if(res.data.token){
-          localStorage.setItem("token", res.data.token);
-          let user = jwt_decode(res.data.token);
-          setIsAuth(true);
-          setUser(user);
-          setMessage("User registered successfully!")
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
 
   const hussain = "hussain"
   //console.log(user)
@@ -98,7 +61,7 @@ export default function App(props) {
           <Navbar user={user} hussain={hussain} logoutHandler={logoutHandler}/>    
           {msg}
        <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/user/create" element={<UserCreate />} />
           <Route path="/user/update" element={<UserUpdate />} />
@@ -110,7 +73,7 @@ export default function App(props) {
           <Route path="/order/update" element={<OrderUpdate />} />
           <Route path="/publicapi" element={<PublicApi />} />
           <Route path="/publicapi/currencyconverter" element={<CurrencyConverter />} />
-          <Route path="/login" element={<Login login={loginHandler} register={registerHandler}/>} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </Router>
     );

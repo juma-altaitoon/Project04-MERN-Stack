@@ -28,14 +28,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App(props) {
   const classes = useStyles();
+
+    //Logout
+    const logoutHandler = (e) =>{
+      e.preventDefault();
+      localStorage.removeItem("token");
+     // setIsAuth(false);
+     // setUser(null);
+      // setMessage("User logged out successfully")
+      window.location.href = '/'
+    }
  
 //  const [loggedin, setLoggedin] = useState(props.user);
 
   // const LogoutHandler = () => {
   //   console.log("Logout clicked");
   // }
-  console.log(props)
-  console.log(props.user.user)
+  // console.log(props)
+  // console.log(props.user.user)
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -83,7 +93,7 @@ export default function App(props) {
           </Link>
           <div>&nbsp;</div>
           {/* <Link className={classes.navlink} to="/logout"> */}
-            <Button variant="contained" className={classes.title} color="secondary" onClick={props.logoutHandler}>
+            <Button variant="contained" className={classes.title} color="secondary" onClick={logoutHandler}>
                Logout &nbsp;
             </Button>
           {/* </Link> */}
