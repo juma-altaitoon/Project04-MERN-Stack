@@ -2,15 +2,15 @@ const mongoose =require ('mongoose');
 
 const orderSchema = mongoose.Schema({
     
-    user : [{
+    user : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }],
+    },
     
-    car : [{
+    car : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Car'
-    }],
+    },
 
     status: String,
     pickup_location: String,

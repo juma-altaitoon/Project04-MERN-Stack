@@ -47,7 +47,9 @@ export default function OrderCreate(props) {
   const [newOrder, setNewOrder] = useState({});
   const [cars, setCars] = useState([]);
   const [users, setUsers] = useState([]);
-  const [total, setTotal] = useState('')
+  const [total, setTotal] = useState('');
+  // const [car, setCar] = useState([]);
+  // const [user, setUser] = useState([]);
   
   useEffect(() => {
     CarsGet();
@@ -110,6 +112,7 @@ export default function OrderCreate(props) {
     order.extra_cost = (order.rent_price) * diff_time
     let newtotal = order.extra_cost
     console.log("total",newtotal)
+
     setTotal(newtotal);
     console.log(total);
     console.log(order);
@@ -119,20 +122,20 @@ export default function OrderCreate(props) {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
+  
     addOrder(newOrder);
     e.target.reset();
   }
-console.log(users, cars)
+// console.log(users, cars)
   const allUsers = users.map((user, key) =>(
-     user// {label: user.first_name, id: user._id}
+    {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user.id}
   ))
-  console.log('Users',allUsers)
   const allCars = cars.map((car, index)=> (
-    {label: car.plate_id, id: car._id}
+    {label: (car.brand+" - "+car.plate_id), value: car.id}
   ))
-  console.log("Cars", allCars)
-console.log(cars)
-console.log(users)
+
+// console.log(cars)
+// console.log(users)
 
 
   return (
@@ -143,22 +146,26 @@ console.log(users)
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
           <Autocomplete
               disablePortal
               id="combo-box-demo"
               name= "user"
-              // options={allUsers}
-              renderInput={(params) => <TextField {...params} label="User" />}
+              options={allUsers}
+              // isOptionEqualToValue={(option, value) => option.value === value.value}
+              
+              renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
+              onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
           <Autocomplete
               disablePortal
               id="combo-box-demo"
-              // options={allCars}
+              options={allCars}
               name="car"
-              renderInput={(params) => <TextField {...params} label="Car" />}
+              renderInput={(params) => <TextField {...params} label="Car" variant="outlined" />}
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -185,7 +192,6 @@ console.log(users)
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="pickup_location"
-                // value={}
                 label="Pickup Location"
                 onChange={handleChange}
               >
@@ -245,7 +251,7 @@ console.log(users)
               required
               fullWidth
               id="rent_price"
-              label="Rent Price per Day"
+              label="Rate per Day"
               onChange={handleChange}
             />
           </Grid>
@@ -332,21 +338,7 @@ console.log(users)
               id="extra_cost"
               type="number"
               value={total}
-              // value={order.extra_cost}
               onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="total"
-              variant="outlined"
-              // required
-              fullWidth
-              id="total"
-              value={total}
-              label="Total"
-              type="number"
-              // onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -355,6 +347,7 @@ console.log(users)
               variant="outlined"
               required
               fullWidth
+              multiline
               id="comment"
               label="Comment"
               onChange={handleChange}
