@@ -312,7 +312,7 @@ export default function CarUpdate() {
               <ToggleButtonGroup
                 color="primary"
                 variant="outlined"
-                value={transmission}
+                value={transmission.toString()}
                 id="transmission"
                 label="Transmission"
                 exclusive

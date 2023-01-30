@@ -262,7 +262,7 @@ export default function CarCreate() {
               <ToggleButtonGroup
                 color="primary"
                 variant="outlined"
-                value={transmission}
+                value={transmission.toString()}
                 id="transmission"
                 label="Transmission"
                 exclusive
