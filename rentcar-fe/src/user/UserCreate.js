@@ -148,6 +148,7 @@ export default function UserCreate() {
                       color="primary"
                       type="boolean"
                       id="gender"
+                      value={gender}
                       exclusive
                       onChange={(e) => setGender(e.target.value)}
                       aria-label="Platform"
