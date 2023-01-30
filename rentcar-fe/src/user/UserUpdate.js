@@ -174,13 +174,14 @@ export default function UserUpdate() {
             <Grid item xs={12} sm={6}>
             <ToggleButtonGroup
                       color="primary"
+                      id="gender"
                       value={gender}
                       exclusive
                       onChange={(e) => setGender(e.target.value)}
                       aria-label="Platform"
                     >
-                      <ToggleButton value="true"> Male</ToggleButton>
-                      <ToggleButton value="false"> Female</ToggleButton>
+                      <ToggleButton style={{color:"Blue"}} value="true"> Male</ToggleButton>
+                      <ToggleButton style={{color:"Fuchsia"}} value="false"> Female</ToggleButton>
                     </ToggleButtonGroup>   
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -227,7 +228,7 @@ export default function UserUpdate() {
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -235,6 +236,7 @@ export default function UserUpdate() {
                 id="password"
                 label="password"
                 type="password"
+                // value={password}
                 // value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -260,22 +262,26 @@ export default function UserUpdate() {
                 //label="Password"
                 />
                 </Grid> */}
-            <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>           
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="documents"
-                label="documents"
                 value={documents}
+                label="documents"
+                type="string"
                 onChange={(e) => setDocuments(e.target.value)}
                 
-              />
-               <Button variant="contained" component="label">
+              /> 
+              
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button variant="contained" component="label">
                   Upload
                <input hidden accept="image/*" multiple type="file" />
               </Button>
-            </Grid>
+              </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -300,7 +306,7 @@ export default function UserUpdate() {
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -310,12 +316,25 @@ export default function UserUpdate() {
                 value={user_type}
                 onChange={(e) => setUser_type(e.target.value)}
               />
-            </Grid>
+            </Grid> */}
+            <Grid item xs={12} sm={6}>
+            <ToggleButtonGroup
+              color="primary"
+              value={user_type}
+              exclusive
+              onChange={(e) => setUser_type(e.target.value)}
+              aria-label="Platform"
+              >
+              <ToggleButton style={{color:"DarkBlue"}} value="true"> Staff</ToggleButton>
+              <ToggleButton  style={{color:"OrangeRed"}} value="false"> Customer</ToggleButton>
+              </ToggleButtonGroup>   
+              </Grid>
             <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
                 fullWidth
+                multiline
                 id="comment"
                 label="comment"
                 value={comment}

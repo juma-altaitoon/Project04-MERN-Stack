@@ -14,6 +14,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import MuiToggleButton from "@mui/material/ToggleButton";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -110,6 +112,7 @@ export default function UserCreate() {
                 fullWidth
                 id="first_name"
                 label="First Name"
+                type="string"
                 onChange={(e) => setFirst_name(e.target.value)}
                 autoFocus
               />
@@ -121,6 +124,7 @@ export default function UserCreate() {
                 fullWidth
                 id="last_name"
                 label="Last Name"
+                type="string"
                 onChange={(e) => setLast_name(e.target.value)}
               />
             </Grid>
@@ -140,13 +144,15 @@ export default function UserCreate() {
             <Grid item xs={12} sm={6}>
             <ToggleButtonGroup
                       color="primary"
+                      type="boolean"
+                      id="gender"
                       value={gender}
                       exclusive
                       onChange={(e) => setGender(e.target.value)}
                       aria-label="Platform"
                     >
-                      <ToggleButton value="true"> Male</ToggleButton>
-                      <ToggleButton value="false"> Female</ToggleButton>
+                      <ToggleButton style={{color:"Blue"}} value="true"> Male</ToggleButton>
+                      <ToggleButton style={{color:"Fuchsia"}}value="false"> Female</ToggleButton>
                     </ToggleButtonGroup>   
                     </Grid>
             <Grid item xs={12} sm={6}>
@@ -156,6 +162,7 @@ export default function UserCreate() {
                 fullWidth
                 id="nationality"
                 label="Nationality"
+                type="string"
                 onChange={(e) => setNationality(e.target.value)}
               />
             </Grid>
@@ -166,6 +173,7 @@ export default function UserCreate() {
                 fullWidth
                 id="national_id"
                 label="National ID"
+                type="string"
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
@@ -176,6 +184,7 @@ export default function UserCreate() {
                 fullWidth
                 id="phone_number"
                 label="phone number"
+                type="string"
                 onChange={(e) => setPhone_number(e.target.value)}
               />
             </Grid>
@@ -190,7 +199,7 @@ export default function UserCreate() {
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
-            { <Grid item xs={12} sm={6}>
+            { <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -228,14 +237,18 @@ export default function UserCreate() {
                 fullWidth
                 id="documents"
                 label="documents"
+                type="string"
                 onChange={(e) => setDocuments(e.target.value)}
                 
-              /> <br />
+              /> 
+              
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <Button variant="contained" component="label">
                   Upload
                <input hidden accept="image/*" multiple type="file" />
-              </Button><br/>
-            </Grid>
+              </Button>
+              </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -243,7 +256,6 @@ export default function UserCreate() {
                 fullWidth
                 id="license_issued"
                 label="license_issued"
-
                 type="date"
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) => setLicense_issued(e.target.value)}
@@ -261,7 +273,7 @@ export default function UserCreate() {
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6} >
+            {/* <Grid item xs={12} sm={6} >
               <TextField
                 variant="outlined"
                 required
@@ -270,8 +282,21 @@ export default function UserCreate() {
                 label="User Type"
                 onChange={(e) => setUser_type(e.target.value)}
               />
-            </Grid>
-            <Grid item xs={12} >
+            </Grid> */}
+            <Grid item xs={12} sm={6}>
+            <ToggleButtonGroup
+                      color="primary"
+                      id="user_type"
+                      value={user_type}
+                      exclusive
+                      onChange={(e) => setUser_type(e.target.value)}
+                      aria-label="Platform"
+                    >
+                      <ToggleButton style={{color:"DarkBlue"}} value="true"> Staff</ToggleButton>
+                      <ToggleButton style={{color:"OrangeRed"}} value="false"> Customer</ToggleButton>
+                    </ToggleButtonGroup>   
+                    </Grid>
+            <Grid  item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -279,6 +304,7 @@ export default function UserCreate() {
                 multiline
                 id="comment"
                 label="comment"
+                type="string"
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
