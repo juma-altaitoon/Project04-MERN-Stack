@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import ToysIcon from '@mui/icons-material/Toys';
 import { Link } from "react-router-dom";
 import CardActions from '@mui/material/CardActions';
-import User from "./user/User";
+import jwt_decode from 'jwt-decode';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,40 +26,41 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function App(props) {
+export default function Navbar(props) {
   const classes = useStyles();
+  const [user, setUser] = useState({});
 
     //Logout
     const logoutHandler = (e) =>{
       e.preventDefault();
       localStorage.removeItem("token");
-     // setIsAuth(false);
-     // setUser(null);
-      // setMessage("User logged out successfully")
       window.location.href = '/'
     }
- 
-//  const [loggedin, setLoggedin] = useState(props.user);
 
-  // const LogoutHandler = () => {
-  //   console.log("Logout clicked");
-  // }
-  // console.log(props)
-  // console.log(props.user.user)
+    useEffect(() => {
+      let token = localStorage.getItem("token");
+      if(token != null){
+        let user = jwt_decode(token);
+        if(user) {
+          setUser(user);
+        }
+      }
+    }, [])
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-        <Link className={classes.navlink} to="/">
+        <Link className={classes.navlink} to="/home">
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <ToysIcon />
           </IconButton>
           </Link>
-          <Link className={classes.navlink} to="/">
-          <Typography variant="h6" className={classes.title}>
-            Rent Car Application &nbsp; 
+          <Link className={classes.navlink} to="/home">
+          <Typography variant="h6" className={classes.title}> 
+          { user.user ? "Welcome " + user.user.name : null}  
+          &nbsp; Rent Car Application &nbsp;
           </Typography>
-          {/* <p>{props.user.user.name[0]}</p> */}
           </Link>
           <CardActions display='flex' justifycontent='center'>
           <Link className={classes.navlink} to="/user">
@@ -86,7 +87,7 @@ export default function App(props) {
             </Button>
           </Link>
           <div>&nbsp;</div>
-          <Link className={classes.navlink} to="/login">
+          <Link className={classes.navlink} to="/">
             <Button variant="contained" className={classes.title} color="secondary">
               Login &nbsp;
             </Button>
