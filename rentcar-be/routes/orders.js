@@ -11,6 +11,8 @@ router.post('/order/add', ordersController.add_post);
 router.get('/order/index', ordersController.index_get); //read list
 router.get('/order/edit', ordersController.edit_get); //read item to edit it
 router.put('/order/update', ordersController.update_put);
-router.delete('/order/delete', ordersController.delete_delete); 
+router.delete('/order/delete', ordersController.delete_delete);
+router.get('/order/car/index', ordersController.car_index_get); //read list
+router.get('/order/user/index', ordersController.user_index_get); //read list
 
 module.exports = router;

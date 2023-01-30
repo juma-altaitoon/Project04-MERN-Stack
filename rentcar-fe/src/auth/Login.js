@@ -14,12 +14,14 @@ export default function Login(props) {
     const [password, setPassword] = useState('');
 
     
-    // const changeHandler = (e) => {
-    //     const user = {...newUser};
-    //     user[e.target.name] = e.target.value;
-    //     console.log(user);
-    //     setNewUser(user);
-    // }
+    const changeHandler = (e) => {
+        const user = {...newUser};
+        console.log(e.target);
+
+        user[e.target.name] = e.target.value;
+        console.log(user);
+        setNewUser(user);
+    }
 
     // const loginHandler = event => {
     //     event.preventDefault();
@@ -55,6 +57,8 @@ export default function Login(props) {
         props.register(newUser)
       }
 
+      console.log(email_address)
+      console.log(password)
 
     return (
           <div>
@@ -76,14 +80,14 @@ export default function Login(props) {
                     <form onSubmit={onSubmit}>
                         <div className="form-block__input-wrapper">
                           <div className="form-group form-group--login">
-                              <Input type="text" id="email_address" name="email_address" label="Email Address" disabled={mode === 'signup'} onChange={(e) => setEmail_address(e.target.value)}/>
-                              <Input type="password" id="password" name="password" label="Password" disabled={mode === 'signup'} onChange={(e) => setPassword(e.target.value)}/>
+                              <Input type="text" id="email_address" name="email_address" label="Email Address" disabled={mode === 'signup'} onChange={changeHandler}/>
+                              <Input type="password" id="password" name="password" label="Password" disabled={mode === 'signup'} onChange={changeHandler}/>
                           </div>
                           <div className="form-group form-group--signup">
-                            <Input type="text" id="firstname" label="First Name" name="first_name" disabled={mode === 'login'} onChange={(e) => setFirst_name(e.target.value)}/>
-                            <Input type="text" id="lastname" label="Last Name" name="last_name" disabled={mode === 'login'} onChange={(e) => setLast_name(e.target.value)}/>
-                            <Input type="email" id="email_address" name="email_address" label="Email Address" disabled={mode === 'login'} onChange={(e) => setEmail_address(e.target.value)}/>
-                            <Input type="password" id="password" name="password" label="password" disabled={mode === 'login'} onChange={(e) => setPassword(e.target.value)}/>
+                            <Input type="text" id="firstname" label="First Name" name="first_name" disabled={mode === 'login'} onChange={changeHandler}/>
+                            <Input type="text" id="lastname" label="Last Name" name="last_name" disabled={mode === 'login'} onChange={changeHandler}/>
+                            <Input type="email" id="email_address" name="email_address" label="Email Address" disabled={mode === 'login'} onChange={changeHandler}/>
+                            <Input type="password" id="password" name="password" label="password" disabled={mode === 'login'} onChange={changeHandler}/>
                           </div>
                         </div>
                         <button className="button button--primary full-width" type="submit">{mode === 'login' ? 'Log In' : 'Sign Up'}</button>
@@ -94,6 +98,6 @@ export default function Login(props) {
   )
 }
 
-const Input = ({ id, type, label, disabled }) => (
-  <input className="form-group__input" type={type} id={id} placeholder={label} disabled={disabled}/>
+const Input = ({ id, type, label, disabled, onChange, name }) => (
+  <input className="form-group__input" type={type} id={id} placeholder={label} disabled={disabled} onChange={onChange} name={name}/>
 );
