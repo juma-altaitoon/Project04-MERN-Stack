@@ -38,14 +38,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-  // //Password click to see
-  // const [showPassword, setShowPassword] = React.useState(false);
-  // const handleClickShowPassword = () => setShowPassword((show) => !show);
-  // const handleMouseDownPassword = (event) => {
-  //   event.preventDefault();
-  // };
 export default function UserUpdate() {
   const classes = useStyles();
+   
+  //Password click to see
+   const [showPassword, setShowPassword] = React.useState(false);
+   const handleClickShowPassword = () => setShowPassword((show) => !show);
+   const handleMouseDownPassword = (event) => {
+     event.preventDefault();
+   };
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id")
@@ -124,7 +125,7 @@ export default function UserUpdate() {
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
 
-  console.log(gender)
+ // console.log(gender)
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
@@ -182,8 +183,8 @@ export default function UserUpdate() {
                       onChange={(e) => setGender(e.target.value)}
                       aria-label="Platform"
                     >
-                      <ToggleButton style={{color:"Blue"}} id="gender" value="true" > Male</ToggleButton>
-                      <ToggleButton style={{color:"Fuchsia"}}  id="gender" value="false"> Female</ToggleButton>
+                      <ToggleButton style={{color:"Blue"}} value="true" > Male</ToggleButton>
+                      <ToggleButton style={{color:"Fuchsia"}} value="false"> Female</ToggleButton>
               </ToggleButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -230,7 +231,7 @@ export default function UserUpdate() {
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} >
+            {/* <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -239,11 +240,10 @@ export default function UserUpdate() {
                 label="password"
                 type="password"
                 // value={password}
-                // value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </Grid>
-            {/* <Grid item xs={12} sm={6} >
+            </Grid> */}
+            <Grid item xs={12} sm={6} >
             <OutlinedInput
                   id="outlined-adornment-password"
                   type={showPassword ? 'text' : 'password'}
@@ -254,16 +254,16 @@ export default function UserUpdate() {
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
-                        value={password}
+                        //value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   }
-                //label="Password"
+                 label="Password"
                 />
-                </Grid> */}
+                </Grid>
         <Grid item xs={12} sm={6}>           
               <TextField
                 variant="outlined"
@@ -327,8 +327,8 @@ export default function UserUpdate() {
               onChange={(e) => setUser_type(e.target.value)}
               aria-label="Platform"
               >
-              <ToggleButton style={{color:"DarkBlue"}} id="user_type" value="true"> Staff</ToggleButton>
-              <ToggleButton  style={{color:"OrangeRed"}} id="user_type" value="false"> Customer</ToggleButton>
+              <ToggleButton style={{color:"DarkBlue"}} value="true"> Staff</ToggleButton>
+              <ToggleButton  style={{color:"OrangeRed"}} value="false"> Customer</ToggleButton>
               </ToggleButtonGroup>   
               </Grid>
             <Grid item xs={12} >
