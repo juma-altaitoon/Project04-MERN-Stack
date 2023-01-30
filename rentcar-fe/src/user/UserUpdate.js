@@ -124,11 +124,13 @@ export default function UserUpdate() {
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
 
+  console.log(gender)
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Update User
+          
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -174,14 +176,15 @@ export default function UserUpdate() {
             <Grid item xs={12} sm={6}>
             <ToggleButtonGroup
                       color="primary"
-                      value={gender}
+                      id="gender"
+                      value={gender.toString()}
                       exclusive
                       onChange={(e) => setGender(e.target.value)}
                       aria-label="Platform"
                     >
-                      <ToggleButton value="true"> Male</ToggleButton>
-                      <ToggleButton value="false"> Female</ToggleButton>
-                    </ToggleButtonGroup>   
+                      <ToggleButton style={{color:"Blue"}} id="gender" value="true" > Male</ToggleButton>
+                      <ToggleButton style={{color:"Fuchsia"}}  id="gender" value="false"> Female</ToggleButton>
+              </ToggleButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -227,7 +230,7 @@ export default function UserUpdate() {
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -235,6 +238,7 @@ export default function UserUpdate() {
                 id="password"
                 label="password"
                 type="password"
+                // value={password}
                 // value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -260,22 +264,26 @@ export default function UserUpdate() {
                 //label="Password"
                 />
                 </Grid> */}
-            <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>           
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="documents"
-                label="documents"
                 value={documents}
+                label="documents"
+                type="string"
                 onChange={(e) => setDocuments(e.target.value)}
                 
-              />
-               <Button variant="contained" component="label">
+              /> 
+              
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button variant="contained" component="label">
                   Upload
                <input hidden accept="image/*" multiple type="file" />
               </Button>
-            </Grid>
+              </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -300,7 +308,7 @@ export default function UserUpdate() {
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -310,12 +318,25 @@ export default function UserUpdate() {
                 value={user_type}
                 onChange={(e) => setUser_type(e.target.value)}
               />
-            </Grid>
+            </Grid> */}
+            <Grid item xs={12} sm={6}>
+            <ToggleButtonGroup
+              color="primary"
+              value={user_type.toString()}
+              exclusive
+              onChange={(e) => setUser_type(e.target.value)}
+              aria-label="Platform"
+              >
+              <ToggleButton style={{color:"DarkBlue"}} id="user_type" value="true"> Staff</ToggleButton>
+              <ToggleButton  style={{color:"OrangeRed"}} id="user_type" value="false"> Customer</ToggleButton>
+              </ToggleButtonGroup>   
+              </Grid>
             <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
                 fullWidth
+                multiline
                 id="comment"
                 label="comment"
                 value={comment}
