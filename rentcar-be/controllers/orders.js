@@ -49,3 +49,26 @@ exports.delete_delete = (req, res)=>{
       res.json({err});
     })
 }
+
+
+//car extra
+exports.car_index_get = (req, res) => {
+  Car.find()
+    .then((cars) => {
+      res.json({cars:cars});
+    })
+    .catch((err) => {
+      res.json({err});
+    });
+};
+
+//user extra
+exports.user_index_get = (req, res) => {
+  User.find()
+    .then((users) => {
+      res.json({users:users});
+    })
+    .catch((err) => {
+      res.json({err});
+    });
+};

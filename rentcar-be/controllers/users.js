@@ -16,6 +16,8 @@ exports.add_post = (req, res) => {
     });
 };
 exports.update_put = function (req, res) {
+    hash = bcrypt.hashSync(req.body.password, 10);
+    req.body.password= hash;
     User.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
       .then((user) => {
           res.json({user})
@@ -66,7 +68,7 @@ exports.update_put = function (req, res) {
       // Compare Password
       const isMatch = await bcrypt.compareSync(password, user.password);
       if (!isMatch) {
-        return res.json({ message: "Password doesnot matched" });
+        return res.json({ message: "Password does not match" });
       }
       // Generate JWT
       const payload = {

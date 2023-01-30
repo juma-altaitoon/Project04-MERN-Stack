@@ -190,7 +190,7 @@ export default function UserCreate() {
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
-            {/* <Grid item xs={12} sm={6}>
+            { <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -200,8 +200,8 @@ export default function UserCreate() {
                 label="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </Grid> */}
-            <Grid item xs={12} sm={6} >
+            </Grid> }
+            {/* <Grid item xs={12} sm={6} >
             <OutlinedInput
                   id="outlined-adornment-password"
                   type={showPassword ? 'text' : 'password'}
@@ -220,9 +220,8 @@ export default function UserCreate() {
                   }
                 //label="Password"
                 />
-                </Grid>
-            <Grid item xs={12} sm={6}>
-            
+                </Grid> */}
+            <Grid item xs={12} sm={6}>           
               <TextField
                 variant="outlined"
                 required

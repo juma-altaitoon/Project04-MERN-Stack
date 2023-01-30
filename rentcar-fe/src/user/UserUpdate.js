@@ -101,7 +101,7 @@ export default function UserUpdate() {
       })
     .then(res => {
         console.log("Record Updated Successfully");
-        window.location.href = '/user';
+       // window.location.href = '/user';
     })
     .catch(err => {
         console.log("Error Editing Record");
