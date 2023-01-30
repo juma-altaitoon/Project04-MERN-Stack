@@ -65,39 +65,43 @@ export default function OrderList() {
       })
   }
   // View OrderEdit and OrderDetail
-  const editViewOrder = (id) => {
-      Axios.get(`edit?id=${id}`, {
-        headers:{
-          "Authorization": "Bearer " + localStorage.getItem("token") 
-        }
-      })
-      .then((res) =>{
-        console.log("Order Page Loaded")
-        console.log(res);
-        setIsEdit(true);
-        setSelectedOrder(res.data.order);     
-      })
-      .catch(err =>{
-        console.log("Order Page Failed to Load")
-        console.log(err)
-      })
-  }
+  // const editViewOrder = (id) => {
+  //     Axios.get(`edit?id=${id}`, {
+  //       headers:{
+  //         "Authorization": "Bearer " + localStorage.getItem("token") 
+  //       }
+  //     })
+  //     .then((res) =>{
+  //       console.log("Order Page Loaded")
+  //       console.log(res);
+  //       setIsEdit(true);
+  //       setSelectedOrder(res.data.order);     
+  //     })
+  //     .catch(err =>{
+  //       console.log("Order Page Failed to Load")
+  //       console.log(err)
+  //     })
+  // }
 
-  const updateOrder = (order) => {
-      Axios.put('update', order, {
-        headers:{
-          "Authorization": "Bearer " + localStorage.getItem("token") 
-        }
-      })
-      .then((res) =>{
-        console.log("Order Updated")
-        console.log(res);
-        getOrders();        
-      })
-      .catch(err =>{
-        console.log("Order Update Failed")
-        console.log(err)
-      })
+  // const updateOrder = (order) => {
+  //     Axios.put('update', order, {
+  //       headers:{
+  //         "Authorization": "Bearer " + localStorage.getItem("token") 
+  //       }
+  //     })
+  //     .then((res) =>{
+  //       console.log("Order Updated")
+  //       console.log(res);
+  //       getOrders();        
+  //     })
+  //     .catch(err =>{
+  //       console.log("Order Update Failed")
+  //       console.log(err)
+  //     })
+  // }
+
+  const UpdateOrder = id => {
+    window.location = window.location.href+'update?id='+id
   }
 
   const deleteOrder = (id) => {
@@ -149,16 +153,16 @@ export default function OrderList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => (
-                <TableRow key={order.ID}>
+              {orders.map((order, id) => (
+                <TableRow key={id}>
                   <TableCell align="right">{order._id}</TableCell>
-                  <TableCell align="center">{order.user.first_name}</TableCell>
+                  <TableCell align="center">{order.user}</TableCell>
                   <TableCell align="left">{order.status}</TableCell>
-                  <TableCell align="left">{order.rent_price}</TableCell>
+                  <TableCell align="left">{order.extra_cost}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button onClick={() => updateOrder(order.id)}>Edit</Button>
-                      <Button onClick={() => deleteOrder(order.id)}>Delete</Button>
+                      <Button onClick={() => UpdateOrder(order._id)}>Edit</Button>
+                      <Button onClick={() => deleteOrder(order._id)}>Delete</Button>
                     </ButtonGroup> 
                   </TableCell>
                 </TableRow>

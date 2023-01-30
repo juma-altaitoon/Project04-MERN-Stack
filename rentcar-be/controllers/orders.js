@@ -1,4 +1,6 @@
 const Order = require("../models/Order");
+const Car = require("../models/Car");
+const User = require("../models/User");
 
 exports.add_post = (req, res) => {
   Order(req.body).save()
@@ -11,7 +13,7 @@ exports.add_post = (req, res) => {
 };
 
 exports.update_put = function (req, res) {
-  Order.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
+  Order.findByIdAndUpdate(req.body.id, req.body, {new : true})// .populate("User") // new:true after edit API response
     .then((order) => {
         res.json({order})
     })
@@ -21,7 +23,7 @@ exports.update_put = function (req, res) {
 };
 
 exports.index_get = (req, res) => {
-  Order.find()
+  Order.find()//.populate("User")
     .then((orders) => {
       res.json({orders:orders});
     })
@@ -31,7 +33,7 @@ exports.index_get = (req, res) => {
 };
 
 exports.edit_get = function (req, res) {
-    Order.findById(req.query.id)//.populate('car', '').populate('user')
+    Order.findById(req.query.id)//.populate('car').populate('user')
     .then((order) => {
       res.json({order});
     })

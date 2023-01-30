@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -14,6 +14,11 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Autocomplete from '@mui/material/Autocomplete';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,6 +47,15 @@ export default function OrderCreate(props) {
   const [newOrder, setNewOrder] = useState({});
   const [cars, setCars] = useState([]);
   const [users, setUsers] = useState([]);
+  const [total, setTotal] = useState('');
+  // const [car, setCar] = useState([]);
+  // const [user, setUser] = useState([]);
+  
+  useEffect(() => {
+    CarsGet();
+    UsersGet();
+  }, [])
+  
   //  Get Car List 
   const CarsGet = () => {
     Axios.get("car/index", {
@@ -50,6 +64,7 @@ export default function OrderCreate(props) {
       }
      })
       .then((res) => {
+        console.log(res)
         setCars(res.data.cars);
        })
       .catch(err => {
@@ -57,13 +72,15 @@ export default function OrderCreate(props) {
         console.log(err);
       })
 }
-const UsersGet = () => {
+  // Get Use List
+  const UsersGet = () => {
   Axios.get("user/index", {
     headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
    })
     .then((res) => {
+      console.log(res)
       setUsers(res.data.users);
      })
     .catch(err => {
@@ -93,17 +110,33 @@ const UsersGet = () => {
     let diff_time = (dateD.getTime() - dateP.getTime())/86400000
     console.log(diff_time);
     order.extra_cost = (order.rent_price) * diff_time
-    let total = order.extra_cost
-    console.log("total",total)
+    let newtotal = order.extra_cost
+    console.log("total",newtotal)
+
+    setTotal(newtotal);
+    console.log(total);
     console.log(order);
     setNewOrder(order);
+    // updatetotal(order);
   }
 
   const handleSubmit = (e) =>{
     e.preventDefault();
+  
     addOrder(newOrder);
     e.target.reset();
   }
+// console.log(users, cars)
+  const allUsers = users.map((user, key) =>(
+    {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user.id}
+  ))
+  const allCars = cars.map((car, index)=> (
+    {label: (car.brand+" - "+car.plate_id), value: car.id}
+  ))
+
+// console.log(cars)
+// console.log(users)
+
 
   return (
     <Container maxWidth="xs">
@@ -113,51 +146,60 @@ const UsersGet = () => {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-            <TextField
-              autoComplete="user"
-              name="user"
-              variant="outlined"
-              // required
-              fullWidth
-              id="user"
-              label="User"
-              onChange={handleChange}
-              autoFocus
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="car"
-              variant="outlined"
-              // required
-              fullWidth
-              id="car"
-              label="Car"
+          <Grid item xs={12}>
+          <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              name= "user"
+              options={allUsers}
+              // isOptionEqualToValue={(option, value) => option.value === value.value}
+              
+              renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
               onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              name="status"
-              variant="outlined"
-              required
-              fullWidth
-              id="status"
-              label="Status"
+          <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={allCars}
+              name="car"
+              renderInput={(params) => <TextField {...params} label="Car" variant="outlined" />}
               onChange={handleChange}
             />
           </Grid>
+          <Grid item xs={12}>
+          <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Status</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="status"
+                label="Status"
+                onChange={handleChange}
+              >
+                <MenuItem value={"Booked"}>Booked</MenuItem>
+                <MenuItem value={"Collected"}>Collected</MenuItem>
+                <MenuItem value={"Completed"}>Completed</MenuItem>
+                <MenuItem value={"Canceled"}>Canceled</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              name="pickup_location"
-              variant="outlined"
-              required
-              fullWidth
-              id="pickup_location"
-              label="Pickup Location"
-              onChange={handleChange}
-            />
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Pickup Location</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="pickup_location"
+                label="Pickup Location"
+                onChange={handleChange}
+              >
+                <MenuItem value={"Location 1"}>Location 1</MenuItem>
+                <MenuItem value={"Location 2"}>Location 2</MenuItem>
+                <MenuItem value={"Location 3"}>Location 3</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -173,15 +215,21 @@ const UsersGet = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              name="drop_location"
-              variant="outlined"
-              required
-              fullWidth
-              id="drop_location"
-              label="Drop Location"
-              onChange={handleChange}
-            />
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Drop Location</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="drop_location"
+                // value={}
+                label="Drop Location"
+                onChange={handleChange}
+              >
+                <MenuItem value={"Location 1"}>Location 1</MenuItem>
+                <MenuItem value={"Location 2"}>Location 2</MenuItem>
+                <MenuItem value={"Location 3"}>Location 3</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -203,7 +251,7 @@ const UsersGet = () => {
               required
               fullWidth
               id="rent_price"
-              label="Rent Price"
+              label="Rate per Day"
               onChange={handleChange}
             />
           </Grid>
@@ -288,21 +336,9 @@ const UsersGet = () => {
               required
               fullWidth
               id="extra_cost"
-              label="Extra Cost"
               type="number"
+              value={total}
               onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="total"
-              variant="outlined"
-              // required
-              fullWidth
-              id="total"
-              label="Total"
-              type="number"
-              // onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -311,6 +347,7 @@ const UsersGet = () => {
               variant="outlined"
               required
               fullWidth
+              multiline
               id="comment"
               label="Comment"
               onChange={handleChange}
