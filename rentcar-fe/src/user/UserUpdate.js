@@ -124,11 +124,13 @@ export default function UserUpdate() {
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
 
+  console.log(gender)
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Update User
+          
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -175,14 +177,14 @@ export default function UserUpdate() {
             <ToggleButtonGroup
                       color="primary"
                       id="gender"
-                      value={gender}
+                      value={gender.toString()}
                       exclusive
                       onChange={(e) => setGender(e.target.value)}
                       aria-label="Platform"
                     >
-                      <ToggleButton style={{color:"Blue"}} value="true"> Male</ToggleButton>
-                      <ToggleButton style={{color:"Fuchsia"}} value="false"> Female</ToggleButton>
-                    </ToggleButtonGroup>   
+                      <ToggleButton style={{color:"Blue"}} id="gender" value="true" > Male</ToggleButton>
+                      <ToggleButton style={{color:"Fuchsia"}}  id="gender" value="false"> Female</ToggleButton>
+              </ToggleButtonGroup>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -320,13 +322,13 @@ export default function UserUpdate() {
             <Grid item xs={12} sm={6}>
             <ToggleButtonGroup
               color="primary"
-              value={user_type}
+              value={user_type.toString()}
               exclusive
               onChange={(e) => setUser_type(e.target.value)}
               aria-label="Platform"
               >
-              <ToggleButton style={{color:"DarkBlue"}} value="true"> Staff</ToggleButton>
-              <ToggleButton  style={{color:"OrangeRed"}} value="false"> Customer</ToggleButton>
+              <ToggleButton style={{color:"DarkBlue"}} id="user_type" value="true"> Staff</ToggleButton>
+              <ToggleButton  style={{color:"OrangeRed"}} id="user_type" value="false"> Customer</ToggleButton>
               </ToggleButtonGroup>   
               </Grid>
             <Grid item xs={12} >
