@@ -1,34 +1,15 @@
-import React, { useState } from "react";
-//import FileUpload from "./components/file-upload/file-upload.component";
-import FileUpload from "./file-upload.component";
+import { useState } from "react";
+import FileUpload from "react-material-file-upload";
 
+export default function App() {
+  const [files, setFiles] = useState([]);
 
-function Upload() {
-  const [newUserInfo, setNewUserInfo] = useState({
-    profileImages: []
-  });
-
-  const updateUploadedFiles = (files) =>
-    setNewUserInfo({ ...newUserInfo, profileImages: files });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    //logic to create new user...
-  };
-
+  console.log(files)
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <FileUpload
-          accept=".jpg,.png,.jpeg"
-          label="Profile Image(s)"
-          multiple
-          updateFilesCb={updateUploadedFiles}
-        />
-        <button type="submit">Create New User</button>
-      </form>
+    <div className="App">
+      <h1>Documents Test</h1>
+      <FileUpload value={files} onChange={setFiles} />
     </div>
   );
 }
 
-export default Upload;
