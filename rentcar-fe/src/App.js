@@ -34,8 +34,7 @@ export default function App(props) {
           <Route path="/publicapi" element={<PublicApi />} />
           <Route path="/publicapi/currencyconverter" element={<CurrencyConverter />} />
           {/* <Route path="/" element={<Login />} /> */}
-          <Route path="/test" element={<Upload />} />
-          
+          <Route path="/upload" element={<Upload />} />   
         </Routes>
       </Router>
     );
