@@ -17,7 +17,6 @@ import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -95,6 +94,7 @@ export default function UserUpdate() {
         'user_type':user_type,
         'comment':comment
     }
+    console.log(event)
     Axios.put(`update?id=${id}`, data,{
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
@@ -279,8 +279,10 @@ export default function UserUpdate() {
             <Grid item xs={12} sm={6}>
               <Button variant="contained" component="label">
                   Upload
-               <input hidden accept="image/*" multiple type="file" label="documents" id="documents"
-               onChange={(e) => setDocuments(e.target.value)}
+               <input hidden accept="image/*" multiple type="file" label="documents" id="documents" onError={({ currentTarget }) => {
+               currentTarget.onerror = null; // prevents looping
+               currentTarget.src="image_path_here";}}
+               //onChange={(e) => setDocuments(e.target.value)}
                />
               </Button>
               </Grid>

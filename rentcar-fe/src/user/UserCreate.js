@@ -15,8 +15,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import MuiToggleButton from "@mui/material/ToggleButton";
-
-
+import { countryData } from "../data/Country";
+import Autocomplete from '@mui/material/Autocomplete';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,6 +39,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UserCreate() {
+
+//   //  Get Car List 
+//   const NationalGet = () => {
+//     Axios.get("data/Country", {
+//       headers: {
+//           "Authorization": "Bearer " + localStorage.getItem("token")
+//       }
+//      })
+//       .then((res) => {
+//         console.log(res)
+//         setNationality(res.data.name);
+//        })
+//       .catch(err => {
+//         console.log("Error Retreiving Records");
+//         console.log(err);
+//       })
+// }
+
+
   const classes = useStyles();
 
   //Password click to see
@@ -97,6 +116,16 @@ export default function UserCreate() {
   const [license_expiry, setLicense_expiry] = useState('');
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
+
+
+  const allNationality = countryData.map((countryData, index)=> (
+    {label: (countryData.name),value: countryData.id}
+  ))
+
+
+
+
+  console.log(countryData)
 
   return (
     <Container maxWidth="xs">
@@ -157,14 +186,49 @@ export default function UserCreate() {
                       <ToggleButton style={{color:"Fuchsia"}}value="false"> Female</ToggleButton>
                     </ToggleButtonGroup>   
                     </Grid>
-            <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
+                id="email_address"
+                label="Email"
+                type="email"
+                onChange={(e) => setEmail_address(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} >
+            <OutlinedInput
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  onChange={(e) => setPassword(e.target.value)}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                 label="Password"
+                />
+                </Grid>
+            <Grid item xs={12} sm={6}>
+            <Autocomplete
+                 variant="outlined"
+                required
+                fullWidth
+
                 id="nationality"
                 label="Nationality"
-                type="string"
+                options={allNationality}
+                // options={allNationality}
+                // type="string"
+                renderInput={(params) => <TextField {...params} label="Nationality" variant="outlined"/>}
                 onChange={(e) => setNationality(e.target.value)}
               />
             </Grid>
@@ -190,17 +254,7 @@ export default function UserCreate() {
                 onChange={(e) => setPhone_number(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email_address"
-                label="Email"
-                type="email"
-                onChange={(e) => setEmail_address(e.target.value)}
-              />
-            </Grid>
+            
             {/* { <Grid item xs={12} >
               <TextField
                 variant="outlined"
@@ -212,26 +266,7 @@ export default function UserCreate() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid> } */}
-            <Grid item xs={12} sm={6} >
-            <OutlinedInput
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  onChange={(e) => setPassword(e.target.value)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                 label="Password"
-                />
-                </Grid>
+            
             <Grid item xs={12} sm={6}>           
               <TextField
                 variant="outlined"

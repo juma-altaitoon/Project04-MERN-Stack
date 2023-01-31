@@ -21,6 +21,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import TextField from '@material-ui/core/TextField';
 import Axios from 'axios';
+import { currencyData } from "../data/Currency";
 
 
 
@@ -72,8 +73,10 @@ export default function CurrencyConverter() {
         console.log(err);
       })
   }
-
-
+  const allCurrency = currencyData.map((currencyData, index)=> (
+    {label: (currencyData.USD),value: currencyData.id}
+  ))
+console.log(currencyData.USD)
   return (
     <div className={classes.root}>
     <Container className={classes.container} maxWidth="lg">    
