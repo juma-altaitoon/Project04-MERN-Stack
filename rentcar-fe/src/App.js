@@ -13,7 +13,8 @@ import OrderCreate from './order/OrderCreate'
 import OrderUpdate from './order/OrderUpdate'
 import PublicApi from './PublicApi'
 import CurrencyConverter from './publicapi/CurrencyConverter'
-import Login from './auth/Login'
+import Upload from "./upload/Upload";
+// import Login from './auth/Login'
 
 export default function App(props) {
   return (
@@ -32,7 +33,8 @@ export default function App(props) {
           <Route path="/order/update" element={<OrderUpdate />} />
           <Route path="/publicapi" element={<PublicApi />} />
           <Route path="/publicapi/currencyconverter" element={<CurrencyConverter />} />
-          <Route path="/" element={<Login />} />
+          {/* <Route path="/" element={<Login />} /> */}
+          <Route path="/upload" element={<Upload />} />   
         </Routes>
       </Router>
     );
