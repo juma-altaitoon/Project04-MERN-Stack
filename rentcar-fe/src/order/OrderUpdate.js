@@ -62,7 +62,7 @@ export default function OrderEdit(props) {
       console.log("Order Page Loaded")
       console.log(id);
       console.log(res);
-      // setIsEdit(true);
+    
       setOrder(res.data.order);     
     })
     .catch(err =>{
@@ -79,6 +79,7 @@ const updateOrder = (order) => {
     })
     .then((res) =>{
       console.log("Order Updated")
+      window.location.href = '/order/';
       console.log(res);        
     })
     .catch(err =>{
@@ -120,27 +121,31 @@ const updateOrder = (order) => {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-          <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              name= "user"
-              // isOptionEqualToValue={(option, value) => option.value === value.value}
-              
-              renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
-              onChange={handleChange}
-            />
+          <Grid item xs={12} sm={6}>
+          <TextField
+          id="outlined-read-only-input"
+          label="User"
+          variant="outlined"
+          defaultValue=""
+          
+          InputLabelProps={{ shrink: true}}
+          InputProps={{
+            readOnly: true,
+          }}
+
+        />
           </Grid>
-          <Grid item xs={12}>
-          <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-            
-              name="car"
-              renderInput={(params) => <TextField {...params} label="Car" variant="outlined" />}
-              onChange={handleChange}
-              
-            />
+          <Grid item xs={12} sm={6}>
+          <TextField
+          id="outlined-read-only-input"
+          label="Car"
+          variant="outlined"
+          defaultValue={""}
+          InputLabelProps={{ shrink: true}}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
           </Grid>
           <Grid item xs={12}>
           <FormControl fullWidth>
@@ -150,7 +155,12 @@ const updateOrder = (order) => {
                 id="demo-simple-select"
                 name="status"
                 label="Status"
+                defaultValue={""}
+                InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
+                // value={order.status}
+
+                // if (order.status === "Booked" ? "selcted"="selected" : "")
               >
                 <MenuItem value={"Booked"}>Booked</MenuItem>
                 <MenuItem value={"Collected"}>Collected</MenuItem>
@@ -168,6 +178,7 @@ const updateOrder = (order) => {
                 name="pickup_location"
                 label="Pickup Location"
                 defaultValue={""}
+                InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
               >
                 <MenuItem value={"Location 1"}>Location 1</MenuItem>
@@ -199,6 +210,7 @@ const updateOrder = (order) => {
                 // value={}
                 label="Drop Location"
                 defaultValue={""}
+                InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
               >
                 <MenuItem value={"Location 1"}>Location 1</MenuItem>
@@ -228,6 +240,7 @@ const updateOrder = (order) => {
               fullWidth
               id="rent_price"
               label="Rate per Day"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -239,6 +252,7 @@ const updateOrder = (order) => {
               fullWidth
               id="fuel_level_before"
               label="Fuel Level Before"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -250,6 +264,7 @@ const updateOrder = (order) => {
               fullWidth
               id="fuel_level_after"
               label="Fuel Level After"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -261,6 +276,7 @@ const updateOrder = (order) => {
                 fullWidth
                 id="car_images_before"
                 label="Car Images Before"
+                InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
               />
               <Button variant="contained" component="label">
@@ -291,6 +307,7 @@ const updateOrder = (order) => {
               fullWidth
               id="mileage_before"
               label="Mileage Before"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -302,6 +319,7 @@ const updateOrder = (order) => {
               fullWidth
               id="mileage_after"
               label="Mileage After"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -310,10 +328,12 @@ const updateOrder = (order) => {
               name="extra_cost"
               variant="outlined"
               required
+              label="Total"
               fullWidth
               id="extra_cost"
               type="number"
               value={total}
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -326,6 +346,7 @@ const updateOrder = (order) => {
               multiline
               id="comment"
               label="Comment"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>

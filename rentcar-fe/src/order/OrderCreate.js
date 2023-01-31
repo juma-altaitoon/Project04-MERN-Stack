@@ -10,6 +10,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Axios from 'axios'
+import { FormLabel } from "@material-ui/core";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -48,8 +49,10 @@ export default function OrderCreate(props) {
   const [cars, setCars] = useState([]);
   const [users, setUsers] = useState([]);
   const [total, setTotal] = useState('');
-  // const [car, setCar] = useState([]);
-  // const [user, setUser] = useState([]);
+  const [carId, setCarId] = useState('');
+  // const [user, setUser] = useState('');
+  const [userId, setUserId] = useState('');
+  const [carRate, setCarRate] = useState('');
   
   useEffect(() => {
     CarsGet();
@@ -94,7 +97,7 @@ export default function OrderCreate(props) {
     Axios.post("add", order)
       .then((res) => {
           console.log("Order Added Successfully");
-          window.location.href = '/order';
+          window.location.href = '/order/';
       })
       .catch((err) => {
           console.log("Error Adding Order");
@@ -104,6 +107,9 @@ export default function OrderCreate(props) {
   
   const handleChange = (e) =>{
     const order = {...newOrder};
+    console.log(e.target.name)
+    console.log(e.target.value)
+    
     order[e.target.name]= e.target.value;
     let dateP = new Date(order.pickup_date)
     let dateD = new Date(order.drop_date)
@@ -112,8 +118,10 @@ export default function OrderCreate(props) {
     order.extra_cost = (order.rent_price) * diff_time
     let newtotal = order.extra_cost
     console.log("total",newtotal)
-
+    order.user= userId
+    order.car= carId
     setTotal(newtotal);
+    order.rent_price = carRate
     console.log(total);
     console.log(order);
     setNewOrder(order);
@@ -128,15 +136,15 @@ export default function OrderCreate(props) {
   }
 // console.log(users, cars)
   const allUsers = users.map((user, key) =>(
-    {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user.id}
+    {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user._id}
   ))
   const allCars = cars.map((car, index)=> (
-    {label: (car.brand+" - "+car.plate_id), value: car.id}
+    {label: (car.brand+" - "+car.plate_id), value: car._id, rate: car.rate}
   ))
 
 // console.log(cars)
-// console.log(users)
-
+console.log(userId)
+console.log(carId)
 
   return (
     <Container maxWidth="xs">
@@ -153,9 +161,11 @@ export default function OrderCreate(props) {
               name= "user"
               options={allUsers}
               // isOptionEqualToValue={(option, value) => option.value === value.value}
-              
               renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
-              onChange={handleChange}
+              onChange={(e, b)=> { // console.log(e, b) 
+                setUserId(b.value)
+                // setUser(b.label)
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -165,9 +175,14 @@ export default function OrderCreate(props) {
               options={allCars}
               name="car"
               renderInput={(params) => <TextField {...params} label="Car" variant="outlined" />}
-              onChange={handleChange}
+              onChange={(e, b)=>{ 
+                setCarId(b.value)
+                setCarRate(b.rate)
+              }}
+              
             />
           </Grid>
+      
           <Grid item xs={12}>
           <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Status</InputLabel>
@@ -176,6 +191,7 @@ export default function OrderCreate(props) {
                 id="demo-simple-select"
                 name="status"
                 label="Status"
+                defaultValue={''}
                 onChange={handleChange}
               >
                 <MenuItem value={"Booked"}>Booked</MenuItem>
@@ -193,11 +209,14 @@ export default function OrderCreate(props) {
                 id="demo-simple-select"
                 name="pickup_location"
                 label="Pickup Location"
+                defaultValue={''}
                 onChange={handleChange}
               >
-                <MenuItem value={"Location 1"}>Location 1</MenuItem>
-                <MenuItem value={"Location 2"}>Location 2</MenuItem>
-                <MenuItem value={"Location 3"}>Location 3</MenuItem>
+                <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
+                <MenuItem value={"Seef"}>Seef</MenuItem>
+                <MenuItem value={"Juffair"}>Juffair</MenuItem>
+                <MenuItem value={"Isa Town"}>Isa Town</MenuItem>
+                <MenuItem value={"Saar"}>Saar</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -223,11 +242,14 @@ export default function OrderCreate(props) {
                 name="drop_location"
                 // value={}
                 label="Drop Location"
+                defaultValue={''}
                 onChange={handleChange}
               >
-                <MenuItem value={"Location 1"}>Location 1</MenuItem>
-                <MenuItem value={"Location 2"}>Location 2</MenuItem>
-                <MenuItem value={"Location 3"}>Location 3</MenuItem>
+                <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
+                <MenuItem value={"Seef"}>Seef</MenuItem>
+                <MenuItem value={"Juffair"}>Juffair</MenuItem>
+                <MenuItem value={"Isa Town"}>Isa Town</MenuItem>
+                <MenuItem value={"Saar"}>Saar</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -252,7 +274,10 @@ export default function OrderCreate(props) {
               fullWidth
               id="rent_price"
               label="Rate per Day"
+              InputProps={{readOnly: true}}
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
+              value={carRate ? carRate : 0}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -263,6 +288,7 @@ export default function OrderCreate(props) {
               fullWidth
               id="fuel_level_before"
               label="Fuel Level Before"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -274,40 +300,44 @@ export default function OrderCreate(props) {
               fullWidth
               id="fuel_level_after"
               label="Fuel Level After"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
+              <FormLabel variant="contained" component="label">
+              
+                <input hidden accept="image/*" multiple type="file" />
+              </FormLabel>
               <TextField
-                name="car_images_before"
                 variant="outlined"
-                // required
+                name="car_images_before"
+                required
                 fullWidth
                 id="car_images_before"
+                type="file"
                 label="Car Images Before"
+                InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
               />
-              <Button variant="contained" component="label">
-                  Upload
-               <input hidden accept="image/*" multiple type="file" />
-              </Button>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
+              <FormLabel variant="contained" component="label">
+                <input hidden accept="image/*" multiple type="file" />
+              </FormLabel>
               <TextField
-                name="car_images_after"
                 variant="outlined"
+                name="car_images_after"
                 // required
                 fullWidth
                 id="car_images_after"
+                type="file"
                 label="Car Images After"
+                InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
               />
-              <Button variant="contained" component="label">
-                  Upload
-               <input hidden accept="image/*" multiple type="file" />
-              </Button>
             </Grid>
-          <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6}>
             <TextField
               name="mileage_before"
               variant="outlined"
@@ -315,6 +345,7 @@ export default function OrderCreate(props) {
               fullWidth
               id="mileage_before"
               label="Mileage Before"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -326,6 +357,7 @@ export default function OrderCreate(props) {
               fullWidth
               id="mileage_after"
               label="Mileage After"
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -335,9 +367,12 @@ export default function OrderCreate(props) {
               variant="outlined"
               required
               fullWidth
+              InputProps={{readOnly: true}}
+              label="Total"
               id="extra_cost"
               type="number"
-              value={total}
+              value={total? total:0}
+              InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
