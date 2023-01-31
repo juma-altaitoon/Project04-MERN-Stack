@@ -127,11 +127,11 @@ const updateOrder = (order) => {
           label="User"
           variant="outlined"
           defaultValue=""
-          
           InputLabelProps={{ shrink: true}}
           InputProps={{
             readOnly: true,
           }}
+          value={order.user.first_name}
 
         />
           </Grid>
@@ -145,6 +145,7 @@ const updateOrder = (order) => {
           InputProps={{
             readOnly: true,
           }}
+          // value={order.car.brand}
         />
           </Grid>
           <Grid item xs={12}>
@@ -155,7 +156,7 @@ const updateOrder = (order) => {
                 id="demo-simple-select"
                 name="status"
                 label="Status"
-                defaultValue={""}
+                // defaultValue={order.status ? order.status : ""}
                 InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
                 // value={order.status}
@@ -240,7 +241,8 @@ const updateOrder = (order) => {
               fullWidth
               id="rent_price"
               label="Rate per Day"
-              // value={carRate ? carRate : 0}
+              // value={order.rent_price ? order.rent_price : 0}
+              InputProps={{readOnly: true}}
               InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />

@@ -126,7 +126,7 @@ export default function UserCreate() {
 
 
   console.log(countryData)
-
+  console.log(nationality)
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
@@ -229,7 +229,7 @@ export default function UserCreate() {
                 // options={allNationality}
                 // type="string"
                 renderInput={(params) => <TextField {...params} label="Nationality" variant="outlined"/>}
-                onChange={(e) => setNationality(e.target.value)}
+                onChange={(e, country ) => setNationality(country.label)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
