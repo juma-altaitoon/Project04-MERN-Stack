@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-//import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment'
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+//import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import Axios from 'axios'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -240,6 +240,7 @@ const updateOrder = (order) => {
               fullWidth
               id="rent_price"
               label="Rate per Day"
+              // value={carRate ? carRate : 0}
               InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
@@ -305,9 +306,11 @@ const updateOrder = (order) => {
               variant="outlined"
               required
               fullWidth
+              type="number"
               id="mileage_before"
               label="Mileage Before"
               InputLabelProps={{ shrink: true}}
+              // value={order.mileage_before}
               onChange={handleChange}
             />
           </Grid>
@@ -332,7 +335,7 @@ const updateOrder = (order) => {
               fullWidth
               id="extra_cost"
               type="number"
-              value={total}
+              value={total? total:0}
               InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
@@ -351,6 +354,7 @@ const updateOrder = (order) => {
             />
           </Grid>
         </Grid>
+        <br></br>
         <Button
           type="submit"
           fullWidth
@@ -361,6 +365,7 @@ const updateOrder = (order) => {
           Update
         </Button>
       </form>
+      <br></br>
     </div>
     </Container>
     );
