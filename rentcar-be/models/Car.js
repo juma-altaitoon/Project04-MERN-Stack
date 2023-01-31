@@ -4,7 +4,7 @@ const carSchema = mongoose.Schema({
     catagory: String,
     plate_id: String,
     documents: String,
-    manufacture_year: Date,
+    manufacture_year: Number,
     brand: String,
     insurance_company: String,
     insurance_id: String,
