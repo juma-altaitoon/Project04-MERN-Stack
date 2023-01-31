@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-//import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment'
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+//import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import Axios from 'axios'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import MuiToggleButton from "@mui/material/ToggleButton";
+// import MuiToggleButton from "@mui/material/ToggleButton";
 import { countryData } from "../data/Country";
 import Autocomplete from '@mui/material/Autocomplete';
 
@@ -94,7 +94,7 @@ export default function UserCreate() {
   })
   .then((res) => {
       console.log("Record Added Successfully");
-     // window.location.href = '/user';
+     window.location.href = '/user';
   })
   .catch((err) => {
       console.log("Error Adding Record");
@@ -108,7 +108,7 @@ export default function UserCreate() {
   const [phone_number, setPhone_number] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [gender, setGender] = useState('');
-  const [nationality, setNationality] = useState('');
+  const [nationality, setNationality] = useState([]);
   const [national_id, setNational_id] = useState('');
   const [password, setPassword] = useState('');
   const [documents, setDocuments] = useState('');
@@ -119,7 +119,7 @@ export default function UserCreate() {
 
 
   const allNationality = countryData.map((countryData, index)=> (
-    {label: (countryData.name),value: countryData.id}
+    {label: (countryData.name),value: countryData.name}
   ))
 
 
@@ -186,7 +186,7 @@ export default function UserCreate() {
                       <ToggleButton style={{color:"Fuchsia"}}value="false"> Female</ToggleButton>
                     </ToggleButtonGroup>   
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
                 required
@@ -209,30 +209,32 @@ export default function UserCreate() {
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
+                        label="Password"
+
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   }
-                 label="Password"
                 />
                 </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={8}>
             <Autocomplete
+               disablePortal
                  variant="outlined"
                 required
                 fullWidth
-
+                name="nationality"
                 id="nationality"
                 label="Nationality"
                 options={allNationality}
                 // options={allNationality}
-                // type="string"
+                type="string"
                 renderInput={(params) => <TextField {...params} label="Nationality" variant="outlined"/>}
-                onChange={(e) => setNationality(e.target.value)}
+                onChange={(e, country) => setNationality(country.label)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -243,7 +245,7 @@ export default function UserCreate() {
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -373,6 +375,7 @@ export default function UserCreate() {
                       <ToggleButton value="false"> Female</ToggleButton>
                     </ToggleButtonGroup>                         */}
           </Grid>
+          <br></br>
           <Button
             type="submit"
             fullWidth
@@ -383,6 +386,7 @@ export default function UserCreate() {
             Create User
           </Button>
         </form>
+        <br></br>
       </div>
     </Container>
   );
