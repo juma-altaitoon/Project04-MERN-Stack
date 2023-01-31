@@ -265,7 +265,7 @@ export default function UserUpdate() {
                 />
                 </Grid>
         <Grid item xs={12} sm={6}>           
-              <TextField
+              {/* <TextField
                 variant="outlined"
                 required
                 fullWidth
@@ -274,14 +274,14 @@ export default function UserUpdate() {
                 label="documents"
                 type="string"
                 onChange={(e) => setDocuments(e.target.value)}
-                
-              /> 
-              
+              />                */}
             </Grid>
             <Grid item xs={12} sm={6}>
               <Button variant="contained" component="label">
                   Upload
-               <input hidden accept="image/*" multiple type="file" />
+               <input hidden accept="image/*" multiple type="file" label="documents" id="documents"
+               onChange={(e) => setDocuments(e.target.value)}
+               />
               </Button>
               </Grid>
             <Grid item xs={12} sm={6}>
@@ -343,7 +343,7 @@ export default function UserUpdate() {
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
-          
+            {documents && (<img src={documents} alt="File" className="displayed-image"/>)}
           </Grid>
           <Button
             type="submit"

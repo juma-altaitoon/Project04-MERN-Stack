@@ -14,6 +14,9 @@ const port = process.env.PORT ;
 // Initailze Express
 const app = express();
 
+//public access to upload files and photo
+app.use('/files', express.static('files'));
+
 // Import Routes
 const userRoute = require('./routes/users');
 const carRoute = require('./routes/cars');

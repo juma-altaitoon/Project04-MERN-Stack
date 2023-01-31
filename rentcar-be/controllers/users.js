@@ -5,6 +5,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 exports.add_post = (req, res) => {
+    //add jpg/img file in documents
+   // const url = req.protocol + '://' + req.get('host')
+   // req.body.documents = url + '/files/' + req.query.documents
+    //encrypt password
     hash = bcrypt.hashSync(req.body.password, 10);
     req.body.password= hash;
     User(req.body).save()
@@ -15,9 +19,20 @@ exports.add_post = (req, res) => {
       res.json({err});
     });
 };
+
 exports.update_put = function (req, res) {
+    //add jpg/img file in documents
+    if (req.file != null) {
+      const url = req.protocol + '://' + req.get('host')
+      req.body.documents = url + '/files/' + req.file.filename
+    }
+    else {
+      req.body.documents = null
+    }
+    //encrypt password
     hash = bcrypt.hashSync(req.body.password, 10);
     req.body.password= hash;
+    console.log(req.body);
     User.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
       .then((user) => {
           res.json({user})
