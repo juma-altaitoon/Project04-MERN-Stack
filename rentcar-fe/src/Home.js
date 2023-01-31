@@ -8,7 +8,9 @@ import { CardActionArea } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import image from "./img/Car.jpeg"; 
+import image from "./img/Car1.jpg"; 
+import Slider from "./nav/Slider";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,12 +24,14 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Home() {
   return (
 
-    <div style={{ backgroundImage:`url(${image})`, backgroundRepeat:"no-repeat", backgroundSize:"contain"}}>
+    <div style={{ backgroundImage:`url(${image})`, backgroundRepeat:"no-repeat", backgroundSize:"cover", width: "100%", height: "auto"}}>
   
   
        <Weather></Weather>
-       <br />
-       <hr></hr>
+       <Slider></Slider>
+    
+    
+      
        <br />
        <br />
 
@@ -66,7 +70,7 @@ export default function Home() {
                 </Grid>
                             
      </div>
-     
+   
 
   )
 }
