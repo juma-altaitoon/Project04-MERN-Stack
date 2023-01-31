@@ -79,6 +79,7 @@ const updateOrder = (order) => {
     })
     .then((res) =>{
       console.log("Order Updated")
+      window.location.href = '/order/';
       console.log(res);        
     })
     .catch(err =>{
@@ -157,7 +158,9 @@ const updateOrder = (order) => {
                 defaultValue={""}
                 InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
-                
+                // value={order.status}
+
+                // if (order.status === "Booked" ? "selcted"="selected" : "")
               >
                 <MenuItem value={"Booked"}>Booked</MenuItem>
                 <MenuItem value={"Collected"}>Collected</MenuItem>
