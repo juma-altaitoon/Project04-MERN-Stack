@@ -20,6 +20,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import Fab from '@mui/material/Fab';
 // import AddIcon from '@mui/icons-material/Add';
+import { TablePagination } from '@mui/material';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function User() {
   const classes = useStyles();
+  const [pg, setpg] = React.useState(0);
+  const [rpg, setrpg] = React.useState(5);
+  
+    function handleChangePage(event, newpage) {
+        setpg(newpage);
+    }
+  
+    function handleChangeRowsPerPage(event) {
+        setrpg(parseInt(event.target.value, 10));
+        setpg(0);
+    }
 
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -117,7 +129,7 @@ export default function User() {
               </TableRow>
             </TableHead>
             <TableBody>
-               { users.map((user, id) => {
+               { users.slice(pg * rpg, pg * rpg + rpg).map((user, id) => {
                return ( 
                 <TableRow key={id}>
                   <TableCell align="left">{user.first_name}</TableCell>
@@ -136,6 +148,15 @@ export default function User() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={users.length}
+                rowsPerPage={rpg}
+                page={pg}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </Paper>
       </Container>
     </div>

@@ -87,12 +87,6 @@ export default function Navbar(props) {
             </Button>
           </Link>
           <div>&nbsp;</div>
-          <Link className={classes.navlink} to="/">
-            <Button variant="contained" className={classes.title} color="secondary">
-              Login &nbsp;
-            </Button>
-          </Link>
-          <div>&nbsp;</div>
           {/* <Link className={classes.navlink} to="/logout"> */}
             <Button variant="contained" className={classes.title} color="secondary" onClick={logoutHandler}>
                Logout &nbsp;

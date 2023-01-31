@@ -50,6 +50,7 @@ export default function UserCreate() {
  
   const handleSubmit = event => {
     event.preventDefault();
+    console.log(event)
     var data = {
       'first_name': first_name,
       'last_name': last_name,
@@ -66,6 +67,7 @@ export default function UserCreate() {
       'user_type':user_type,
       'comment':comment
     }
+    console.log(data);
     Axios.post("add", data, {
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
@@ -73,7 +75,7 @@ export default function UserCreate() {
   })
   .then((res) => {
       console.log("Record Added Successfully");
-      window.location.href = '/user';
+     // window.location.href = '/user';
   })
   .catch((err) => {
       console.log("Error Adding Record");
@@ -199,7 +201,7 @@ export default function UserCreate() {
                 onChange={(e) => setEmail_address(e.target.value)}
               />
             </Grid>
-            { <Grid item xs={12} >
+            {/* { <Grid item xs={12} >
               <TextField
                 variant="outlined"
                 required
@@ -209,11 +211,12 @@ export default function UserCreate() {
                 label="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </Grid> }
-            {/* <Grid item xs={12} sm={6} >
+            </Grid> } */}
+            <Grid item xs={12} sm={6} >
             <OutlinedInput
-                  id="outlined-adornment-password"
+                  id="password"
                   type={showPassword ? 'text' : 'password'}
+                  onChange={(e) => setPassword(e.target.value)}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -221,15 +224,14 @@ export default function UserCreate() {
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
-                        onChange={(e) => setPassword(e.target.value)}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   }
-                //label="Password"
+                 label="Password"
                 />
-                </Grid> */}
+                </Grid>
             <Grid item xs={12} sm={6}>           
               <TextField
                 variant="outlined"
@@ -239,7 +241,6 @@ export default function UserCreate() {
                 label="documents"
                 type="string"
                 onChange={(e) => setDocuments(e.target.value)}
-                
               /> 
               
             </Grid>

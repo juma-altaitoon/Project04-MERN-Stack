@@ -22,7 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Home() {
   return (
 
-    <div style={{ backgroundImage:`url(${image})`, backgroundRepeat:"no-repeat", backgroundSize:"cover", width: "100%", height: "auto"}}>
+    <div style={{ backgroundImage:`url(${image})`, backgroundRepeat:"no-repeat", backgroundSize:"contain"}}>
   
   
        <Weather></Weather>
