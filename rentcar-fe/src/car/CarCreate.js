@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import Axios from 'axios'
-import { FormLabel } from "@material-ui/core";
+import { FormLabel } from "@mui/material/";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import InputLabel from '@mui/material/InputLabel';
@@ -165,8 +165,7 @@ export default function CarCreate() {
                 fullWidth
                 id="manufacture_year"
                 label="Manufacture Year"
-                type="date"
-                InputLabelProps={{ shrink: true }}
+                type="number"
                 onChange={(e) => setManufacture_year(e.target.value)}
               />
             </Grid>
@@ -236,9 +235,6 @@ export default function CarCreate() {
                   <MenuItem value={"2.0 Litre"}>2.0 Litre</MenuItem>
                   <MenuItem value={"2.5 Litre"}>2.5 Litre</MenuItem>
                   <MenuItem value={"3.0 Litre"}>3.0 Litre</MenuItem>
-                  {/* <MenuItem value={"Fuel"}>Fuel</MenuItem>
-                  <MenuItem value={"Hybrid"}>Hybrid</MenuItem>
-                  <MenuItem value={"Electric"}>Electric</MenuItem> */}
                 </Select>
               </FormControl>
             </Grid>
@@ -401,6 +397,7 @@ export default function CarCreate() {
             </Grid>
             
           </Grid>
+          <br></br>
           <Button
             type="submit"
             fullWidth
@@ -411,6 +408,7 @@ export default function CarCreate() {
             Create Car
           </Button>
         </form>
+        <br></br>
       </div>
     </Container>
   );

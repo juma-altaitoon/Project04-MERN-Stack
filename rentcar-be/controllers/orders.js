@@ -23,7 +23,7 @@ exports.update_put = function (req, res) {
 };
 
 exports.index_get = (req, res) => {
-  Order.find()//.populate("User")
+  Order.find().populate('car').populate("user")
     .then((orders) => {
       res.json({orders:orders});
     })
@@ -33,7 +33,7 @@ exports.index_get = (req, res) => {
 };
 
 exports.edit_get = function (req, res) {
-    Order.findById(req.query.id)//.populate('car').populate('user')
+    Order.findById(req.query.id).populate('car').populate('user')
     .then((order) => {
       res.json({order});
     })

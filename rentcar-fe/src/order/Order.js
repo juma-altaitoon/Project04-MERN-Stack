@@ -146,7 +146,8 @@ export default function OrderList() {
             <TableHead>
               <TableRow>
                 <TableCell align="center">ORDER ID</TableCell>
-                <TableCell align="center">User ID</TableCell>
+                <TableCell align="center">User</TableCell>
+                <TableCell align="center">Car</TableCell>
                 <TableCell align="left">Status</TableCell>
                 <TableCell align="left">Amount</TableCell>
                 <TableCell align="center">Action</TableCell>
@@ -156,7 +157,8 @@ export default function OrderList() {
               {orders.map((order, id) => (
                 <TableRow key={id}>
                   <TableCell align="right">{order._id}</TableCell>
-                  <TableCell align="center">{order.user}</TableCell>
+                  <TableCell align="center">{order.user ? order.user.first_name : ""}</TableCell>
+                  <TableCell align="center">{order.car ? (order.car.brand+" - "+order.car.plate_id) : ""}</TableCell>
                   <TableCell align="left">{order.status}</TableCell>
                   <TableCell align="left">{order.extra_cost}</TableCell>
                   <TableCell align="center">
