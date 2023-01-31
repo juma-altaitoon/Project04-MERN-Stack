@@ -7,7 +7,7 @@ export default function App() {
   console.log(files)
   return (
     <div className="App">
-      <h1>Documents</h1>
+      <h1>Documents Test</h1>
       <FileUpload value={files} onChange={setFiles} />
     </div>
   );
