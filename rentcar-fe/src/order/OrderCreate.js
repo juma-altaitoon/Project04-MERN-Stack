@@ -48,8 +48,8 @@ export default function OrderCreate(props) {
   const [cars, setCars] = useState([]);
   const [users, setUsers] = useState([]);
   const [total, setTotal] = useState('');
-  // const [car, setCar] = useState([]);
-  // const [user, setUser] = useState([]);
+  const [car, setCar] = useState('');
+  const [user, setUser] = useState('');
   
   useEffect(() => {
     CarsGet();
@@ -104,6 +104,9 @@ export default function OrderCreate(props) {
   
   const handleChange = (e) =>{
     const order = {...newOrder};
+    console.log(e.target.name)
+    console.log(e.target.value)
+    setUser(user)
     order[e.target.name]= e.target.value;
     let dateP = new Date(order.pickup_date)
     let dateD = new Date(order.drop_date)
@@ -128,10 +131,10 @@ export default function OrderCreate(props) {
   }
 // console.log(users, cars)
   const allUsers = users.map((user, key) =>(
-    {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user.id}
+    {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user._id}
   ))
   const allCars = cars.map((car, index)=> (
-    {label: (car.brand+" - "+car.plate_id), value: car.id}
+    {label: (car.brand+" - "+car.plate_id), value: car._id}
   ))
 
 // console.log(cars)
@@ -153,9 +156,9 @@ export default function OrderCreate(props) {
               name= "user"
               options={allUsers}
               // isOptionEqualToValue={(option, value) => option.value === value.value}
-              
               renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
-              onChange={handleChange}
+              onChange={(e, b)=> setUser(b.value)}
+              value={user}
             />
           </Grid>
           <Grid item xs={12}>
@@ -165,7 +168,8 @@ export default function OrderCreate(props) {
               options={allCars}
               name="car"
               renderInput={(params) => <TextField {...params} label="Car" variant="outlined" />}
-              onChange={handleChange}
+              onChange={(e, b)=> setCar(b.value)}
+              value={car}
             />
           </Grid>
           <Grid item xs={12}>
@@ -176,6 +180,7 @@ export default function OrderCreate(props) {
                 id="demo-simple-select"
                 name="status"
                 label="Status"
+                defaultValue={''}
                 onChange={handleChange}
               >
                 <MenuItem value={"Booked"}>Booked</MenuItem>
@@ -193,6 +198,7 @@ export default function OrderCreate(props) {
                 id="demo-simple-select"
                 name="pickup_location"
                 label="Pickup Location"
+                defaultValue={''}
                 onChange={handleChange}
               >
                 <MenuItem value={"Location 1"}>Location 1</MenuItem>
@@ -223,6 +229,7 @@ export default function OrderCreate(props) {
                 name="drop_location"
                 // value={}
                 label="Drop Location"
+                defaultValue={''}
                 onChange={handleChange}
               >
                 <MenuItem value={"Location 1"}>Location 1</MenuItem>
