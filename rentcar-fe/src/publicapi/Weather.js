@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Axios from 'axios';
-import Typography from '@material-ui/core/Typography'
-import Container from '@material-ui/core/Container';
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import CardContent from '@mui/material/CardContent';
-import { CardActionArea } from '@mui/material';
 import Card from 'react-bootstrap/Card';
 
 export default function Weather() {

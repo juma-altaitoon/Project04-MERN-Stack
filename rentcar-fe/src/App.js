@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Login from './auth/Login'
 import Navbar from './Navbar'
 import Home from './Home'
 import User from './user/User'
@@ -14,13 +15,13 @@ import OrderUpdate from './order/OrderUpdate'
 import PublicApi from './PublicApi'
 import CurrencyConverter from './publicapi/CurrencyConverter'
 import Upload from "./upload/Upload";
-// import Login from './auth/Login'
 
 export default function App(props) {
   return (
     <Router> 
           <Navbar  />    
        <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/user/create" element={<UserCreate />} />

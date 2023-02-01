@@ -23,9 +23,6 @@ app.use(cors());
 //public access to upload files and photo
 app.use('/files', express.static('files'));
 
-// url encoding only needed for ejs
-//app.use(express.urlencoded({ extended: true }));
-
 // multer configuration
 const multer = require("multer");
 const storage = multer.diskStorage({

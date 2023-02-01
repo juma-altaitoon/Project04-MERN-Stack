@@ -58,6 +58,8 @@ function UncontrolledExample() {
           className="d-block w-20"
           src="http://localhost:4002/files/bmw1.png"
           alt="First slide"
+          width="450"
+          height="400"
         />
         <Carousel.Caption>
           <h3>Deal!! drive your favourtite Car</h3>
