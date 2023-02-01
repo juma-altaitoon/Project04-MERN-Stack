@@ -70,10 +70,10 @@ export default function Api() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell align="left">Fuel Price</TableCell>
+                <TableCell align="left">Documents</TableCell>
                 <TableCell align="left">
                 <Box>
-                    <Link to="/user/create">
+                    <Link to="/upload">
                     <Button variant="contained" color="primary">
                     Click
                 </Button>

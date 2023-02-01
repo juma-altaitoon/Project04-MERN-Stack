@@ -44,6 +44,10 @@ function uploadFiles(req, res) {
     res.end()
 }
 
+//list files
+var serveIndex = require('serve-index');
+app.use('/files', serveIndex(__dirname + '/files'));
+
 // Import Routes
 // const uploadRoute = require('./routes/uploads');
 const userRoute = require('./routes/users');
