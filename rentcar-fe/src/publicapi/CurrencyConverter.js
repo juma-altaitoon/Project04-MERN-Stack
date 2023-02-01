@@ -22,6 +22,7 @@ import Fab from '@material-ui/core/Fab';
 import TextField from '@material-ui/core/TextField';
 import Axios from 'axios';
 import { currencyData } from "../data/Currency";
+import Autocomplete from '@mui/material/Autocomplete';
 
 
 
@@ -73,10 +74,13 @@ export default function CurrencyConverter() {
         console.log(err);
       })
   }
-  const allCurrency = currencyData.map((currencyData, index)=> (
-    {label: (currencyData.USD),value: currencyData.id}
+  const allCurrency = Object.keys(currencyData[0]).map((symbol, index)=> (
+    {label: symbol , id: index}
+  
   ))
-console.log(currencyData.USD)
+console.log(allCurrency)  
+console.log(Object.keys(currencyData[0]))
+console.log(fromcurrency)
   return (
     <div className={classes.root}>
     <Container className={classes.container} maxWidth="lg">    
@@ -117,26 +121,27 @@ console.log(currencyData.USD)
                 />
                 </TableCell>
                 <TableCell align="left">
-                <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="fromcurrency"
-                label="From Currency"
-                onChange={(e) => setFromcurrency(e.target.value)}
-                />
+                <Autocomplete
+                    disablePortal
+                    id="fromcurrency"
+                    name= "fromcurrency"
+                    options={allCurrency}
+                    renderInput={(params) => <TextField {...params} label="From" variant="outlined"/>}
+                    onChange={(e, currency)=> { setFromcurrency(currency.label) }}
+                    />
                 </TableCell>
                 <TableCell align="left">
-                <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="tocurrency"
-                label="To Currency"
-                onChange={(e) => setTocurrency(e.target.value)}
-                />
+                <Autocomplete
+                    disablePortal
+                    id="tocurrency"
+                    name= "tocurrency"
+                    options={allCurrency}
+                    renderInput={(params) => <TextField {...params} label="To" variant="outlined"/>}
+                    onChange={(e, currency)=> { setTocurrency(currency.label) }}
+                    />
+
                 </TableCell>
-                <TableCell align="left">{converted}</TableCell>
+                <TableCell align="left"><h2>{converted}</h2></TableCell>
                 <TableCell align="center">
                 </TableCell>
               </TableRow>

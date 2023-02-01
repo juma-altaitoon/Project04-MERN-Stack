@@ -97,7 +97,7 @@ export default function OrderCreate(props) {
     Axios.post("add", order)
       .then((res) => {
           console.log("Order Added Successfully");
-          window.location.href = '/order/';
+          window.location.href = '/order';
       })
       .catch((err) => {
           console.log("Error Adding Order");
@@ -306,7 +306,6 @@ console.log(carId)
                 id="demo-simple-select"
                 name="fuel_level_after"
                 label="Fuel Level After"
-                required
                 defaultValue={""}
                 InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
@@ -367,7 +366,6 @@ console.log(carId)
             <TextField
               name="mileage_after"
               variant="outlined"
-              required
               fullWidth
               type="number"
               id="mileage_after"
