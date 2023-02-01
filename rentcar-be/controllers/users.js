@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 exports.add_post = (req, res) => {
-    //add file in documents
     //encrypt password
     hash = bcrypt.hashSync(req.body.password, 10);
     req.body.password= hash;
@@ -19,14 +18,6 @@ exports.add_post = (req, res) => {
 };
 
 exports.update_put = function (req, res) {
-    // //add jpg/img file in documents
-    // if (req.file != null) {
-    //   const url = req.protocol + '://' + req.get('host')
-    //   req.body.documents = url + '/files/' + req.file.filename
-    // }
-    // else {
-    //   req.body.documents = null
-    // }
     //encrypt password
     hash = bcrypt.hashSync(req.body.password, 10);
     req.body.password= hash;
