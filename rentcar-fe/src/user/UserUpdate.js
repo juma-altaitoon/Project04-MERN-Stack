@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import { useSearchParams } from 'react-router-dom';
 import Axios from 'axios'
 import moment from 'moment'
@@ -12,9 +12,11 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import InputAdornment from '@material-ui/core/InputAdornment'
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import { countryData } from "../data/Country";
+import Autocomplete from '@mui/material/Autocomplete';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -125,6 +127,12 @@ export default function UserUpdate() {
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
 
+
+  const allNationality = countryData.map((countryData, index)=> (
+    {label: (countryData.name),value: countryData.name}
+  ))
+
+
  // console.log(gender)
   return (
     <Container maxWidth="xs">
@@ -192,13 +200,50 @@ export default function UserUpdate() {
                 variant="outlined"
                 required
                 fullWidth
+                id="email_address"
+                label="Email"
+                value={email_address}
+                onChange={(e) => setEmail_address(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} >
+            <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        label="Password"
+
+                        //value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      >
+                        
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                </Grid>
+            <Grid item xs={12} sm={8}>
+            <Autocomplete
+                variant="outlined"
+                required
+                fullWidth
                 id="nationality"
                 label="nationality"
                 value={nationality}
-                onChange={(e) => setNationality(e.target.value)}
+                options={allNationality}
+                renderInput={(params) => <TextField {...params} label="Nationality" variant="outlined"/>}
+
+                onChange={(e, country) => setNationality(country.label)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -209,7 +254,7 @@ export default function UserUpdate() {
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -220,17 +265,7 @@ export default function UserUpdate() {
                 onChange={(e) => setPhone_number(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email_address"
-                label="Email"
-                value={email_address}
-                onChange={(e) => setEmail_address(e.target.value)}
-              />
-            </Grid>
+           
             {/* <Grid item xs={12} >
               <TextField
                 variant="outlined"
@@ -243,29 +278,9 @@ export default function UserUpdate() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid> */}
-            <Grid item xs={12} sm={6} >
-            <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                        //value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                 label="Password"
-                />
-                </Grid>
+          
         <Grid item xs={12} sm={6}>           
-              {/* <TextField
+              <TextField
                 variant="outlined"
                 required
                 fullWidth
@@ -274,7 +289,7 @@ export default function UserUpdate() {
                 label="documents"
                 type="string"
                 onChange={(e) => setDocuments(e.target.value)}
-              />                */}
+              />               
             </Grid>
             <Grid item xs={12} sm={6}>
               <Button variant="contained" component="label">
@@ -347,6 +362,7 @@ export default function UserUpdate() {
             </Grid>
             {documents && (<img src={documents} alt="File" className="displayed-image"/>)}
           </Grid>
+          <br></br>
           <Button
             type="submit"
             fullWidth
@@ -357,6 +373,7 @@ export default function UserUpdate() {
             Update User
           </Button>
         </form>
+        <br></br>
       </div>
     </Container>
   );
