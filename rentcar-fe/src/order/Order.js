@@ -20,7 +20,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import Fab from '@mui/material/Fab';
 // import AddIcon from '@mui/icons-material/Add';
-
+import { TablePagination } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +43,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OrderList() {
   const classes = useStyles();
+  const [pg, setpg] = React.useState(0);
+  const [rpg, setrpg] = React.useState(5);
+  
+    function handleChangePage(event, newpage) {
+        setpg(newpage);
+    }
+  
+    function handleChangeRowsPerPage(event) {
+        setrpg(parseInt(event.target.value, 10));
+        setpg(0);
+    }
+  
 
   const [orders, setOrders] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -54,7 +66,11 @@ export default function OrderList() {
   }, [])
   
   const getOrders = () => {
-      Axios.get("index")  
+    Axios.get("order/index", {
+      headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+     })  
       .then((res) => {
       console.log(res.data.orders)  
       setOrders(res.data.orders)
@@ -101,7 +117,7 @@ export default function OrderList() {
   // }
 
   const UpdateOrder = id => {
-    window.location = window.location.href+'update?id='+id
+    window.location = window.location.href+'/update?id='+id
   }
 
   const deleteOrder = (id) => {
@@ -114,7 +130,7 @@ export default function OrderList() {
         alert(res['message'])
         console.log("Order Deleted")
         console.log(res)
-        getOrders();
+        window.location.href = '/car';
         }
       )
       .catch(err =>{
@@ -134,7 +150,7 @@ export default function OrderList() {
               </Typography>
             </Box>
             <Box>
-              <Link to="/order/create">
+              <Link to="create">
                 <Button variant="contained" color="primary">
                   CREATE
                 </Button>
@@ -154,7 +170,7 @@ export default function OrderList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order, id) => (
+              {orders.slice(pg * rpg, pg * rpg + rpg).map((order, id) => (
                 <TableRow key={id}>
                   <TableCell align="right">{order._id}</TableCell>
                   <TableCell align="center">{order.user ? order.user.first_name : ""}</TableCell>
@@ -172,6 +188,15 @@ export default function OrderList() {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={orders.length}
+                rowsPerPage={rpg}
+                page={pg}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </Paper>
       </Container>
     </div>

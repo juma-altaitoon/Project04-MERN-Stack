@@ -162,10 +162,7 @@ console.log(carId)
               options={allUsers}
               // isOptionEqualToValue={(option, value) => option.value === value.value}
               renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
-              onChange={(e, b)=> { // console.log(e, b) 
-                setUserId(b.value)
-                // setUser(b.label)
-              }}
+              onChange={(e, b)=> { setUserId(b.value) }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -282,28 +279,43 @@ console.log(carId)
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              name="fuel_level_before"
-              variant="outlined"
-              // required
-              fullWidth
-              id="fuel_level_before"
-              label="Fuel Level Before"
-              InputLabelProps={{ shrink: true}}
-              onChange={handleChange}
-            />
+          <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Fuel Level Before</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="fuel_level_before"
+                label="Fuel Level Before"
+                required
+                defaultValue={""}
+                InputLabelProps={{ shrink: true}}
+                onChange={handleChange}
+               >
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"Full"}>Full</MenuItem>
+              </Select>
+            </FormControl>
+
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              name="fuel_level_after"
-              variant="outlined"
-              // required
-              fullWidth
-              id="fuel_level_after"
-              label="Fuel Level After"
-              InputLabelProps={{ shrink: true}}
-              onChange={handleChange}
-            />
+          <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Fuel Level After</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="fuel_level_after"
+                label="Fuel Level After"
+                required
+                defaultValue={""}
+                InputLabelProps={{ shrink: true}}
+                onChange={handleChange}
+               >
+                <MenuItem value={"Low"}>Low</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"Full"}>Full</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
               <FormLabel variant="contained" component="label">
