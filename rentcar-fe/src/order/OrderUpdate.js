@@ -39,36 +39,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OrderEdit(props) {
+export default function OrderUpdate(props) {
   const classes = useStyles();
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id")
   const [order, setOrder] = useState({})
   const [total, setTotal] = useState('');
-
+  
   console.log('id', id);
   // const [selectedOrder, setSelectedOrder] = useState({})
   
   useEffect(() => {
     editViewOrder(id)
-    // Axios.get(`edit?id=${id}`, {
-    //   headers:{
-    //     "Authorization": "Bearer " + localStorage.getItem("token") 
-    //   }
-    // })
-    // .then((res) =>{
-    //   console.log("Order Page Loaded")
-    //   console.log(id);
-    //   console.log(res);
-    //   setOrder(res.data.order);     
-    // })
-    // .catch(err =>{
-    //   console.log("Order Page Failed to Load")
-    //   console.log(err)
-    // })
-  }, [])
+      }, [])
   console.log("id in useeffect",id);
+  
   const editViewOrder = (id) => {
     Axios.get(`edit?id=${id}`, {
       headers:{
@@ -90,7 +76,20 @@ export default function OrderEdit(props) {
 
 
 const updateOrder = (order) => {
-   
+    Axios.put(`update?`, order, {
+      headers:{
+        "Authorization": "Bearer " + localStorage.getItem("token") 
+      }
+    })
+    .then(res =>{
+      console.log("Order Updated")
+      // window.location.href = '/order';
+      console.log(res);        
+    })
+    .catch(err =>{
+      console.log("Order Update Failed")
+      console.log(err)
+    })
 }
 
   
@@ -113,23 +112,11 @@ const updateOrder = (order) => {
   }
 
   const handleSubmit = (e) =>{
-    // e.prevetDefault();
-    // updateOrder(order)
+    e.prevetDefault();
+    console.log(e)
+    updateOrder(order)
     console.log('order', order);
-    // Axios.put(`/update?id=${id}`, order, {
-    //   headers:{
-    //     "Authorization": "Bearer " + localStorage.getItem("token") 
-    //   }
-    // })
-    // .then(res =>{
-    //   console.log("Order Updated")
-    //   // window.location.href = '/order';
-    //   console.log(res);        
-    // })
-    // .catch(err =>{
-    //   console.log("Order Update Failed")
-    //   console.log(err)
-    // })
+   
     // e.target.reset();
   }
   return (
@@ -139,6 +126,9 @@ const updateOrder = (order) => {
         Update Order
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
+     
+      <input type="hidden" name="id" value={order._id}/>
+     
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
           <TextField
