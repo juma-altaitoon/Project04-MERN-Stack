@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FileUpload from "react-material-file-upload";
-import axios from "axios"
+import Axios from "axios"
 
 export default function App() {
     // const [file, setFile] = useState();
@@ -88,42 +88,62 @@ export default function App() {
   //    uploadFile();
   // }
  // console.log(file)
+//  const [files, setFiles] = useState<File>([]);
 
- const [file, setFile] = useState();
- const [fileName, setFileName] = useState("");
+// const [files, setFiles] = React.useState<FileList | null>();
+ // const [files, setFiles] = useState([]);
+ //const [fileName, setFileName] = useState("");
 
- const saveFile = (e) => {
-     setFile(e.target.files[0]);
-     setFileName(e.target.files[0].name);
- };
+//  const saveFile = (e) => {
+//      setFiles(e.target.files[0]);
+//      setFileName(e.target.files[0].name);
+//  };
 
- const uploadFile = async (e) => {
+const [file, setFile] = useState([]);
+//const [fileName, setFileName] = useState("");
+
+const handleFileChange = (e) => {
+  if (e.target.files) {
+    console.log(e.target.files[0])
+    setFile(e.target.files[0]);
+  }
+};
+
+  const uploadFile = event => {
+     event.preventDefault();
+    //  console.log(files)
      const formData = new FormData();
-     formData.append("file", file);
-     formData.append("fileName", fileName);
-     try {
-         const res = await axios.post(
-             "http://localhost:4002/uploads",
-         formData
-     );
-       console.log(res);
-     } catch (ex) {
-       console.log(ex);
-     }
- };
+     formData.append("files", file);
+    // formData.append("fileName", fileName);
+    console.log(formData)
+     Axios.post("http://localhost:4002/uploads", formData, {
+      headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    })
+    .then((res) => {
+       // console.log(res)
+        console.log("Files Uploaded Successfully - Now we will post form data");
+        //window.location.href = '/car';
+    })
+    .catch((err) => {
+        console.log("Error Adding Record");
+        console.log(err);
+    })
 
+ };
   return (
     <div className="App">
-      <form>
+      <form onSubmit={uploadFile} encType='multipart/form-data'>
       <h1>Documents Test</h1>
-      <input type="file" name="file" onChange={saveFile} />
+      {/* <input type="file" name="file" onChange={saveFile} /> */}
       {/* <input type="text" name="name" onChange={changeHandler} />
       <input type="text" name="email" onChange={changeHandler} /> */}
-
-      {/* <FileUpload value={file} onChange={setFile} /> */}
-      <button onClick={uploadFile}>Submit</button>
+      {/* <FileUpload value={files} id="files" name="files" onChange={(e) => setFiles(e.target.value)}/> */}
+      {/* <input type="file" name="files" onChange={handleFileChange}/> */}
+      <FileUpload type="file" name="file" value={file} onChange={setFile} /> 
+      <input type="submit" name="submit" />
       </form>
     </div>
   );
 }
-
