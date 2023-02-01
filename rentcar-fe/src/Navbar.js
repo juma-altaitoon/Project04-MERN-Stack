@@ -9,19 +9,21 @@ import ToysIcon from '@mui/icons-material/Toys';
 import { Link } from "react-router-dom";
 import CardActions from '@mui/material/CardActions';
 import jwt_decode from 'jwt-decode';
+import { sizeWidth } from "@mui/system";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(0),
   },
   title: {
     flexGrow: 1,
   },
   navlink:{
-    color: 'white',
+    color: 'Wheat',
     textDecoration: 'none'
   }
 }));
@@ -49,6 +51,7 @@ export default function Navbar(props) {
 
   return (
     <div className={classes.root}>
+      
       <AppBar position="static">
         <Toolbar>
         <Link className={classes.navlink} to="/home">
@@ -57,44 +60,44 @@ export default function Navbar(props) {
           </IconButton>
           </Link>
           <Link className={classes.navlink} to="/home">
-          <Typography variant="h6" className={classes.title}> 
+          <Typography variant="h6" className={classes.title} style={{"color":"Wheat"}}> 
           { user.user ? "Welcome " + user.user.name : null}  
           &nbsp; Rent Car Application &nbsp;
           </Typography>
           </Link>
-          <CardActions display='flex' justifycontent='center'>
+          <CardActions display='relative' justifycontent='center'>
           <Link className={classes.navlink} to="/user">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="h5" className={classes.title} style={{"color":"Wheat"}}>
               User &nbsp;
             </Button>
           </Link>
           <div>&nbsp;</div>
           <Link className={classes.navlink} to="/car">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="h5" className={classes.title} style={{"color":"Wheat"}} >
               Car
             </Button>
           </Link>
           <div>&nbsp;</div>
           <Link className={classes.navlink} to="/order">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="h5" className={classes.title} style={{"color":"Wheat"}}>
               Order &nbsp;
             </Button>
           </Link>
           <div>&nbsp;</div>
           <Link className={classes.navlink} to="/publicapi">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="h5" className={classes.title} style={{"color":"Wheat"}}>
               Utilities &nbsp;
             </Button>
           </Link>
           <div>&nbsp;</div>
           {/* <Link className={classes.navlink} to="/logout"> */}
-            <Button variant="contained" className={classes.title} color="secondary" onClick={logoutHandler}>
+            <Button variant="h5" className={classes.title} style={{"color":"Wheat"}} onClick={logoutHandler}>
                Logout &nbsp;
             </Button>
           {/* </Link> */}
           <div>&nbsp;</div>
           <Link className={classes.navlink} to="/upload">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="h5" className={classes.title} color="secondary">
               Test &nbsp;
             </Button>
           </Link>

@@ -7,12 +7,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Axios from 'axios'
 import { FormLabel } from "@mui/material/";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { Radio } from '@mui/material'
+import { RadioGroup } from "@mui/material/";
+import { FormControlLabel } from "@mui/material/";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -58,8 +59,6 @@ export default function CarCreate() {
       'insurance_date': insurance_date,
       'registration_date': registration_date,
       'expiry_date': expiry_date,
-      'car_images': car_images,
-      'documents': documents,
       'comment': comment,
     }
     Axios.post("add", data, {
@@ -68,13 +67,13 @@ export default function CarCreate() {
       }
     })
     .then((res) => {
-        console.log(res)
-        console.log("Record Added Successfully");
-        window.location.href = '/car';
+      console.log(res)
+      console.log("Record Added Successfully");
+      window.location.href = '/car';
     })
     .catch((err) => {
-        console.log("Error Adding Record");
-        console.log(err);
+      console.log("Error Adding Record");
+      console.log(err);
     })
   }
 
@@ -87,7 +86,7 @@ export default function CarCreate() {
   const [seats, setSeats] = useState('');
   const [engine, setEngine] = useState('');
   const [fuel_type, setFuel_type] = useState('');
-  const [transmission, setTransmission] = useState('');
+  const [transmission, setTransmission] = useState('true');
   const [rate, setRate] = useState('');
   const [milage_limit, setMilage_limit] = useState('');
   const [insurance_id, setInsurance_id] = useState('');
@@ -95,8 +94,6 @@ export default function CarCreate() {
   const [insurance_date, setInsurance_date] = useState('');
   const [registration_date, setRegistration_date] = useState('');
   const [expiry_date, setExpiry_date] = useState('');
-  const [car_images, setCar_images] = useState('');
-  const [documents, setDocuments] = useState('');
   const [comment, setComment] = useState('');
 
   return (
@@ -127,6 +124,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="brand"
                   label="Brand"
+                  required
                   onChange={(e) => setBrand(e.target.value)}
                 >
                   <MenuItem value={"Toyota Camry"}>Toyota Camry</MenuItem>
@@ -148,6 +146,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="color"
                   label="Color"
+                  required
                   onChange={(e) => setColor(e.target.value)}
                 >
                   <MenuItem value={"White"}>White</MenuItem>
@@ -177,6 +176,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="catagory"
                   label="Catagory"
+                  required
                   onChange={(e) => setCatagory(e.target.value)}
                 >
                   <MenuItem value={"Sport"}>Sport</MenuItem>
@@ -195,6 +195,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="car_size"
                   label="Car Size"
+                  required
                   onChange={(e) => setCar_size(e.target.value)}
                 >
                   <MenuItem value={"Small Size"}>Small Size</MenuItem>
@@ -211,6 +212,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="seats"
                   label="Seats"
+                  required
                   onChange={(e) => setSeats(e.target.value)}
                 >
                   <MenuItem value={"4"}>4</MenuItem>
@@ -228,6 +230,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="engine"
                   label="Engine"
+                  required
                   onChange={(e) => setEngine(e.target.value)}
                 >
                   <MenuItem value={"1.4 Litre"}>1.4 Litre</MenuItem>
@@ -246,6 +249,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="fuel_type"
                   label="Fuel Type"
+                  required
                   onChange={(e) => setFuel_type(e.target.value)}
                 >
                   <MenuItem value={"Mumtaz"}>Mumtaz</MenuItem>
@@ -255,23 +259,24 @@ export default function CarCreate() {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <ToggleButtonGroup
-                color="primary"
-                variant="outlined"
-                value={transmission.toString()}
-                id="transmission"
-                label="Transmission"
-                exclusive
-                fullWidth
-                required
-                onChange={(e) => setTransmission(e.target.value)}
-                aria-label="Platform"
-              >
-                <ToggleButton value="true"> Automatic</ToggleButton>
-                <ToggleButton value="false"> Manual</ToggleButton>
-              </ToggleButtonGroup>  
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">Transmission</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    defaultValue={"true"}
+                    onChange={(e) => setTransmission(e.target.value)}
+                  >
+                  <FormControlLabel value="true" control={<Radio />} label="Automatic" />
+                  <FormControlLabel value="false" control={<Radio />} label="Manual" />
+                </RadioGroup>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
+              <InputLabel variant="outlined" component="label">
+              <br/>
+              </InputLabel>
               <TextField
                 variant="outlined"
                 required
@@ -311,6 +316,7 @@ export default function CarCreate() {
                   id="demo-simple-select"
                   name="insurance_company"
                   label="Insurance Company"
+                  required
                   onChange={(e) => setInsurance_company(e.target.value)}
                 >
                   <MenuItem value={"Takaful"}>Takaful</MenuItem>
@@ -357,34 +363,6 @@ export default function CarCreate() {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormLabel variant="contained" component="label">
-                Car Images
-                <input hidden accept="image/*" multiple type="file" />
-              </FormLabel>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="car_images"
-                type="file"
-                onChange={(e) => setCar_images(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormLabel variant="contained" component="label">
-                Documents
-                <input hidden accept="image/*" multiple type="file" />
-              </FormLabel>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="documents"
-                type="file"
-                onChange={(e) => setDocuments(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -395,9 +373,9 @@ export default function CarCreate() {
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
-            
+
           </Grid>
-          <br></br>
+          <br/>
           <Button
             type="submit"
             fullWidth
@@ -408,7 +386,7 @@ export default function CarCreate() {
             Create Car
           </Button>
         </form>
-        <br></br>
+        <br/>
       </div>
     </Container>
   );

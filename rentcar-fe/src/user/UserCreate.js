@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-//import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment'
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import Axios from 'axios'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import MuiToggleButton from "@mui/material/ToggleButton";
 import { countryData } from "../data/Country";
 import Autocomplete from '@mui/material/Autocomplete';
+import { Radio } from '@mui/material'
+import { RadioGroup } from "@mui/material/";
+import { FormControlLabel } from "@mui/material/";
+import FormControl from '@mui/material/FormControl';
+import { FormLabel } from "@mui/material/";
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -39,25 +42,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UserCreate() {
-
-//   //  Get Car List 
-//   const NationalGet = () => {
-//     Axios.get("data/Country", {
-//       headers: {
-//           "Authorization": "Bearer " + localStorage.getItem("token")
-//       }
-//      })
-//       .then((res) => {
-//         console.log(res)
-//         setNationality(res.data.name);
-//        })
-//       .catch(err => {
-//         console.log("Error Retreiving Records");
-//         console.log(err);
-//       })
-// }
-
-
   const classes = useStyles();
 
   //Password click to see
@@ -69,7 +53,6 @@ export default function UserCreate() {
  
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(event)
     var data = {
       'first_name': first_name,
       'last_name': last_name,
@@ -80,25 +63,24 @@ export default function UserCreate() {
       'nationality':nationality,
       'national_id':national_id,
       'password':password,
-      'documents':documents,
       'license_issued':license_issued,
       'license_expiry':license_expiry,
       'user_type':user_type,
       'comment':comment
     }
-    console.log(data);
     Axios.post("add", data, {
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
       }
   })
   .then((res) => {
-      console.log("Record Added Successfully");
-     // window.location.href = '/user';
+    console.log(res)
+    console.log("Record Added Successfully");
+    window.location.href = '/user';
   })
   .catch((err) => {
-      console.log("Error Adding Record");
-      console.log(err);
+    console.log("Error Adding Record");
+    console.log(err);
   })
 }
 
@@ -107,26 +89,21 @@ export default function UserCreate() {
   const [email_address, setEmail_address] = useState('');
   const [phone_number, setPhone_number] = useState('');
   const [birthdate, setBirthdate] = useState('');
-  const [gender, setGender] = useState('');
-  const [nationality, setNationality] = useState('');
+  const [gender, setGender] = useState('true');
+  const [nationality, setNationality] = useState([]);
   const [national_id, setNational_id] = useState('');
   const [password, setPassword] = useState('');
-  const [documents, setDocuments] = useState('');
   const [license_issued, setLicense_issued] = useState('');
   const [license_expiry, setLicense_expiry] = useState('');
-  const [user_type, setUser_type] = useState('');
+  const [user_type, setUser_type] = useState('true');
   const [comment, setComment] = useState('');
 
 
   const allNationality = countryData.map((countryData, index)=> (
-    {label: (countryData.name),value: countryData.id}
+    {label: (countryData.name),value: countryData.name}
   ))
 
 
-
-
-  console.log(countryData)
-  console.log(nationality)
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
@@ -143,7 +120,6 @@ export default function UserCreate() {
                 fullWidth
                 id="first_name"
                 label="First Name"
-                type="string"
                 onChange={(e) => setFirst_name(e.target.value)}
                 autoFocus
               />
@@ -155,11 +131,39 @@ export default function UserCreate() {
                 fullWidth
                 id="last_name"
                 label="Last Name"
-                type="string"
                 onChange={(e) => setLast_name(e.target.value)}
               />
             </Grid>
-           
+            <Grid item xs={12} sm={6}>
+              <FormControl>
+                <FormLabel id="demo-column-radio-buttons-group-label">User Type</FormLabel>
+                  <RadioGroup
+                    column
+                    aria-labelledby="demo-column-radio-buttons-group-label"
+                    name="column-radio-buttons-group"
+                    defaultValue={"true"}
+                    onChange={(e) => setUser_type(e.target.value)}
+                  >
+                  <FormControlLabel  value="true" control={<Radio />} label="Staff" />
+                  <FormControlLabel  value="false" control={<Radio />} label="Customer" />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl>
+                <FormLabel id="demo-column-radio-buttons-group-label">Gender</FormLabel>
+                  <RadioGroup
+                    column
+                    aria-labelledby="demo-column-radio-buttons-group-label"
+                    name="column-radio-buttons-group"
+                    defaultValue={"true"}
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                  <FormControlLabel style={{color:"Blue"}} value="true" control={<Radio />} label="Male" />
+                  <FormControlLabel style={{color:"Fuchsia"}}value="false" control={<Radio />} label="Female" />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -172,21 +176,20 @@ export default function UserCreate() {
                 onChange={(e) => setBirthdate(e.target.value)}
               />
             </Grid>
+            <Grid item xs={12} sm={6} >
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="phone_number"
+                label="phone number"
+                onChange={(e) => setPhone_number(e.target.value)}
+              />
+            </Grid>
             <Grid item xs={12} sm={6}>
-            <ToggleButtonGroup
-                      color="primary"
-                      type="boolean"
-                      id="gender"
-                      value={gender}
-                      exclusive
-                      onChange={(e) => setGender(e.target.value)}
-                      aria-label="Platform"
-                    >
-                      <ToggleButton style={{color:"Blue"}} value="true"> Male</ToggleButton>
-                      <ToggleButton style={{color:"Fuchsia"}}value="false"> Female</ToggleButton>
-                    </ToggleButtonGroup>   
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+              <InputLabel htmlFor="standard-adornment-password">
+                <br/>
+              </InputLabel>
               <TextField
                 variant="outlined"
                 required
@@ -198,41 +201,43 @@ export default function UserCreate() {
               />
             </Grid>
             <Grid item xs={12} sm={6} >
-            <OutlinedInput
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  onChange={(e) => setPassword(e.target.value)}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                 label="Password"
-                />
-                </Grid>
-            <Grid item xs={12} sm={6}>
-            <Autocomplete
-                 variant="outlined"
+              <InputLabel htmlFor="standard-adornment-password">
+                Enter your Password *
+              </InputLabel>
+              <OutlinedInput label="Password" 
+                id="password"
+                required
+                type={showPassword ? 'text' : 'password'}
+                onChange={(e) => setPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment label="Password" position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <Autocomplete
+                disablePortal
+                variant="outlined"
                 required
                 fullWidth
-
+                name="nationality"
                 id="nationality"
                 label="Nationality"
                 options={allNationality}
-                // options={allNationality}
-                // type="string"
                 renderInput={(params) => <TextField {...params} label="Nationality" variant="outlined"/>}
-                onChange={(e, country ) => setNationality(country.label)}
+                onChange={(e, country) => setNationality(country.label)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -243,48 +248,6 @@ export default function UserCreate() {
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="phone_number"
-                label="phone number"
-                type="string"
-                onChange={(e) => setPhone_number(e.target.value)}
-              />
-            </Grid>
-            
-            {/* { <Grid item xs={12} >
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="password"
-                type="password"
-                label="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid> } */}
-            
-            <Grid item xs={12} sm={6}>           
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="documents"
-                label="documents"
-                type="string"
-                onChange={(e) => setDocuments(e.target.value)}
-              /> 
-              
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button variant="contained" component="label">
-                  Upload
-               <input hidden accept="image/*" multiple type="file" />
-              </Button>
-              </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -309,29 +272,6 @@ export default function UserCreate() {
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
-            {/* <Grid item xs={12} sm={6} >
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="user_type"
-                label="User Type"
-                onChange={(e) => setUser_type(e.target.value)}
-              />
-            </Grid> */}
-            <Grid item xs={12} sm={6}>
-            <ToggleButtonGroup
-                      color="primary"
-                      id="user_type"
-                      value={user_type}
-                      exclusive
-                      onChange={(e) => setUser_type(e.target.value)}
-                      aria-label="Platform"
-                    >
-                      <ToggleButton style={{color:"DarkBlue"}} value="true"> Staff</ToggleButton>
-                      <ToggleButton style={{color:"OrangeRed"}} value="false"> Customer</ToggleButton>
-                    </ToggleButtonGroup>   
-                    </Grid>
             <Grid  item xs={12} >
               <TextField
                 variant="outlined"
@@ -340,39 +280,12 @@ export default function UserCreate() {
                 multiline
                 id="comment"
                 label="comment"
-                type="string"
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
-            {/* <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel> */}
-                {/* <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                //label="Password"
-                /> */}
-              {/* <ToggleButtonGroup
-                      color="primary"
-                      value={gender}
-                      exclusive
-                      onChange={(e) => setGender(e.target.value)}
-                      aria-label="Platform"
-                    >
-                      <ToggleButton value="true"> Male</ToggleButton>
-                      <ToggleButton value="false"> Female</ToggleButton>
-                    </ToggleButtonGroup>                         */}
           </Grid>
+          
+          <br/>
           <Button
             type="submit"
             fullWidth
@@ -383,6 +296,7 @@ export default function UserCreate() {
             Create User
           </Button>
         </form>
+        <br/>
       </div>
     </Container>
   );

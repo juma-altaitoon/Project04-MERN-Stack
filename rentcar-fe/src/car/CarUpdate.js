@@ -9,12 +9,13 @@ import { useSearchParams } from 'react-router-dom';
 import Axios from 'axios'
 import moment from 'moment'
 import { FormLabel } from "@material-ui/core";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { Radio } from '@mui/material'
+import { RadioGroup } from "@mui/material/";
+import { FormControlLabel } from "@mui/material/";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,8 +68,6 @@ export default function CarUpdate() {
             setInsurance_date(result.data.car.insurance_date)
             setRegistration_date(result.data.car.registration_date)
             setExpiry_date(result.data.car.expiry_date)
-            setCar_images(result.data.car.car_images)
-            setDocuments(result.data.car.documents)
             setComment(result.data.car.comment)
         }
       )
@@ -95,8 +94,6 @@ export default function CarUpdate() {
       'insurance_date': insurance_date,
       'registration_date': registration_date,
       'expiry_date': expiry_date,
-      'car_images': car_images,
-      'documents': documents,
       'comment': comment,
     }
     Axios.put(`update?id=${id}`, data,{
@@ -131,8 +128,6 @@ export default function CarUpdate() {
   const [insurance_date, setInsurance_date] = useState('');
   const [registration_date, setRegistration_date] = useState('');
   const [expiry_date, setExpiry_date] = useState('');
-  const [car_images, setCar_images] = useState('');
-  const [documents, setDocuments] = useState('');
   const [comment, setComment] = useState('');
 
   return (
@@ -153,7 +148,6 @@ export default function CarUpdate() {
                 id="plate_id"
                 label="Plate ID"
                 value={plate_id}
-                type="string"
                 onChange={(e) => setPlate_id(e.target.value)}
                 autoFocus
               />
@@ -167,6 +161,7 @@ export default function CarUpdate() {
                   name="brand"
                   label="Brand"
                   value={brand}
+                  required
                   onChange={(e) => setBrand(e.target.value)}
                 >
                   <MenuItem value={"Toyota Camry"}>Toyota Camry</MenuItem>
@@ -189,6 +184,7 @@ export default function CarUpdate() {
                   name="color"
                   label="Color"
                   value={color}
+                  required
                   onChange={(e) => setColor(e.target.value)}
                 >
                   <MenuItem value={"White"}>White</MenuItem>
@@ -220,6 +216,7 @@ export default function CarUpdate() {
                   name="catagory"
                   label="Catagory"
                   value={catagory}
+                  required
                   onChange={(e) => setCatagory(e.target.value)}
                 >
                   <MenuItem value={"Sport"}>Sport</MenuItem>
@@ -239,6 +236,7 @@ export default function CarUpdate() {
                   name="car_size"
                   label="Car Size"
                   value={car_size}
+                  required
                   onChange={(e) => setCar_size(e.target.value)}
                 >
                   <MenuItem value={"Small Size"}>Small Size</MenuItem>
@@ -256,6 +254,7 @@ export default function CarUpdate() {
                   name="seats"
                   label="Seats"
                   value={seats}
+                  required
                   onChange={(e) => setSeats(e.target.value)}
                 >
                   <MenuItem value={"4"}>4</MenuItem>
@@ -274,6 +273,7 @@ export default function CarUpdate() {
                   name="engine"
                   label="Engine"
                   value={engine}
+                  required
                   onChange={(e) => setEngine(e.target.value)}
                 >
                   <MenuItem value={"1.4 Litre"}>1.4 Litre</MenuItem>
@@ -293,6 +293,7 @@ export default function CarUpdate() {
                   name="fuel_type"
                   label="Fuel Type"
                   value={fuel_type}
+                  required
                   onChange={(e) => setFuel_type(e.target.value)}
                 >
                   <MenuItem value={"Mumtaz"}>Mumtaz</MenuItem>
@@ -302,32 +303,30 @@ export default function CarUpdate() {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormLabel variant="contained" component="label">
-                Transmission
-              </FormLabel>
-              <ToggleButtonGroup
-                color="primary"
-                variant="outlined"
-                value={transmission.toString()}
-                id="transmission"
-                label="Transmission"
-                exclusive
-                fullWidth
-                required
-                onChange={(e) => setTransmission(e.target.value)}
-                aria-label="Platform"
-              >
-                <ToggleButton value="true"> Automatic</ToggleButton>
-                <ToggleButton value="false"> Manual</ToggleButton>
-              </ToggleButtonGroup>
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">Transmission</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    value={transmission.toString()}
+                    onChange={(e) => setTransmission(e.target.value)}
+                  >
+                  <FormControlLabel value="true" control={<Radio />} label="Automatic" />
+                  <FormControlLabel value="false" control={<Radio />} label="Manual" />
+                </RadioGroup>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
+              <InputLabel variant="contained" component="label">
+                <br/>
+              </InputLabel>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="rate"
-                label="Rate"
+                label="Rate Per Day (BHD)"
                 value={rate}
                 type="number"
                 onChange={(e) => setRate(e.target.value)}
@@ -415,7 +414,11 @@ export default function CarUpdate() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormLabel variant="contained" component="label">
+              {/* <div className="App">
+                <h1>Documents</h1>
+                <FileUpload id="documents" value={documents} onChange={setDocuments} />
+              </div> */}
+              {/* <FormLabel variant="contained" component="label">
                 Car Images
                 <input hidden accept="image/*" multiple type="file" />
               </FormLabel>
@@ -427,10 +430,14 @@ export default function CarUpdate() {
                 value={car_images}
                 type="string"
                 onChange={(e) => setCar_images(e.target.value)}
-              />
+              /> */}
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormLabel variant="contained" component="label">
+              {/* <div className="App">
+                <h1>Documents</h1>
+                <FileUpload id="documents" value={documents} onChange={setDocuments} />
+              </div> */}
+              {/* <FormLabel variant="contained" component="label">
                 Documents
                 <input hidden accept="image/*" multiple type="file" />
               </FormLabel>
@@ -442,7 +449,7 @@ export default function CarUpdate() {
                 value={documents}
                 type="string"
                 onChange={(e) => setDocuments(e.target.value)}
-              />
+              /> */}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -458,7 +465,7 @@ export default function CarUpdate() {
             </Grid>
 
           </Grid>
-          <br></br>
+          <br/>
           <Button
             type="submit"
             fullWidth
@@ -469,7 +476,7 @@ export default function CarUpdate() {
             Update Car
           </Button>
         </form>
-        <br></br>
+        <br/>
       </div>
     </Container>
   );
