@@ -129,35 +129,19 @@ console.log(fromcurrency)
                     renderInput={(params) => <TextField {...params} label="From" variant="outlined"/>}
                     onChange={(e, currency)=> { setFromcurrency(currency.label) }}
                     />
-                {/* <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="fromcurrency"
-                label="From Currency"
-                onChange={(e) => setFromcurrency(e.target.value)}
-                /> */}
                 </TableCell>
                 <TableCell align="left">
                 <Autocomplete
-                    // disablePortal
-                   
+                    disablePortal
                     id="tocurrency"
                     name= "tocurrency"
                     options={allCurrency}
                     renderInput={(params) => <TextField {...params} label="To" variant="outlined"/>}
                     onChange={(e, currency)=> { setTocurrency(currency.label) }}
                     />
-                {/* <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="tocurrency"
-                label="To Currency"
-                onChange={(e) => setTocurrency(e.target.value)}
-                /> */}
+
                 </TableCell>
-                <TableCell align="left">{tocurrency} {converted}</TableCell>
+                <TableCell align="left"><h2>{converted}</h2></TableCell>
                 <TableCell align="center">
                 </TableCell>
               </TableRow>
