@@ -1,31 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography'
-// import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from "react-router-dom";
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import TextField from '@material-ui/core/TextField';
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Fab from '@mui/material/Fab';
+import TextField from '@mui/material/TextField';
 import Axios from 'axios';
 import { currencyData } from "../data/Currency";
 import Autocomplete from '@mui/material/Autocomplete';
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,9 +67,7 @@ export default function CurrencyConverter() {
     {label: symbol , id: index}
   
   ))
-console.log(allCurrency)  
-console.log(Object.keys(currencyData[0]))
-console.log(fromcurrency)
+
   return (
     <div className={classes.root}>
     <Container className={classes.container} maxWidth="lg">    
