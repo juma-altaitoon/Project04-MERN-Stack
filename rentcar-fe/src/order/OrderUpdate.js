@@ -114,7 +114,6 @@ const updateOrder = (order) => {
   const handleSubmit = (e) =>{
     e.prevetDefault();
     console.log(e)
-    setOrder(updatedOrder)
     updateOrder(order)
     console.log('order', order);
    
