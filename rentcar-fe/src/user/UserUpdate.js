@@ -126,8 +126,6 @@ export default function UserUpdate() {
   const [license_expiry, setLicense_expiry] = useState('');
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
-  const [files, setFiles] = useState([]);
-
 
   const allNationality = countryData.map((countryData, index)=> (
     {label: (countryData.name),value: countryData.name}
