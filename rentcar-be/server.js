@@ -23,54 +23,11 @@ app.use(cors());
 //public access to upload files and photo
 app.use('/files', express.static('files'));
 
+// url encoding only needed for ejs
+//app.use(express.urlencoded({ extended: true }));
 
-// url encoding to acccept files in the url multipart encoded
-app.use(express.urlencoded({ extended: true }));
-
-//Testing file upload backend
-//generate longnames
-//const { v4: uuidv4 } = require('uuid');
-// multer
-
-// function uploadFiles(req, res) {
-//      //console.log(req.uploadFiles);
-//      console.log(req.files);
-     
-
-
-
-
-
-     //   for (const file of files) {
-  //     console.log(file)
-  //     const url = await uploadFile(file);
-  //     console.log(url)
-  //     urls.push(url);
-  //   }
-     
-
-    
-     // console.log(req.file);
-    // console.log(req.filename);
-    // Step 1 - generate good file name
-    //  const file = req.file;
-    // const filename = file.name;
-    // const indexLastDot = filename.lastIndexOf('.');
-    // const after = str.slice(indexLastDot + 1);
-    // const newpath = __dirname + "/files/" + uuidv4() + "." + after;
-    // console.log(newpath)
-    // Step 2 - do upload process
-    // file.mv(`${newpath}${filename}`, (err) => {
-    //     if (err) {
-    //         res.status(500).send({ message: "File upload failed", code: 200 });
-    //     }
-    //     res.status(200).send({ message: "File Uploaded", code: 200 });
-    // });
-
-  // res.json({ message: "Successfully uploaded files" });
-// }
+// multer configuration
 const multer = require("multer");
-//const upload = multer({ dest: "files/",
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'files/')
@@ -82,8 +39,7 @@ const storage = multer.diskStorage({
     }
   })
 const upload = multer({ storage: storage });
-
-
+//Upload route and type for multi and function
 app.post("/uploads", upload.array("files", 12), uploadFiles);
 function uploadFiles(req, res) {
    // var file = req.files;
