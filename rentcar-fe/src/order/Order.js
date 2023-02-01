@@ -22,6 +22,14 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import AddIcon from '@mui/icons-material/Add';
 import { TablePagination } from '@mui/material';
 
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -59,6 +67,8 @@ export default function OrderList() {
   const [orders, setOrders] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({})
+
+  const [open, setOpen] = useState(false);
 
 
   useEffect(() => {
@@ -120,17 +130,19 @@ export default function OrderList() {
     window.location = window.location.href+'/update?id='+id
   }
 
-  const deleteOrder = (id) => {
-      Axios.delete(`delete?id=${id}`, {
+  const DeleteOrder = (id) => {
+      Axios.delete(`order/delete?id=${id}`, {
         headers: {
           "Authorization": "Bearer " + localStorage.getItem("token") 
       }
       })
       .then((res) => {
-        alert(res['message'])
+        // alert(res['message'])
         console.log("Order Deleted")
         console.log(res)
-        window.location.href = '/car';
+        setOpen(false);
+        getOrders();
+        // window.location.href = '/order';
         }
       )
       .catch(err =>{
@@ -138,6 +150,7 @@ export default function OrderList() {
         console.log(err)
       })
     }
+
 
   return (
     <div className={classes.root}>
@@ -179,8 +192,8 @@ export default function OrderList() {
                   <TableCell align="left">{order.extra_cost}</TableCell>
                   <TableCell align="center">
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button onClick={() => UpdateOrder(order._id)}>Edit</Button>
-                      <Button onClick={() => deleteOrder(order._id)}>Delete</Button>
+                      <Button startIcon={<ModeEditIcon />} onClick={() => UpdateOrder(order._id)}>Edit</Button>
+                      <Button startIcon={<DeleteIcon />} onClick={() =>DeleteOrder(order._id)}>Delete</Button>
                     </ButtonGroup> 
                   </TableCell>
                 </TableRow>

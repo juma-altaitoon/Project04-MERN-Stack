@@ -44,10 +44,32 @@ export default function OrderEdit(props) {
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id")
+  const [order, setOrder] = useState({})
+  const [total, setTotal] = useState('');
+
+  console.log('id', id);
   // const [selectedOrder, setSelectedOrder] = useState({})
   
   useEffect(() => {
-    // editViewOrder(id)
+    editViewOrder(id)
+    // Axios.get(`edit?id=${id}`, {
+    //   headers:{
+    //     "Authorization": "Bearer " + localStorage.getItem("token") 
+    //   }
+    // })
+    // .then((res) =>{
+    //   console.log("Order Page Loaded")
+    //   console.log(id);
+    //   console.log(res);
+    //   setOrder(res.data.order);     
+    // })
+    // .catch(err =>{
+    //   console.log("Order Page Failed to Load")
+    //   console.log(err)
+    // })
+  }, [])
+  console.log("id in useeffect",id);
+  const editViewOrder = (id) => {
     Axios.get(`edit?id=${id}`, {
       headers:{
         "Authorization": "Bearer " + localStorage.getItem("token") 
@@ -57,51 +79,19 @@ export default function OrderEdit(props) {
       console.log("Order Page Loaded")
       console.log(id);
       console.log(res);
+    
       setOrder(res.data.order);     
     })
     .catch(err =>{
       console.log("Order Page Failed to Load")
       console.log(err)
     })
-  }, [id])
-  console.log(id);
-//   const editViewOrder = (id) => {
-//     Axios.get(`edit?id=${id}`, {
-//       headers:{
-//         "Authorization": "Bearer " + localStorage.getItem("token") 
-//       }
-//     })
-//     .then((res) =>{
-//       console.log("Order Page Loaded")
-//       console.log(id);
-//       console.log(res);
-    
-//       setOrder(res.data.order);     
-//     })
-//     .catch(err =>{
-//       console.log("Order Page Failed to Load")
-//       console.log(err)
-//     })
-// }
+}
+
 
 const updateOrder = (order) => {
-    Axios.put('update', order, {
-      headers:{
-        "Authorization": "Bearer " + localStorage.getItem("token") 
-      }
-    })
-    .then((res) =>{
-      console.log("Order Updated")
-      window.location.href = '/order';
-      console.log(res);        
-    })
-    .catch(err =>{
-      console.log("Order Update Failed")
-      console.log(err)
-    })
+   
 }
-const [order, setOrder] = useState({})
-  const [total, setTotal] = useState('');
 
   
   
@@ -123,11 +113,25 @@ const [order, setOrder] = useState({})
   }
 
   const handleSubmit = (e) =>{
-    e.prevetDefault();
-    updateOrder(order)
-    e.target.reset();
+    // e.prevetDefault();
+    // updateOrder(order)
+    console.log('order', order);
+    // Axios.put(`/update?id=${id}`, order, {
+    //   headers:{
+    //     "Authorization": "Bearer " + localStorage.getItem("token") 
+    //   }
+    // })
+    // .then(res =>{
+    //   console.log("Order Updated")
+    //   // window.location.href = '/order';
+    //   console.log(res);        
+    // })
+    // .catch(err =>{
+    //   console.log("Order Update Failed")
+    //   console.log(err)
+    // })
+    // e.target.reset();
   }
-  console.log(order)
   return (
     <Container maxWidth="xs">
     <div className={classes.paper}>
@@ -141,7 +145,7 @@ const [order, setOrder] = useState({})
           id="outlined-read-only-input"
           label="User"
           variant="outlined"
-          InputLabelProps={{ shrink: true}}
+          // InputLabelProps={{ shrink: true}}
           InputProps={{ readOnly: true }}
           value={order.user ? (order.user.first_name+" "+order.user.last_name) :""}
 
@@ -152,7 +156,7 @@ const [order, setOrder] = useState({})
           id="outlined-read-only-input"
           label="Car"
           variant="outlined"
-          InputLabelProps={{ shrink: true}}
+          // InputLabelProps={{ shrink: true}}
           InputProps={{
             readOnly: true,
           }}
@@ -167,8 +171,8 @@ const [order, setOrder] = useState({})
                 id="demo-simple-select"
                 name="status"
                 label="Status"
-                defaultValue={order.status ? order.status : ""}
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.status ? order.status : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
                 value={order.status ? order.status : ""}
                 // if (order.status === "Booked" ? "selcted"="selected" : "")
@@ -188,8 +192,6 @@ const [order, setOrder] = useState({})
                 id="demo-simple-select"
                 name="pickup_location"
                 label="Pickup Location"
-                InputLabelProps={{ shrink: true}}
-                defaultValue={order.pickup_location ? order.pickup_location : ""}
                 onChange={handleChange}
                 value={order.pickup_location ? order.pickup_location : ""}
               >
@@ -209,7 +211,6 @@ const [order, setOrder] = useState({})
               fullWidth
               id="pickup_date"
               label="Pickup Date"
-              defaultValue={moment(order.pickup_date).format('YYYY-MM-DD')}
               type="date"
               InputLabelProps={{shrink : true}}
               onChange={handleChange}
@@ -224,8 +225,6 @@ const [order, setOrder] = useState({})
                 id="demo-simple-select"
                 name="drop_location"
                 label="Drop Location"
-                defaultValue={order.drop_location ? order.drop_location : ""}
-                InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
                 value={order.drop_location ? order.drop_location : ""}
               >
@@ -245,11 +244,11 @@ const [order, setOrder] = useState({})
               fullWidth
               id="drop_date"
               label="Drop Date"
-              defaultValue={moment(order.drop_date).format('YYYY-MM-DD')}
               type="date"
               InputLabelProps={{ shrink: true}}
               onChange={handleChange}
               value={moment(order.drop_date).format('YYYY-MM-DD')}
+             
             />
           </Grid>
           <Grid item xs={12}>
@@ -260,9 +259,9 @@ const [order, setOrder] = useState({})
               fullWidth
               id="rent_price"
               label="Rate per Day"
-              defaultValue={order.rent_price ? order.rent_price : 0}
+              // defaultValue={order.rent_price ? order.rent_price : 0}
               InputProps={{readOnly: true}}
-              InputLabelProps={{ shrink: true}}
+              // InputLabelProps={{ shrink: true}}
               onChange={handleChange}
               value={order.rent_price ? order.rent_price : 0}
             />
@@ -276,8 +275,8 @@ const [order, setOrder] = useState({})
                 name="fuel_level_before"
                 label="Fuel Level Before"
                 required
-                defaultValue={order.fuel_level_before ? order.fuel_level_before : ""}
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.fuel_level_before ? order.fuel_level_before : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
                 value={order.fuel_level_before ? order.fuel_level_before : ""}
                >
@@ -296,8 +295,8 @@ const [order, setOrder] = useState({})
                 name="fuel_level_after"
                 label="Fuel Level After"
                 required
-                defaultValue={order.fuel_level_after ? order.fuel_level_after : ""}
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.fuel_level_after ? order.fuel_level_after : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
                 value={order.fuel_level_after ? order.fuel_level_after : ""}
                >
@@ -315,8 +314,8 @@ const [order, setOrder] = useState({})
                 fullWidth
                 id="car_images_before"
                 label="Car Images Before"
-                defaultValue={order.car_images_before ? order.car_images_before : ""}
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.car_images_before ? order.car_images_before : ""}
+                // inputLabelProps={{ shrink: true}}
                 onChange={handleChange}
                 value={order.car_images_before ? order.car_images_before : ""}
               />
@@ -333,8 +332,8 @@ const [order, setOrder] = useState({})
                 fullWidth
                 id="car_images_after"
                 label="Car Images After"
-                defaultValue={order.car_images_after ? order.car_images_after : ""}
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.car_images_after ? order.car_images_after : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
                 value={order.car_images_after ? order.car_images_after : ""}
               />
@@ -352,8 +351,8 @@ const [order, setOrder] = useState({})
               type="number"
               id="mileage_before"
               label="Mileage Before"
-              defaultValue={order.mileage_before ? order.mileage_before : ""}
-              InputLabelProps={{ shrink: true}}
+              // defaultValue={order.mileage_before ? order.mileage_before : ""}
+              // InputLabelProps={{ shrink: true}}
               value={order.mileage_before ? order.mileage_before : ""}
               onChange={handleChange}
             />
@@ -366,8 +365,8 @@ const [order, setOrder] = useState({})
               fullWidth
               id="mileage_after"
               label="Mileage After"
-              defaultValue={order.mileage_after ? order.mileage_after : ""}
-              InputLabelProps={{ shrink: true}}
+              // defaultValue={order.mileage_after ? order.mileage_after : ""}
+              // InputLabelProps={{ shrink: true}}
               value={order.mileage_after ? order.mileage_after : ""}
               onChange={handleChange}
             />
@@ -379,12 +378,12 @@ const [order, setOrder] = useState({})
               required
               label="Total"
               fullWidth
-              defaultValue={order.extra_cost ? order.extra_cost : 0}
+              // defaultValue={order.extra_cost ? order.extra_cost : 0}
               id="extra_cost"
               type="number"
               value={order.extra_cost ? order.extra_cost : 0}
               InputProps={{readOnly: true}}
-              InputLabelProps={{ shrink: true}}
+              // InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
