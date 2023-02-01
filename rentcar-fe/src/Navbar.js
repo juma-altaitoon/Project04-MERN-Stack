@@ -94,6 +94,12 @@ export default function Navbar(props) {
                Logout &nbsp;
             </Button>
           {/* </Link> */}
+          <div>&nbsp;</div>
+          <Link className={classes.navlink} to="/upload">
+            <Button variant="contained" className={classes.title} color="secondary">
+              Test &nbsp;
+            </Button>
+          </Link>
           </CardActions>
         </Toolbar>
       </AppBar>

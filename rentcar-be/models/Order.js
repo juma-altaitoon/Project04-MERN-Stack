@@ -18,12 +18,12 @@ const orderSchema = mongoose.Schema({
     drop_location: String,
     drop_date: Date,
     rent_price: Number,
-    fuel_level_before: Number,
-    fuel_level_after: Number,
+    fuel_level_before: String,
+    fuel_level_after: String,
     car_images_before: String,
     car_images_after: String,
-    milage_before: Number,
-    milage_after: Number,
+    mileage_before: Number,
+    mileage_after: Number,
     extra_cost: Number,
     comment: String
 
