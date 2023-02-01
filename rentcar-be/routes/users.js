@@ -4,7 +4,7 @@ const router =  express.Router();
 
 router.use(express.json());
 
-//files upload
+//files upload requirement
 const multer = require('multer'); // to upload files
 const { v4: uuidv4 } = require('uuid'); //generate file name based RFC - uuidv4();
 const DIR = './files/';
@@ -21,18 +21,18 @@ const storage = multer.diskStorage({
 });
 
 //to upload files and generate uuid file name
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 1024 * 1024 * 5},
-    fileFilter: (req, file, cb) => {
-        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-            cb(null, true);
-        } else {
-            cb(null, false);
-            console.log("file not matched")
-            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-        }
-    }
+const upload = multer({ storage: storage
+    // storage: storage,
+    // limits: { fileSize: 1024 * 1024 * 5},
+    // fileFilter: (req, file, cb) => {
+    //     if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+    //         cb(null, true);
+    //     } else {
+    //         cb(null, false);
+    //         console.log("file not matched")
+    //         return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    //     }
+    //}
 });
 
 // var upload = multer({
@@ -53,10 +53,10 @@ const upload = multer({
 
 const usersController = require('../controllers/users');
 
-router.post('/user/add', upload.single('documents'), usersController.add_post);
+router.post('/user/add', upload.array('documents'), usersController.add_post);
 router.get('/user/index', usersController.index_get); //read list
 router.get('/user/edit', usersController.edit_get); //read item to edit it
-router.put('/user/update', upload.single('documents'), usersController.update_put); //test and will add it later to post and car, and car update
+router.put('/user/update', upload.array('documents'), usersController.update_put); //test and will add it later to post and car, and car update
 router.delete('/user/delete', usersController.delete_delete); 
 router.post('/user/login', usersController.login_post);
 
