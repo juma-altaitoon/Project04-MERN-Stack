@@ -21,7 +21,6 @@ exports.update_put = function (req, res) {
     //encrypt password
     hash = bcrypt.hashSync(req.body.password, 10);
     req.body.password= hash;
-    console.log(req.body);
     User.findByIdAndUpdate(req.body.id, req.body, {new : true}) // new:true after edit API response
       .then((user) => {
           res.json({user})

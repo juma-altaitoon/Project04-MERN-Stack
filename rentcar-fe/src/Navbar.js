@@ -88,17 +88,10 @@ export default function Navbar(props) {
             </Button>
           </Link>
           <div>&nbsp;</div>
-          {/* <Link className={classes.navlink} to="/logout"> */}
             <Button variant="h5" className={classes.title} style={{"color":"Wheat"}} onClick={logoutHandler}>
                Logout &nbsp;
             </Button>
-          {/* </Link> */}
           <div>&nbsp;</div>
-          <Link className={classes.navlink} to="/upload">
-            <Button variant="h5" className={classes.title} color="secondary">
-              Test &nbsp;
-            </Button>
-          </Link>
           </CardActions>
         </Toolbar>
       </AppBar>
