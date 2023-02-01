@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OrderList() {
+export default function Order() {
   const classes = useStyles();
   const [pg, setpg] = React.useState(0);
   const [rpg, setrpg] = React.useState(5);
