@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import CardActions from '@mui/material/CardActions';
 import jwt_decode from 'jwt-decode';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -49,6 +50,7 @@ export default function Navbar(props) {
 
   return (
     <div className={classes.root}>
+      
       <AppBar position="static">
         <Toolbar>
         <Link className={classes.navlink} to="/home">
@@ -64,31 +66,31 @@ export default function Navbar(props) {
           </Link>
           <CardActions display='flex' justifycontent='center'>
           <Link className={classes.navlink} to="/user">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="contained" className={classes.title} color="Wheat">
               User &nbsp;
             </Button>
           </Link>
           <div>&nbsp;</div>
           <Link className={classes.navlink} to="/car">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="contained" className={classes.title} color="Wheat" bordercolor="White" >
               Car
             </Button>
           </Link>
           <div>&nbsp;</div>
           <Link className={classes.navlink} to="/order">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="contained" className={classes.title} color="Wheat">
               Order &nbsp;
             </Button>
           </Link>
           <div>&nbsp;</div>
           <Link className={classes.navlink} to="/publicapi">
-            <Button variant="contained" className={classes.title} color="secondary">
+            <Button variant="contained" className={classes.title} color="Wheat">
               Utilities &nbsp;
             </Button>
           </Link>
           <div>&nbsp;</div>
           {/* <Link className={classes.navlink} to="/logout"> */}
-            <Button variant="contained" className={classes.title} color="secondary" onClick={logoutHandler}>
+            <Button variant="contained" className={classes.title} color="Wheat" onClick={logoutHandler}>
                Logout &nbsp;
             </Button>
           {/* </Link> */}

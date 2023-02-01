@@ -3,6 +3,9 @@ import Axios from 'axios';
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container';
 import Grid from '@mui/material/Grid';
+import CardContent from '@mui/material/CardContent';
+import { CardActionArea } from '@mui/material';
+import Card from 'react-bootstrap/Card';
 
 export default function Weather() {
   const [weather, setWeather] = useState([]);
@@ -30,8 +33,11 @@ export default function Weather() {
 
   return (
     <div>
+
+     <Card style={{ width: '18rem', float: 'right', background:"transparent", borderRadius:"2cm", borderBlockColor:"blue"}}>
+     <Card.Body>
     <Container maxWidth="xs">
-    <Grid alignContent='flex-center' alignItems='flex-center' justify='flex-center'> 
+    <Grid alignContent='flex-center' alignItems='flex-center' justify='flex-center' color="Wheat"> 
     <img src={`http:${weather.current && weather.current.condition.icon}`} alt="Weather"  />
       <Typography align="center">Country: {weather.location && weather.location.country}</Typography>
       <Typography align="center">Current Temperature: &nbsp; {weather.current && weather.current.temp_c}°C </Typography>
@@ -53,8 +59,12 @@ export default function Weather() {
         {weather.forecast && weather.forecast.forecastday[1].day.avgtemp_c}°C,&nbsp;
         {weather.forecast && weather.forecast.forecastday[2].day.avgtemp_c}°C
       </Typography>
-    </Grid>
+       </Grid>
       </Container>
+      </Card.Body>
+    </Card>
+     
+      
     </div>
   );
 }
