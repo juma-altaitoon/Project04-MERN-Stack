@@ -10,14 +10,11 @@ import Axios from 'axios'
 import moment from 'moment'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-// import ToggleButton from '@mui/material/ToggleButton';
-// import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { countryData } from "../data/Country";
 import Autocomplete from '@mui/material/Autocomplete';
-import FileUpload from "react-material-file-upload";
 import { Radio } from '@mui/material'
 import { RadioGroup } from "@mui/material/";
 import { FormControlLabel } from "@mui/material/";
@@ -75,7 +72,6 @@ export default function UserUpdate() {
           setNationality(result.data.user.nationality)
           setNational_id(result.data.user.national_id)
           setPassword(result.data.user.password)
-          setDocuments(result.data.user.documents)
           setLicense_issued(result.data.user.license_issued)
           setLicense_expiry(result.data.user.license_expiry)
           setUser_type(result.data.user.user_type)
@@ -97,13 +93,11 @@ export default function UserUpdate() {
         'nationality':nationality,
         'national_id':national_id,
         'password':password,
-        'documents':documents,
         'license_issued':license_issued,
         'license_expiry':license_expiry,
         'user_type':user_type,
         'comment':comment
     }
-    console.log(event)
     Axios.put(`update?id=${id}`, data,{
       headers: {
           "Authorization": "Bearer " + localStorage.getItem("token")
@@ -128,7 +122,6 @@ export default function UserUpdate() {
   const [nationality, setNationality] = useState('');
   const [national_id, setNational_id] = useState('');
   const [password, setPassword] = useState('');
-  const [documents, setDocuments] = useState('');
   const [license_issued, setLicense_issued] = useState('');
   const [license_expiry, setLicense_expiry] = useState('');
   const [user_type, setUser_type] = useState('');
@@ -141,13 +134,11 @@ export default function UserUpdate() {
   ))
 
 
- // console.log(gender)
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Update User
-          
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -176,10 +167,8 @@ export default function UserUpdate() {
                 onChange={(e) => setLast_name(e.target.value)}
               />
             </Grid>
-        
-           
             <Grid item xs={12} sm={6}>
-            <FormControl>
+              <FormControl>
                 <FormLabel id="demo-column-radio-buttons-group-label">User Type</FormLabel>
                   <RadioGroup
                     column
@@ -194,7 +183,7 @@ export default function UserUpdate() {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-            <FormControl>
+              <FormControl>
                 <FormLabel id="demo-column-radio-buttons-group-label">Gender</FormLabel>
                   <RadioGroup
                     column
@@ -207,17 +196,6 @@ export default function UserUpdate() {
                   <FormControlLabel style={{color:"Fuchsia"}}value="false" control={<Radio />} label="Female" />
                 </RadioGroup>
               </FormControl>
-            {/* <ToggleButtonGroup
-                      color="primary"
-                      id="gender"
-                      value={gender.toString()}
-                      exclusive
-                      onChange={(e) => setGender(e.target.value)}
-                      aria-label="Platform"
-                    >
-                      <ToggleButton style={{color:"Blue"}} value="true" > Male</ToggleButton>
-                      <ToggleButton style={{color:"Fuchsia"}} value="false"> Female</ToggleButton>
-              </ToggleButtonGroup> */}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -244,8 +222,8 @@ export default function UserUpdate() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-            <InputLabel htmlFor="standard-adornment-password">
-                <br></br>      
+              <InputLabel htmlFor="standard-adornment-password">
+                <br/>      
               </InputLabel>
               <TextField
                 variant="outlined"
@@ -258,33 +236,30 @@ export default function UserUpdate() {
               />
             </Grid>
             <Grid item xs={12} sm={6} >
-            <InputLabel htmlFor="standard-adornment-password">
-        Enter your Password *
-      </InputLabel>
-            <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                        label="Password"
-
-                        //value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      >
-                        
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-                </Grid>
+              <InputLabel htmlFor="standard-adornment-password">
+                Enter your Password *
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      label="Password"
+                      onChange={(e) => setPassword(e.target.value)}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </Grid>
             <Grid item xs={12} sm={8}>
-            <Autocomplete
+              <Autocomplete
                 variant="outlined"
                 required
                 fullWidth
@@ -293,7 +268,6 @@ export default function UserUpdate() {
                 value={nationality}
                 options={allNationality}
                 renderInput={(params) => <TextField {...params} label="Nationality" variant="outlined"/>}
-
                 onChange={(e, country) => setNationality(country.label)}
               />
             </Grid>
@@ -308,43 +282,6 @@ export default function UserUpdate() {
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-        
-           
-            {/* <Grid item xs={12} >
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="password"
-                label="password"
-                type="password"
-                // value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid> */}
-          
-        <Grid item xs={12} sm={6}>           
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="documents"
-                value={documents}
-                label="documents"
-                type="string"
-                onChange={(e) => setDocuments(e.target.value)}
-              />               
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button variant="contained" component="label">
-                  Upload
-               <input hidden accept="image/*" multiple type="file" label="documents" id="documents" onError={({ currentTarget }) => {
-               currentTarget.onerror = null; // prevents looping
-               currentTarget.src="image_path_here";}}
-               //onChange={(e) => setDocuments(e.target.value)}
-               />
-              </Button>
-              </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -369,18 +306,6 @@ export default function UserUpdate() {
                 onChange={(e) => setLicense_expiry(e.target.value)}
               />
             </Grid>
-            {/* <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="user_type"
-                label="user_type"
-                value={user_type}
-                onChange={(e) => setUser_type(e.target.value)}
-              />
-            </Grid> */}
-  
             <Grid item xs={12} >
               <TextField
                 variant="outlined"
@@ -393,9 +318,7 @@ export default function UserUpdate() {
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
-            {/* {documents && (<img src={documents} alt="File" className="displayed-image"/>)} */}
           </Grid>
-          <FileUpload value={files} onChange={setFiles} />
 
           <br></br>
           <Button

@@ -11,7 +11,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import FileUpload from "react-material-file-upload";
 import { Radio } from '@mui/material'
 import { RadioGroup } from "@mui/material/";
 import { FormControlLabel } from "@mui/material/";
@@ -60,8 +59,6 @@ export default function CarCreate() {
       'insurance_date': insurance_date,
       'registration_date': registration_date,
       'expiry_date': expiry_date,
-      'car_images': car_images,
-      'documents': documents,
       'comment': comment,
     }
     Axios.post("add", data, {
@@ -70,13 +67,13 @@ export default function CarCreate() {
       }
     })
     .then((res) => {
-        console.log(res)
-        console.log("Record Added Successfully");
-        window.location.href = '/car';
+      console.log(res)
+      console.log("Record Added Successfully");
+      window.location.href = '/car';
     })
     .catch((err) => {
-        console.log("Error Adding Record");
-        console.log(err);
+      console.log("Error Adding Record");
+      console.log(err);
     })
   }
 
@@ -97,8 +94,6 @@ export default function CarCreate() {
   const [insurance_date, setInsurance_date] = useState('');
   const [registration_date, setRegistration_date] = useState('');
   const [expiry_date, setExpiry_date] = useState('');
-  const [car_images, setCar_images] = useState('');
-  const [documents, setDocuments] = useState('');
   const [comment, setComment] = useState('');
 
   return (
@@ -368,42 +363,6 @@ export default function CarCreate() {
               />
             </Grid>
             <Grid item xs={12}>
-              {/* <div className="App">
-                <h1>Car Images</h1>
-                <FileUpload value={car_images} onChange={setCar_images} />
-              </div> */}
-              {/* <FormLabel variant="contained" component="label">
-                Car Images
-                <input hidden accept="image/*" multiple type="file" />
-              </FormLabel>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="car_images"
-                type="file"
-                onChange={(e) => setCar_images(e.target.value)}
-              /> */}
-            </Grid>
-            <Grid item xs={12}>
-              {/* <div className="App">
-                <h1>Documents</h1>
-                <FileUpload value={documents} onChange={setDocuments} />
-              </div> */}
-              {/* <FormLabel variant="contained" component="label">
-                Documents
-                <input hidden accept="image/*" multiple type="file" />
-              </FormLabel>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="documents"
-                type="file"
-                onChange={(e) => setDocuments(e.target.value)}
-              /> */}
-            </Grid>
-            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -414,7 +373,7 @@ export default function CarCreate() {
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
-            
+
           </Grid>
           <br/>
           <Button

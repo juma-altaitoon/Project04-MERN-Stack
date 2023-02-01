@@ -13,7 +13,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import FileUpload from "react-material-file-upload";
 import { Radio } from '@mui/material'
 import { RadioGroup } from "@mui/material/";
 import { FormControlLabel } from "@mui/material/";
@@ -69,8 +68,6 @@ export default function CarUpdate() {
             setInsurance_date(result.data.car.insurance_date)
             setRegistration_date(result.data.car.registration_date)
             setExpiry_date(result.data.car.expiry_date)
-            setCar_images(result.data.car.car_images)
-            setDocuments(result.data.car.documents)
             setComment(result.data.car.comment)
         }
       )
@@ -97,8 +94,6 @@ export default function CarUpdate() {
       'insurance_date': insurance_date,
       'registration_date': registration_date,
       'expiry_date': expiry_date,
-      'car_images': car_images,
-      'documents': documents,
       'comment': comment,
     }
     Axios.put(`update?id=${id}`, data,{
@@ -133,8 +128,6 @@ export default function CarUpdate() {
   const [insurance_date, setInsurance_date] = useState('');
   const [registration_date, setRegistration_date] = useState('');
   const [expiry_date, setExpiry_date] = useState('');
-  const [car_images, setCar_images] = useState('');
-  const [documents, setDocuments] = useState('');
   const [comment, setComment] = useState('');
 
   return (
@@ -155,7 +148,6 @@ export default function CarUpdate() {
                 id="plate_id"
                 label="Plate ID"
                 value={plate_id}
-                type="string"
                 onChange={(e) => setPlate_id(e.target.value)}
                 autoFocus
               />

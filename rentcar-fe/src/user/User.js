@@ -11,15 +11,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-// import Avatar from '@mui/material/Avatar';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from "react-router-dom";
 import Axios from 'axios'
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-// import Fab from '@mui/material/Fab';
-// import AddIcon from '@mui/icons-material/Add';
 import { TablePagination } from '@mui/material';
 
 
@@ -104,18 +101,15 @@ export default function User() {
             <Box flexGrow={1}>
               <Typography component="h2" variant="h6" color="primary" gutterBottom>
                 USERS
-                </Typography>
-             </Box>
-              {/* <Fab color="primary" aria-label="add">
-                 <AddIcon />
-               </Fab> */}
-            <Box>
-              <Link to="/user/create">
-                <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="primary">
-                  CREATE
-                </Button>
-              </Link>
+              </Typography>
             </Box>
+          <Box>
+            <Link to="/user/create">
+              <Button startIcon={<AddCircleOutlineIcon />} variant="contained" color="primary">
+                CREATE
+              </Button>
+            </Link>
+          </Box>
           </Box>
           <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
