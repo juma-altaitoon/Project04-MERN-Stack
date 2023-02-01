@@ -10,8 +10,8 @@ import Axios from 'axios'
 import moment from 'moment'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+// import ToggleButton from '@mui/material/ToggleButton';
+// import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -111,7 +111,7 @@ export default function UserUpdate() {
       })
     .then(res => {
         console.log("Record Updated Successfully");
-       // window.location.href = '/user';
+       window.location.href = '/user';
     })
     .catch(err => {
         console.log("Error Editing Record");
@@ -185,7 +185,7 @@ export default function UserUpdate() {
                     column
                     aria-labelledby="demo-column-radio-buttons-group-label"
                     name="column-radio-buttons-group"
-                    defaultValue={"true"}
+                    value={user_type.toString()}
                     onChange={(e) => setUser_type(e.target.value)}
                   >
                   <FormControlLabel  value="true" control={<Radio />} label="Staff" />
