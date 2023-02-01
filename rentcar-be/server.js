@@ -29,18 +29,32 @@ app.use(express.urlencoded({ extended: true }));
 
 //Testing file upload backend
 //generate longnames
-const { v4: uuidv4 } = require('uuid');
+//const { v4: uuidv4 } = require('uuid');
 // multer
-const multer = require("multer");
-const upload = multer({ dest: "files/" });
 
-function uploadFiles(req, res) {
-     console.log(req.file);
-    // console.log(req.file);
+// function uploadFiles(req, res) {
+//      //console.log(req.uploadFiles);
+//      console.log(req.files);
+     
+
+
+
+
+
+     //   for (const file of files) {
+  //     console.log(file)
+  //     const url = await uploadFile(file);
+  //     console.log(url)
+  //     urls.push(url);
+  //   }
+     
+
+    
+     // console.log(req.file);
     // console.log(req.filename);
     // Step 1 - generate good file name
     //  const file = req.file;
-     // const filename = file.name;
+    // const filename = file.name;
     // const indexLastDot = filename.lastIndexOf('.');
     // const after = str.slice(indexLastDot + 1);
     // const newpath = __dirname + "/files/" + uuidv4() + "." + after;
@@ -54,8 +68,28 @@ function uploadFiles(req, res) {
     // });
 
   // res.json({ message: "Successfully uploaded files" });
+// }
+const multer = require("multer");
+//const upload = multer({ dest: "files/",
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'files/')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, file.fieldname + '-' + uniqueSuffix + "." + file.originalname.substring(file.originalname.lastIndexOf('.') + 1)
+    )
+    }
+  })
+const upload = multer({ storage: storage });
+
+
+app.post("/uploads", upload.array("files", 12), uploadFiles);
+function uploadFiles(req, res) {
+   // var file = req.files;
+   // console.log(req.files);
+    res.end()
 }
-app.post("/uploads", upload.single("files"), uploadFiles);
 
 // Import Routes
 // const uploadRoute = require('./routes/uploads');
