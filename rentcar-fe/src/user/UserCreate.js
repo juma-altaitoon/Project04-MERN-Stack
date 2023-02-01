@@ -17,6 +17,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 // import MuiToggleButton from "@mui/material/ToggleButton";
 import { countryData } from "../data/Country";
 import Autocomplete from '@mui/material/Autocomplete';
+import FileUpload from "react-material-file-upload";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -116,6 +117,7 @@ export default function UserCreate() {
   const [license_expiry, setLicense_expiry] = useState('');
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
+  const [files, setFiles] = useState([]);
 
 
   const allNationality = countryData.map((countryData, index)=> (
@@ -375,6 +377,8 @@ export default function UserCreate() {
                       <ToggleButton value="false"> Female</ToggleButton>
                     </ToggleButtonGroup>                         */}
           </Grid>
+          <FileUpload value={files} onChange={setFiles} />
+
           <br></br>
           <Button
             type="submit"
@@ -383,6 +387,7 @@ export default function UserCreate() {
             color="primary"
             className={classes.submit}
           >
+
             Create User
           </Button>
         </form>

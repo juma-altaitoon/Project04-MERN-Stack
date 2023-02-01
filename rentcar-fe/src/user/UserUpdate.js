@@ -254,7 +254,7 @@ export default function UserUpdate() {
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} >
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
