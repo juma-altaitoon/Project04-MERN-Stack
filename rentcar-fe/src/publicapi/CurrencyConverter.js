@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container';
@@ -42,10 +42,6 @@ export default function CurrencyConverter() {
   const [fromcurrency, setFromcurrency] = useState('');
   const [tocurrency, setTocurrency] = useState('');
   const [converted, setConverted] = useState('');
-
-  useEffect(() => {
-    Convert()
-  }, [])
 
   const Convert = () => {
     Axios.get(`https://currency-converter-by-api-ninjas.p.rapidapi.com/v1/convertcurrency?have=${fromcurrency}&want=${tocurrency}&amount=${amount}`, {
