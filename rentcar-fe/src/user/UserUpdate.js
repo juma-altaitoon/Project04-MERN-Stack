@@ -17,6 +17,13 @@ import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { countryData } from "../data/Country";
 import Autocomplete from '@mui/material/Autocomplete';
+import FileUpload from "react-material-file-upload";
+import { Radio } from '@mui/material'
+import { RadioGroup } from "@mui/material/";
+import { FormControlLabel } from "@mui/material/";
+import FormControl from '@mui/material/FormControl';
+import { FormLabel } from "@mui/material/";
+import InputLabel from '@mui/material/InputLabel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -126,6 +133,7 @@ export default function UserUpdate() {
   const [license_expiry, setLicense_expiry] = useState('');
   const [user_type, setUser_type] = useState('');
   const [comment, setComment] = useState('');
+  const [files, setFiles] = useState([]);
 
 
   const allNationality = countryData.map((countryData, index)=> (
@@ -169,6 +177,48 @@ export default function UserUpdate() {
               />
             </Grid>
         
+           
+            <Grid item xs={12} sm={6}>
+            <FormControl>
+                <FormLabel id="demo-column-radio-buttons-group-label">User Type</FormLabel>
+                  <RadioGroup
+                    column
+                    aria-labelledby="demo-column-radio-buttons-group-label"
+                    name="column-radio-buttons-group"
+                    defaultValue={"true"}
+                    onChange={(e) => setUser_type(e.target.value)}
+                  >
+                  <FormControlLabel  value="true" control={<Radio />} label="Staff" />
+                  <FormControlLabel  value="false" control={<Radio />} label="Customer" />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+            <FormControl>
+                <FormLabel id="demo-column-radio-buttons-group-label">Gender</FormLabel>
+                  <RadioGroup
+                    column
+                    aria-labelledby="demo-column-radio-buttons-group-label"
+                    name="column-radio-buttons-group"
+                    value={gender.toString()}
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                  <FormControlLabel style={{color:"Blue"}} value="true" control={<Radio />} label="Male" />
+                  <FormControlLabel style={{color:"Fuchsia"}}value="false" control={<Radio />} label="Female" />
+                </RadioGroup>
+              </FormControl>
+            {/* <ToggleButtonGroup
+                      color="primary"
+                      id="gender"
+                      value={gender.toString()}
+                      exclusive
+                      onChange={(e) => setGender(e.target.value)}
+                      aria-label="Platform"
+                    >
+                      <ToggleButton style={{color:"Blue"}} value="true" > Male</ToggleButton>
+                      <ToggleButton style={{color:"Fuchsia"}} value="false"> Female</ToggleButton>
+              </ToggleButtonGroup> */}
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -182,20 +232,21 @@ export default function UserUpdate() {
                 onChange={(e) => setBirthdate(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-            <ToggleButtonGroup
-                      color="primary"
-                      id="gender"
-                      value={gender.toString()}
-                      exclusive
-                      onChange={(e) => setGender(e.target.value)}
-                      aria-label="Platform"
-                    >
-                      <ToggleButton style={{color:"Blue"}} value="true" > Male</ToggleButton>
-                      <ToggleButton style={{color:"Fuchsia"}} value="false"> Female</ToggleButton>
-              </ToggleButtonGroup>
+            <Grid item xs={12}  sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="phone_number"
+                label="phone number"
+                value={phone_number}
+                onChange={(e) => setPhone_number(e.target.value)}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
+            <InputLabel htmlFor="standard-adornment-password">
+                <br></br>      
+              </InputLabel>
               <TextField
                 variant="outlined"
                 required
@@ -207,6 +258,9 @@ export default function UserUpdate() {
               />
             </Grid>
             <Grid item xs={12} sm={6} >
+            <InputLabel htmlFor="standard-adornment-password">
+        Enter your Password *
+      </InputLabel>
             <OutlinedInput
                   id="outlined-adornment-password"
                   type={showPassword ? 'text' : 'password'}
@@ -254,17 +308,7 @@ export default function UserUpdate() {
                 onChange={(e) => setNational_id(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="phone_number"
-                label="phone number"
-                value={phone_number}
-                onChange={(e) => setPhone_number(e.target.value)}
-              />
-            </Grid>
+        
            
             {/* <Grid item xs={12} >
               <TextField
@@ -336,18 +380,7 @@ export default function UserUpdate() {
                 onChange={(e) => setUser_type(e.target.value)}
               />
             </Grid> */}
-            <Grid item xs={12} sm={6}>
-            <ToggleButtonGroup
-              color="primary"
-              value={user_type.toString()}
-              exclusive
-              onChange={(e) => setUser_type(e.target.value)}
-              aria-label="Platform"
-              >
-              <ToggleButton style={{color:"DarkBlue"}} value="true"> Staff</ToggleButton>
-              <ToggleButton  style={{color:"OrangeRed"}} value="false"> Customer</ToggleButton>
-              </ToggleButtonGroup>   
-              </Grid>
+  
             <Grid item xs={12} >
               <TextField
                 variant="outlined"
@@ -360,8 +393,10 @@ export default function UserUpdate() {
                 onChange={(e) => setComment(e.target.value)}
               />
             </Grid>
-            {documents && (<img src={documents} alt="File" className="displayed-image"/>)}
+            {/* {documents && (<img src={documents} alt="File" className="displayed-image"/>)} */}
           </Grid>
+          <FileUpload value={files} onChange={setFiles} />
+
           <br></br>
           <Button
             type="submit"
