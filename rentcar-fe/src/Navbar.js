@@ -29,11 +29,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar(props) {
   const classes = useStyles();
   const [user, setUser] = useState({});
+  const [isAuth, setIsAuth] = useState(false);
 
     //Logout
     const logoutHandler = (e) =>{
       e.preventDefault();
       localStorage.removeItem("token");
+      setIsAuth(false);
       window.location.href = '/'
     }
 
@@ -43,13 +45,13 @@ export default function Navbar(props) {
         let user = jwt_decode(token);
         if(user) {
           setUser(user);
+          setIsAuth(true);
         }
       }
     }, [])
 
   return (
     <div className={classes.root}>
-      
       <AppBar position="static">
         <Toolbar>
         <Link className={classes.navlink} to="/home">
@@ -63,6 +65,8 @@ export default function Navbar(props) {
           &nbsp; Rent Car Application &nbsp;
           </Typography>
           </Link>
+          {isAuth ? (
+         <span>
           <CardActions display='relative' justifycontent='center'>
           <Link className={classes.navlink} to="/user">
             <Button variant="h5" className={classes.title} style={{"color":"Wheat"}}>
@@ -93,6 +97,16 @@ export default function Navbar(props) {
             </Button>
           <div>&nbsp;</div>
           </CardActions>
+          </span>
+           ) : (
+           <div>          
+           <Link className={classes.navlink} to="/">
+             <Button variant="h5" className={classes.title} style={{"color":"Wheat"}}>
+               Login/Register &nbsp;
+             </Button>
+           </Link>
+           &nbsp;</div>
+           )}
         </Toolbar>
       </AppBar>
     </div>
