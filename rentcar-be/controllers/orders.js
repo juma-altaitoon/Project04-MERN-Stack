@@ -13,7 +13,6 @@ exports.add_post = (req, res) => {
 };
 
 exports.update_put = function (req, res) {
-  console.log(req.body);
   Order.findByIdAndUpdate(req.body.id, req.body, {new : true})// new:true after edit API response
     .then((order) => {
         res.json({order})
