@@ -135,7 +135,7 @@ export default function OrderUpdate() {
         <Container maxWidth="xs">
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                    Create Order
+                    Update Order
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
