@@ -83,7 +83,11 @@ export default function OrderCreate(props) {
   }
 
   const addOrder = (order) => {
-    Axios.post("add", order)
+    Axios.post("add", order, {
+      headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    })
       .then((res) => {
           console.log("Order Added Successfully");
           window.location.href = '/order';
