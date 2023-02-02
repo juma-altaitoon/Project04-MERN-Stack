@@ -294,7 +294,7 @@ export default function OrderCreate(props) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
               <FormLabel variant="contained" component="label">
               
                 <input hidden accept="image/*" multiple type="file" />
@@ -326,7 +326,7 @@ export default function OrderCreate(props) {
                 InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={6}>
             <TextField
               name="mileage_before"
