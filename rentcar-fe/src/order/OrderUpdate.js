@@ -1,410 +1,379 @@
-import React, { useEffect, useState } from "react";
+import React, { useState , useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-//import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment'
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Axios from 'axios'
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Autocomplete from '@mui/material/Autocomplete';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Autocomplete from '@mui/material/Autocomplete';
 import { useSearchParams } from 'react-router-dom';
 import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
- 
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
 }));
 
 export default function OrderUpdate() {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get("id")
-  const [order, setOrder] = useState({})
-  const [total, setTotal] = useState('');
-  
-  console.log('id', id);
-  // const [selectedOrder, setSelectedOrder] = useState({})
-  
-  useEffect(() => {
-    editViewOrder(id)
-      }, [])
-  console.log("id in useeffect",id);
-  
-  const editViewOrder = (id) => {
-    Axios.get(`edit?id=${id}`, {
-      headers:{
-        "Authorization": "Bearer " + localStorage.getItem("token") 
-      }
-    })
-    .then((res) =>{
-      console.log("Order Page Loaded")
-      console.log(id);
-      console.log(res);
-    
-      setOrder(res.data.order);     
-    })
-    .catch(err =>{
-      console.log("Order Page Failed to Load")
-      console.log(err)
-    })
-}
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get("id")
+    useEffect(() => {
+        Axios.get(`edit?id=${id}`, {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+        })
+        .then(
+            (result) => {
+                setUsers(result.data.order.users)
+                setCars(result.data.order.cars)
+                setStatus(result.data.order.status)
+                setPickup_location(result.data.order.pickup_location)
+                setPickup_date(result.data.order.pickup_date)
+                setDrop_location(result.data.order.drop_location)
+                setDrop_date(result.data.order.drop_date)
+                setRent_price(result.data.order.rent_price)
+                setFuel_level_before(result.data.order.fuel_level_before)
+                setFuel_level_after(result.data.order.fuel_level_after)
+                setMileage_before(result.data.order.mileage_before)
+                setMileage_after(result.data.order.mileage_after)
+                setExtra_cost(result.data.order.extra_cost)
+                setComment(result.data.order.comment)
+            }
+        )
+    }, [id])
 
+    const handleSubmit = event => {
+        event.preventDefault();
+        var data = {
+            'id': id,
+            'cars': cars,
+            'users': users,
+            'status': status,
+            'pickup_location': pickup_location,
+            'pickup_date': pickup_date,
+            'drop_location': drop_location,
+            'drop_date': drop_date,
+            'rent_price': rent_price,
+            'fuel_level_before': fuel_level_before,
+            'fuel_level_after': fuel_level_after,
+            'mileage_before': mileage_before,
+            'mileage_after': mileage_after,
+            'extra_cost': extra_cost,
+            'comment': comment,
+        }
+        Axios.put(`update?id=${id}`, data,{
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+          })
+        .then(res => {
+          console.log("Record Updated Successfully");
+          window.location.href = '/order';
+        })
+        .catch(err => {
+          console.log("Error Editing Record");
+          console.log(err);
+        })
+    } 
 
-const updateOrder = (order) => {
-    Axios.put(`update?`, order, {
-      headers:{
-        "Authorization": "Bearer " + localStorage.getItem("token") 
-      }
-    })
-    .then(res =>{
-      console.log("Order Updated")
-      // window.location.href = '/order';
-      console.log(res);        
-    })
-    .catch(err =>{
-      console.log("Order Update Failed")
-      console.log(err)
-    })
-}
+    const [users, setUsers] = useState("");
+    const [cars, setCars] = useState("");
+    const [status, setStatus] = useState("");
+    const [pickup_location, setPickup_location] = useState("");
+    const [pickup_date, setPickup_date] = useState("");
+    const [drop_location, setDrop_location] = useState("");
+    const [drop_date, setDrop_date] = useState("");
+    const [rent_price, setRent_price] = useState("");
+    const [fuel_level_before, setFuel_level_before] = useState("");
+    const [fuel_level_after, setFuel_level_after] = useState("");
+    const [mileage_before, setMileage_before] = useState("");
+    const [mileage_after, setMileage_after] = useState("");
+    const [extra_cost, setExtra_cost] = useState("");
+    const [comment, setComment] = useState("");
 
-  
-  
-  const handleChange = (e) =>{
-    const updatedOrder = {...order};
-    updatedOrder[e.target.name] = e.target.value;
-    let dateP = new Date(updatedOrder.pickup_date)
-    let dateD = new Date(updatedOrder.drop_date)
-    let diff_time = (dateD.getTime() - dateP.getTime())/86400000
-    console.log(diff_time);
-    updatedOrder.extra_cost = (updatedOrder.rent_price) * diff_time
-    let newtotal = updatedOrder.extra_cost
-    console.log("total",newtotal)
+    const handleChange = (e) =>{
+        let datePickup = new Date(pickup_date)
+        let dateDrop = new Date(drop_date)
+        let diff_time = (dateDrop.getTime() - datePickup.getTime())/86400000
 
-    setTotal(newtotal);
-    // console.log(total);
-    console.log(updatedOrder)
-    setOrder(updatedOrder)
-  }
-
-  const handleSubmit = (e) =>{
-    e.prevetDefault();
-    console.log(e)
-    updateOrder(order)
-    console.log('order', order);
-   
-    // e.target.reset();
-  }
-  return (
-    <Container maxWidth="xs">
-    <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        Update Order
-      </Typography>
-      <form className={classes.form} onSubmit={handleSubmit}>
-     
-      <input type="hidden" name="id" value={order._id}/>
-     
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-          <TextField
-          id="outlined-read-only-input"
-          label="User"
-          variant="outlined"
-          // InputLabelProps={{ shrink: true}}
-          InputProps={{ readOnly: true }}
-          value={order.user ? (order.user.first_name+" "+order.user.last_name) :""}
-
-        />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-          <TextField
-          id="outlined-read-only-input"
-          label="Car"
-          variant="outlined"
-          // InputLabelProps={{ shrink: true}}
-          InputProps={{
-            readOnly: true,
-          }}
-          value={order.car ? (order.car.brand+" "+order.car.plate_id) : " "}
-        />
-          </Grid>
-          <Grid item xs={12}>
-          <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="status"
-                label="Status"
-                // defaultValue={order.status ? order.status : ""}
-                // InputLabelProps={{ shrink: true}}
-                onChange={handleChange}
-                value={order.status ? order.status : ""}
-                // if (order.status === "Booked" ? "selcted"="selected" : "")
-              >
-                <MenuItem value={"Booked"}>Booked</MenuItem>
-                <MenuItem value={"Collected"}>Collected</MenuItem>
-                <MenuItem value={"Completed"}>Completed</MenuItem>
-                <MenuItem value={"Canceled"}>Canceled</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Pickup Location</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="pickup_location"
-                label="Pickup Location"
-                onChange={handleChange}
-                value={order.pickup_location ? order.pickup_location : ""}
-              >
-                <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
-                <MenuItem value={"Seef"}>Seef</MenuItem>
-                <MenuItem value={"Juffair"}>Juffair</MenuItem>
-                <MenuItem value={"Isa Town"}>Isa Town</MenuItem>
-                <MenuItem value={"Saar"}>Saar</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="pickup_date"
-              variant="outlined"
-              required
-              fullWidth
-              id="pickup_date"
-              label="Pickup Date"
-              type="date"
-              InputLabelProps={{shrink : true}}
-              onChange={handleChange}
-              value={moment(order.pickup_date).format('YYYY-MM-DD')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Drop Location</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="drop_location"
-                label="Drop Location"
-                onChange={handleChange}
-                value={order.drop_location ? order.drop_location : ""}
-              >
-               <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
-                <MenuItem value={"Seef"}>Seef</MenuItem>
-                <MenuItem value={"Juffair"}>Juffair</MenuItem>
-                <MenuItem value={"Isa Town"}>Isa Town</MenuItem>
-                <MenuItem value={"Saar"}>Saar</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="drop_date"
-              variant="outlined"
-              required
-              fullWidth
-              id="drop_date"
-              label="Drop Date"
-              type="date"
-              InputLabelProps={{ shrink: true}}
-              onChange={handleChange}
-              value={moment(order.drop_date).format('YYYY-MM-DD')}
-             
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              name="rent_price"
-              variant="outlined"
-              required
-              fullWidth
-              id="rent_price"
-              label="Rate per Day"
-              // defaultValue={order.rent_price ? order.rent_price : 0}
-              InputProps={{readOnly: true}}
-              // InputLabelProps={{ shrink: true}}
-              onChange={handleChange}
-              value={order.rent_price ? order.rent_price : 0}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Fuel Level Before</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="fuel_level_before"
-                label="Fuel Level Before"
-                required
-                // defaultValue={order.fuel_level_before ? order.fuel_level_before : ""}
-                // InputLabelProps={{ shrink: true}}
-                onChange={handleChange}
-                value={order.fuel_level_before ? order.fuel_level_before : ""}
-               >
-                <MenuItem value={"Low"}>Low</MenuItem>
-                <MenuItem value={"Medium"}>Medium</MenuItem>
-                <MenuItem value={"Full"}>Full</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Fuel Level After</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="fuel_level_after"
-                label="Fuel Level After"
-                required
-                // defaultValue={order.fuel_level_after ? order.fuel_level_after : ""}
-                // InputLabelProps={{ shrink: true}}
-                onChange={handleChange}
-                value={order.fuel_level_after ? order.fuel_level_after : ""}
-               >
-                <MenuItem value={"Low"}>Low</MenuItem>
-                <MenuItem value={"Medium"}>Medium</MenuItem>
-                <MenuItem value={"Full"}>Full</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-              <TextField
-                name="car_images_before"
-                variant="outlined"
-                // required
-                fullWidth
-                id="car_images_before"
-                label="Car Images Before"
-                // defaultValue={order.car_images_before ? order.car_images_before : ""}
-                // inputLabelProps={{ shrink: true}}
-                onChange={handleChange}
-                value={order.car_images_before ? order.car_images_before : ""}
-              />
-              <Button variant="contained" component="label">
-                  Upload
-               <input hidden accept="image/*" multiple type="file" />
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                name="car_images_after"
-                variant="outlined"
-                // required
-                fullWidth
-                id="car_images_after"
-                label="Car Images After"
-                // defaultValue={order.car_images_after ? order.car_images_after : ""}
-                // InputLabelProps={{ shrink: true}}
-                onChange={handleChange}
-                value={order.car_images_after ? order.car_images_after : ""}
-              />
-              <Button variant="contained" component="label">
-                  Upload
-               <input hidden accept="image/*" multiple type="file" />
-              </Button>
-            </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="mileage_before"
-              variant="outlined"
-              required
-              fullWidth
-              type="number"
-              id="mileage_before"
-              label="Mileage Before"
-              // defaultValue={order.mileage_before ? order.mileage_before : ""}
-              // InputLabelProps={{ shrink: true}}
-              value={order.mileage_before ? order.mileage_before : ""}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="mileage_after"
-              variant="outlined"
-              required
-              fullWidth
-              id="mileage_after"
-              label="Mileage After"
-              // defaultValue={order.mileage_after ? order.mileage_after : ""}
-              // InputLabelProps={{ shrink: true}}
-              value={order.mileage_after ? order.mileage_after : ""}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="extra_cost"
-              variant="outlined"
-              required
-              label="Total"
-              fullWidth
-              // defaultValue={order.extra_cost ? order.extra_cost : 0}
-              id="extra_cost"
-              type="number"
-              value={order.extra_cost ? order.extra_cost : 0}
-              InputProps={{readOnly: true}}
-              // InputLabelProps={{ shrink: true}}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              name="comment"
-              variant="outlined"
-              required
-              fullWidth
-              multiline
-              id="comment"
-              label="Comment"
-              InputLabelProps={{ shrink: true}}
-              value={order.comment}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-        <br></br>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
-          Update
-        </Button>
-      </form>
-      <br></br>
-    </div>
-    </Container>
-    );
+        extra_cost = (rent_price) * diff_time
+        setExtra_cost(extra_cost);
     }
+
+    // const allUsers = users.map((user, key) =>(
+    //     {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user._id}
+    // ))
+    // const allCars = cars.map((car, index)=> (
+    //     {label: (car.brand+" - "+car.plate_id), value: car._id, rate: car.rate}
+    // ))
+
+
+    return (
+        <Container maxWidth="xs">
+            <div className={classes.paper}>
+                <Typography component="h1" variant="h5">
+                    Create Order
+                </Typography>
+                <form className={classes.form} onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            {/* <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                name= "users"
+                                value={users}
+                                options={allUsers}
+                                renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
+                                onChange={(e) => setUsers(e.target.value)}
+                            /> */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            {/* <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                value={cars}
+                                options={allCars}
+                                name="cars"
+                                renderInput={(params) => <TextField {...params} label="Car" variant="outlined" />}
+                                onChange={(e) => {
+                                    setCars(e.target.value) 
+                                    setRent_price(e.target.value)    // rate
+                                }}
+                            /> */}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="status"
+                                    label="Status"
+                                    value={status}
+                                    required
+                                    onChange={(e) => setStatus(e.target.value)}
+                                >
+                                    <MenuItem value={"Booked"}>Booked</MenuItem>
+                                    <MenuItem value={"Collected"}>Collected</MenuItem>
+                                    <MenuItem value={"Completed"}>Completed</MenuItem>
+                                    <MenuItem value={"Canceled"}>Canceled</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Pickup Location</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="pickup_location"
+                                    label="Pickup Location"
+                                    value={pickup_location}
+                                    required
+                                    onChange={(e) => setPickup_location(e.target.value)}
+                                >
+                                    <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
+                                    <MenuItem value={"Seef"}>Seef</MenuItem>
+                                    <MenuItem value={"Juffair"}>Juffair</MenuItem>
+                                    <MenuItem value={"Isa Town"}>Isa Town</MenuItem>
+                                    <MenuItem value={"Saar"}>Saar</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                name="pickup_date"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="pickup_date"
+                                label="Pickup Date"
+                                value={moment(pickup_date).format('YYYY-MM-DD')}
+                                type="date"
+                                InputLabelProps={{shrink : true}}
+                                onChange={(e) => setPickup_date(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Drop Location</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="drop_location"
+                                    label="Drop Location"
+                                    value={drop_location}
+                                    required
+                                    onChange={(e) => setDrop_location(e.target.value)}
+                                >
+                                    <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
+                                    <MenuItem value={"Seef"}>Seef</MenuItem>
+                                    <MenuItem value={"Juffair"}>Juffair</MenuItem>
+                                    <MenuItem value={"Isa Town"}>Isa Town</MenuItem>
+                                    <MenuItem value={"Saar"}>Saar</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                name="drop_date"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="drop_date"
+                                label="Drop Date"
+                                value={moment(drop_date).format('YYYY-MM-DD')}
+                                type="date"
+                                InputLabelProps={{shrink: true}}
+                                onChange={(e) => setDrop_date(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                name="rent_price"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                type="number"
+                                id="rent_price"
+                                label="Rate Per Day (BHD)"
+                                value={rent_price}
+                                InputProps={{readOnly: true}}
+                                onChange={(e) => setRent_price(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Fuel Level Before</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="fuel_level_before"
+                                    label="Fuel Level Before"
+                                    value={fuel_level_before}
+                                    required
+                                    onChange={(e) => setFuel_level_before(e.target.value)}
+                                >
+                                    <MenuItem value={"Low"}>Low</MenuItem>
+                                    <MenuItem value={"Medium"}>Medium</MenuItem>
+                                    <MenuItem value={"Full"}>Full</MenuItem>
+                                </Select>
+                            </FormControl>
+
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Fuel Level After</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    name="fuel_level_after"
+                                    label="Fuel Level After"
+                                    value={fuel_level_after}
+                                    required
+                                    onChange={(e) => setFuel_level_after(e.target.value)}
+                                >
+                                    <MenuItem value={"Low"}>Low</MenuItem>
+                                    <MenuItem value={"Medium"}>Medium</MenuItem>
+                                    <MenuItem value={"Full"}>Full</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                name="mileage_before"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                type="number"
+                                id="mileage_before"
+                                label="Mileage Before"
+                                value={mileage_before}
+                                onChange={(e) => setMileage_before(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                name="mileage_after"
+                                variant="outlined"
+                                fullWidth
+                                type="number"
+                                id="mileage_after"
+                                label="Mileage After"
+                                value={mileage_after}
+                                onChange={(e) => setMileage_after(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                name="extra_cost"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                InputProps={{readOnly: true}}
+                                label="Total"
+                                id="extra_cost"
+                                type="number"
+                                value={extra_cost}
+                                onChange={(e) => {
+                                    let total = handleChange(e.target.value)
+                                    setExtra_cost(total)
+                                }
+                            }
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                name="comment"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                multiline
+                                id="comment"
+                                label="Comment"
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                            />
+                        </Grid>
+
+                    </Grid>
+                    <br/>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Update Order
+                    </Button>
+                </form>
+                <br/>
+            </div>
+        </Container>
+    );
+}

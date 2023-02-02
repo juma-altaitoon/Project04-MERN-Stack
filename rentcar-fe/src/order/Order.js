@@ -11,24 +11,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-// import Avatar from '@mui/material/Avatar';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from "react-router-dom";
 import Axios from 'axios'
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-// import Fab from '@mui/material/Fab';
-// import AddIcon from '@mui/icons-material/Add';
 import { TablePagination } from '@mui/material';
-
-
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,14 +50,8 @@ export default function Order() {
         setrpg(parseInt(event.target.value, 10));
         setpg(0);
     }
-  
-
+//const [open, setOpen] = useState(false);
   const [orders, setOrders] = useState([]);
-  const [isEdit, setIsEdit] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState({})
-
-  const [open, setOpen] = useState(false);
-
 
   useEffect(() => {
     getOrders()
@@ -82,7 +64,6 @@ export default function Order() {
       }
      })  
       .then((res) => {
-      console.log(res.data.orders)  
       setOrders(res.data.orders)
       })
       .catch(err =>{
@@ -90,41 +71,6 @@ export default function Order() {
         console.log(err)
       })
   }
-  // View OrderEdit and OrderDetail
-  // const editViewOrder = (id) => {
-  //     Axios.get(`edit?id=${id}`, {
-  //       headers:{
-  //         "Authorization": "Bearer " + localStorage.getItem("token") 
-  //       }
-  //     })
-  //     .then((res) =>{
-  //       console.log("Order Page Loaded")
-  //       console.log(res);
-  //       setIsEdit(true);
-  //       setSelectedOrder(res.data.order);     
-  //     })
-  //     .catch(err =>{
-  //       console.log("Order Page Failed to Load")
-  //       console.log(err)
-  //     })
-  // }
-
-  // const updateOrder = (order) => {
-  //     Axios.put('update', order, {
-  //       headers:{
-  //         "Authorization": "Bearer " + localStorage.getItem("token") 
-  //       }
-  //     })
-  //     .then((res) =>{
-  //       console.log("Order Updated")
-  //       console.log(res);
-  //       getOrders();        
-  //     })
-  //     .catch(err =>{
-  //       console.log("Order Update Failed")
-  //       console.log(err)
-  //     })
-  // }
 
   const UpdateOrder = id => {
     window.location = window.location.href+'/update?id='+id
@@ -137,12 +83,8 @@ export default function Order() {
       }
       })
       .then((res) => {
-        // alert(res['message'])
         console.log("Order Deleted")
-        console.log(res)
-        setOpen(false);
-        getOrders();
-        // window.location.href = '/order';
+        window.location.href = '/order';
         }
       )
       .catch(err =>{

@@ -6,12 +6,12 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Axios from 'axios'
-import { FormLabel } from "@mui/material/";
-import Autocomplete from '@mui/material/Autocomplete';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useSearchParams } from 'react-router-dom';
+import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,12 +20,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
+ 
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -33,131 +30,102 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OrderCreate(props) {
+export default function OrderUpdate() {
   const classes = useStyles();
 
-  const [newOrder, setNewOrder] = useState({});
-  const [cars, setCars] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id")
+ 
+  const [order, setOrder] = useState({})
   const [total, setTotal] = useState('');
-  const [carId, setCarId] = useState('');
-  const [userId, setUserId] = useState('');
-  const [carRate, setCarRate] = useState('');
   
   useEffect(() => {
-    CarsGet();
-    UsersGet();
-  }, [])
-  
-  //  Get Car List 
-  const CarsGet = () => {
-    Axios.get("car/index", {
-      headers: {
-          "Authorization": "Bearer " + localStorage.getItem("token")
+    Axios.get(`edit?id=${id}`, {
+      headers:{
+        "Authorization": "Bearer " + localStorage.getItem("token") 
       }
-     })
-      .then((res) => {
-        console.log(res)
-        setCars(res.data.cars);
-       })
-      .catch(err => {
-        console.log("Error Retreiving Records");
-        console.log(err);
-      })
-}
-  // Get Use List
-  const UsersGet = () => {
-  Axios.get("user/index", {
-    headers: {
-        "Authorization": "Bearer " + localStorage.getItem("token")
-    }
-   })
-    .then((res) => {
-      console.log(res)
-      setUsers(res.data.users);
-     })
-    .catch(err => {
-      console.log("Error Retreiving Records");
-      console.log(err);
     })
-  }
-
-  const addOrder = (order) => {
-    Axios.post("add", order)
-      .then((res) => {
-          console.log("Order Added Successfully");
-          window.location.href = '/order';
-      })
-      .catch((err) => {
-          console.log("Error Adding Order");
-          console.log(err);
-      })
-  }
-  
+    .then((res) =>{
+      console.log("Order Page Loaded")
+      setOrder(res.data.order);     
+    })
+    .catch(err =>{
+      console.log("Order Page Failed to Load")
+      console.log(err)
+    })
+  }, [id])
+ 
   const handleChange = (e) =>{
-    const order = {...newOrder};
-    console.log(e.target.name)
-    console.log(e.target.value)
-   
-    order[e.target.name]= e.target.value;
-    let dateP = new Date(order.pickup_date)
-    let dateD = new Date(order.drop_date)
+    const attributeToChange = e.target.name
+    const newValue = e.target.value
+
+    const updatedOrder = {...order};
+    updatedOrder[attributeToChange] = newValue;
+    let dateP = new Date(updatedOrder.pickup_date)
+    let dateD = new Date(updatedOrder.drop_date)
     let diff_time = (dateD.getTime() - dateP.getTime())/86400000
-    order.extra_cost = (order.rent_price) * diff_time
-    let newtotal = order.extra_cost
-    order.user= userId
-    order.car= carId
+    updatedOrder.extra_cost = (updatedOrder.rent_price) * diff_time
+    let newtotal = updatedOrder.extra_cost
     setTotal(newtotal);
-    order.rent_price = carRate
-    setNewOrder(order);
+    console.log(updatedOrder)
+    setOrder(updatedOrder)
   }
 
   const handleSubmit = (e) =>{
-    e.preventDefault();
-    addOrder(newOrder);
-    e.target.reset();
+    e.prevetDefault();
+    const id = order._id
+  //  console.log(data)
+    Axios.put(`update?id=${id}`, order, {
+      headers:{
+        "Authorization": "Bearer " + localStorage.getItem("token") 
+      }
+    })
+    .then(res =>{
+      console.log("Order Updated")
+      window.location.href = '/order';
+    })
+    .catch(err =>{
+      console.log("Order Update Failed")
+      console.log(err)
+    })
   }
 
-  const allUsers = users.map((user, key) =>(
-    {label: (user.first_name+" "+user.last_name+" - "+user.email_address), value: user._id}
-  ))
-  const allCars = cars.map((car, index)=> (
-    {label: (car.brand+" - "+car.plate_id), value: car._id, rate: car.rate}
-  ))
-
- return (
+  return (
     <Container maxWidth="xs">
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
-        Create Order
+        Update Order
+        +{id}
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
+     
+      {/* <input type="hidden" name="id" value={order._id}/> */}
+     
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-          <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              name= "user"
-              options={allUsers}
-              // isOptionEqualToValue={(option, value) => option.value === value.value}
-              renderInput={(params) => <TextField {...params} label="User" variant="outlined"/>}
-              onChange={(e, b)=> { setUserId(b.value) }}
-            />
+          {/* <Grid item xs={12} sm={6}>
+          <TextField
+          id="outlined-read-only-input"
+          label="User"
+          variant="outlined"
+          // InputLabelProps={{ shrink: true}}
+          InputProps={{ readOnly: true }}
+         value={order.user ? (order.user.first_name+" "+order.user.last_name) :""}
+       // value={order.user}
+
+        />
           </Grid>
-          <Grid item xs={12}>
-          <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={allCars}
-              name="car"
-              renderInput={(params) => <TextField {...params} label="Car" variant="outlined" />}
-              onChange={(e, b)=>{ 
-                setCarId(b.value)
-                setCarRate(b.rate)
-              }}              
-            />
-          </Grid>
-      
+          <Grid item xs={12} sm={6}>
+          <TextField
+          id="outlined-read-only-input"
+          label="Car"
+          variant="outlined"
+          // InputLabelProps={{ shrink: true}}
+          InputProps={{
+            readOnly: true,
+          }}
+          value={order.car ? (order.car.brand+" "+order.car.plate_id) : " "}
+        />
+          </Grid> */}
           <Grid item xs={12}>
           <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Status</InputLabel>
@@ -166,8 +134,11 @@ export default function OrderCreate(props) {
                 id="demo-simple-select"
                 name="status"
                 label="Status"
-                defaultValue={""}
+                // defaultValue={order.status ? order.status : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
+                value={order.status}
+                // if (order.status === "Booked" ? "selcted"="selected" : "")
               >
                 <MenuItem value={"Booked"}>Booked</MenuItem>
                 <MenuItem value={"Collected"}>Collected</MenuItem>
@@ -184,8 +155,8 @@ export default function OrderCreate(props) {
                 id="demo-simple-select"
                 name="pickup_location"
                 label="Pickup Location"
-                defaultValue={''}
                 onChange={handleChange}
+                value={order.pickup_location ? order.pickup_location : ""}
               >
                 <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
                 <MenuItem value={"Seef"}>Seef</MenuItem>
@@ -206,6 +177,7 @@ export default function OrderCreate(props) {
               type="date"
               InputLabelProps={{shrink : true}}
               onChange={handleChange}
+              value={moment(order.pickup_date).format('YYYY-MM-DD')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -215,12 +187,11 @@ export default function OrderCreate(props) {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="drop_location"
-                // value={}
                 label="Drop Location"
-                defaultValue={''}
                 onChange={handleChange}
+                value={order.drop_location ? order.drop_location : ""}
               >
-                <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
+               <MenuItem value={"Bahrain International Airport"}>Bahrain International Airport</MenuItem>
                 <MenuItem value={"Seef"}>Seef</MenuItem>
                 <MenuItem value={"Juffair"}>Juffair</MenuItem>
                 <MenuItem value={"Isa Town"}>Isa Town</MenuItem>
@@ -239,6 +210,8 @@ export default function OrderCreate(props) {
               type="date"
               InputLabelProps={{ shrink: true}}
               onChange={handleChange}
+             value={moment(order.drop_date).format('YYYY-MM-DD')}
+             
             />
           </Grid>
           <Grid item xs={12}>
@@ -247,13 +220,13 @@ export default function OrderCreate(props) {
               variant="outlined"
               required
               fullWidth
-              type="number"
               id="rent_price"
               label="Rate per Day"
+              // defaultValue={order.rent_price ? order.rent_price : 0}
               InputProps={{readOnly: true}}
-              InputLabelProps={{ shrink: true}}
+              // InputLabelProps={{ shrink: true}}
               onChange={handleChange}
-              value={carRate ? carRate : 0}
+              value={order.rent_price ? order.rent_price : 0}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -265,16 +238,16 @@ export default function OrderCreate(props) {
                 name="fuel_level_before"
                 label="Fuel Level Before"
                 required
-                defaultValue={""}
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.fuel_level_before ? order.fuel_level_before : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
+                value={order.fuel_level_before ? order.fuel_level_before : ""}
                >
                 <MenuItem value={"Low"}>Low</MenuItem>
                 <MenuItem value={"Medium"}>Medium</MenuItem>
                 <MenuItem value={"Full"}>Full</MenuItem>
               </Select>
             </FormControl>
-
           </Grid>
           <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
@@ -284,9 +257,11 @@ export default function OrderCreate(props) {
                 id="demo-simple-select"
                 name="fuel_level_after"
                 label="Fuel Level After"
-                defaultValue={""}
-                InputLabelProps={{ shrink: true}}
+                required
+                // defaultValue={order.fuel_level_after ? order.fuel_level_after : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
+                value={order.fuel_level_after ? order.fuel_level_after : ""}
                >
                 <MenuItem value={"Low"}>Low</MenuItem>
                 <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -294,40 +269,43 @@ export default function OrderCreate(props) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
-              <FormLabel variant="contained" component="label">
-              
-                <input hidden accept="image/*" multiple type="file" />
-              </FormLabel>
+          {/* <Grid item xs={12} sm={6}>
               <TextField
-                variant="outlined"
                 name="car_images_before"
-                required
+                variant="outlined"
+                // required
                 fullWidth
                 id="car_images_before"
-                type="file"
                 label="Car Images Before"
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.car_images_before ? order.car_images_before : ""}
+                // inputLabelProps={{ shrink: true}}
                 onChange={handleChange}
+                // value={order.car_images_before ? order.car_images_before : ""}
               />
-            </Grid>
-            <Grid item xs={12}>
-              <FormLabel variant="contained" component="label">
-                <input hidden accept="image/*" multiple type="file" />
-              </FormLabel>
+              <Button variant="contained" component="label">
+                  Upload
+               <input hidden accept="image/*" multiple type="file" />
+              </Button>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <TextField
-                variant="outlined"
                 name="car_images_after"
+                variant="outlined"
                 // required
                 fullWidth
                 id="car_images_after"
-                type="file"
                 label="Car Images After"
-                InputLabelProps={{ shrink: true}}
+                // defaultValue={order.car_images_after ? order.car_images_after : ""}
+                // InputLabelProps={{ shrink: true}}
                 onChange={handleChange}
+                // value={order.car_images_after ? order.car_images_after : ""}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+              <Button variant="contained" component="label">
+                  Upload
+               <input hidden accept="image/*" multiple type="file" />
+              </Button>
+            </Grid> */}
+          <Grid item xs={12} sm={6}>
             <TextField
               name="mileage_before"
               variant="outlined"
@@ -336,7 +314,9 @@ export default function OrderCreate(props) {
               type="number"
               id="mileage_before"
               label="Mileage Before"
-              InputLabelProps={{ shrink: true}}
+              // defaultValue={order.mileage_before ? order.mileage_before : ""}
+              // InputLabelProps={{ shrink: true}}
+              value={order.mileage_before ? order.mileage_before : ""}
               onChange={handleChange}
             />
           </Grid>
@@ -344,11 +324,14 @@ export default function OrderCreate(props) {
             <TextField
               name="mileage_after"
               variant="outlined"
+              required
               fullWidth
-              type="number"
               id="mileage_after"
+              type="number"
               label="Mileage After"
-              InputLabelProps={{ shrink: true}}
+              // defaultValue={order.mileage_after ? order.mileage_after : ""}
+              // InputLabelProps={{ shrink: true}}
+              value={order.mileage_after ? order.mileage_after : ""}
               onChange={handleChange}
             />
           </Grid>
@@ -357,13 +340,14 @@ export default function OrderCreate(props) {
               name="extra_cost"
               variant="outlined"
               required
-              fullWidth
-              InputProps={{readOnly: true}}
               label="Total"
+              fullWidth
+              // defaultValue={order.extra_cost ? order.extra_cost : 0}
               id="extra_cost"
               type="number"
-              value={total? total:0}
-              InputLabelProps={{ shrink: true}}
+              value={order.extra_cost ? order.extra_cost : 0}
+              InputProps={{readOnly: true}}
+              // InputLabelProps={{ shrink: true}}
               onChange={handleChange}
             />
           </Grid>
@@ -376,6 +360,8 @@ export default function OrderCreate(props) {
               multiline
               id="comment"
               label="Comment"
+              InputLabelProps={{ shrink: true}}
+              value={order.comment}
               onChange={handleChange}
             />
           </Grid>
@@ -388,7 +374,7 @@ export default function OrderCreate(props) {
           color="primary"
           className={classes.submit}
         >
-          Create
+          Update
         </Button>
       </form>
       <br></br>
